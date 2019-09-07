@@ -19,10 +19,11 @@ class ExampleScene extends Phaser.Scene{
             ladder.body.allowGravity = false;
         },this);
 
-        this.platforms = this.physics.add.staticGroup();
-        this.platforms.create(400, 568, 'ground').setScale(2).refreshBody();
-		this.platforms.create(400, 368, 'ground');
+        this.grounds=this.physics.add.staticGroup();
+        this.grounds.create(400,568,'ground').setScale(2).refreshBody();
 
+        this.platforms = this.physics.add.staticGroup();
+		this.platforms.create(616, 216, 'ground');
 
         this.mouse=new Mouse({
             scene:this,
@@ -59,6 +60,8 @@ class ExampleScene extends Phaser.Scene{
         // });
 		let that = this;
 
+		this.physics.add.collider(this.mouse,this.grounds);
+		//TODO need to be changed
 		this.physics.add.collider(this.mouse,this.platforms, (d) =>{
 			if(that.mouse.isClimbing)
 			{				
@@ -84,54 +87,6 @@ class ExampleScene extends Phaser.Scene{
 			that.mouse.isOnLadder = true;
 		});
         this.mouse.update(this.cursors);
-    //     this.isOnLadder = false;
-    //     this.physics.overlap(this.player,this.ladders,this.ladderCheck,null,this);
-    //
-    //     if(this.isOnLadder)
-    //     {
-    //         if(this.cursors.up.isDown)
-    //         {
-    //             this.player.setVelocityY(-40);
-    //             this.isClimbing=true;
-    //         }
-    //         else if(this.cursors.down.isDown)
-    //         {
-    //             this.player.setVelocityY(40);
-    //             this.isClimbing=true;
-    //         }
-    //         else if(!this.cursors.down.isDown && !this.cursors.up.isDown)
-    //         {
-    //             this.player.setGravity(0);
-    //             this.player.setVelocityY(-5);
-    //         }
-    //
-    //     }
-    //     else if(this.cursors.up.isDown && this.player.body.touching.down)
-    //     {
-    //         this.player.setVelocityY(-200);
-    //     }
-    //
-    //     if(!this.isClimbing) {
-    //         if (this.cursors.left.isDown) {
-    //             this.lastDir = true;
-    //             this.player.setVelocityX(-80);
-    //
-    //             this.player.anims.play('left', true);
-    //         } else if (this.cursors.right.isDown) {
-    //             this.lastDir = false;
-    //             this.player.setVelocityX(80);
-    //
-    //             this.player.anims.play('right', true);
-    //         } else {
-    //             this.player.setVelocityX(0);
-    //             if (this.lastDir == null || this.lastDir === false) {
-    //                 this.player.anims.play('leftStop');
-    //
-    //             } else {
-    //                 this.player.anims.play('rightStop');
-    //             }
-    //         }
-    //     }
     }
 	
 }

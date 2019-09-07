@@ -25,7 +25,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			}
 			else
 			{
-				if(this.body.velocity.y == 0)
+				if(this.body.velocity.y === 0)
 				{
 					if(this.cursors.up.isDown)
 					{
@@ -60,11 +60,6 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 	
 	normalMovement()
 	{
-		if(this.cursors.up.isDown && this.body.touching.down && this.body.velocity.y == 0)
-		{
-			this.body.velocity.y = -200;
-		}
-
 		if (this.cursors.left.isDown)
 		{
 			this.lastDir = true;
@@ -108,7 +103,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			this.body.velocity.y = 40;
 			this.isClimbing=true;
 		}
-		else if(!this.cursors.down.isDown && !this.cursors.up.isDown)
+		else if(!this.cursors.down.isDown && !this.cursors.up.isDown&&!this.scene.input.pointer1.isDown)
 		{
 			this.body.velocity.y = 0;
 		}
@@ -116,7 +111,6 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		if (this.lastDir == null || this.lastDir === false)
 		{
 			this.anims.play('leftStop');
-
 		}
 		else
 		{
