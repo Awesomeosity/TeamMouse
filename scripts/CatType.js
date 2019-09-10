@@ -1,0 +1,1 @@
+const CatType={STUPID:'STUPID'};
