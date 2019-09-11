@@ -77,6 +77,7 @@ class ExampleScene extends Phaser.Scene{
         this.ladders = this.physics.add.group();
         this.platforms = this.physics.add.staticGroup();
 
+        /*
         //Adds ladders to the level
         this.addLadderConfiguration(100,604,1);
         this.addLadderConfiguration(399,604,1);
@@ -90,15 +91,17 @@ class ExampleScene extends Phaser.Scene{
         this.addLadderConfiguration(649, 304, 4);
         this.addLadderConfiguration(300, 204, 5);
         this.addLadderConfiguration(500, 204, 5);
-
+        */
         let sematary_config={
             scene:this,
             key:'cat_sematary',
             x:30,
             y:720
         };
+        
         this.catSematary=new CatSematary(sematary_config);
 
+        /*
         //Adds platforms to the level
         // this.platforms = this.physics.add.staticGroup();
         this.addPlatformConfiguration(398,790,0,true,false,250,10,2);
@@ -114,6 +117,23 @@ class ExampleScene extends Phaser.Scene{
         this.addPlatformConfiguration(675,360,4,false,true);
         this.addPlatformConfiguration(405,260,5,false,true,439);
         this.addPlatformConfiguration(400,160,6,false,true,150);
+        */
+        
+        //Could make into a loop later for easier level configurations?
+        //Take first platform from the left's offset and width, then give it an array of widths.
+        //Each platform should be spaced 100 pixels (can change) from the previous floor, unless it's the ground floor.
+
+        this.addPlatformConfiguration(400, 785, 0, true, false, 250, 10, 2);
+        
+        let offSetArray = [25, 50, 25, 50, 25, 325];
+        let widthArray = [];
+        widthArray[0] = [200, 400, 25];
+        widthArray[1] = [50, 200, 400];
+        widthArray[2] = [200, 400, 25];
+        widthArray[3] = [50, 300, 200];
+        widthArray[4] = [200, 400, 25];
+        widthArray[5] = [150];
+        this.levelMaker(6, offSetArray, widthArray);
 
         this.physics.add.collider(this.ladders,this.platforms);
 
@@ -134,7 +154,7 @@ class ExampleScene extends Phaser.Scene{
 
 		this.physics.add.collider(this.mouse,this.platforms, (mouse,platform) =>
 	    {
-			mouse.hangOut();
+			mouse.hangOut(platform);
 			mouse.climbOff();
 			mouse.currentStory=platform.story;
 		});
@@ -249,4 +269,26 @@ class ExampleScene extends Phaser.Scene{
         this.platforms.add(plat);
     }
 	
+    //Makes a level automatically from the following parameters:
+    //floorCount: How many floors are there in this level? One-index.
+    //offsetArray: From the left-most platform's left edge, how much space should there be? Should contain one entry per floor.
+    //widthArray: A two-dimensional array, first containing arrays that correspond to each floor, which contain each platform's width on that floor.
+    //TODO: Modify this so that we can tell it which ladders are broken.
+    levelMaker(floorCount, offsetArray, widthArray)
+    {        
+        //Formula: firstPlat.XPos + firstPlat.width / 2 + 50 + secondPlat.width / 2 = secondPlat.XPos
+        //Each floor is offset by 760 - 100 * floor number.
+        let floorY = 760
+        for(let i = 1; i <= floorCount; i++)
+        {
+            let floorPlans = widthArray[i - 1];
+            let lastXPos = offsetArray[i - 1] + floorPlans[0] / 2;
+            this.addPlatformConfiguration(lastXPos, floorY - 100 * i, i, false, true, floorPlans[0]);
+            for(let j = 1; j < floorPlans.length; j++)
+            {
+                lastXPos = lastXPos + floorPlans[j-1] / 2 + 50 + floorPlans[j] / 2;
+                this.addPlatformConfiguration(lastXPos, floorY - 100 * i, i, false, true, floorPlans[j]);
+            }
+        }
+    }
 }

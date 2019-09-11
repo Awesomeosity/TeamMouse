@@ -24,6 +24,8 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		this.snapTo = null;
 		this.isCeiling = false;
 		this.stickTimer;
+		this.platform;
+		this.savedYPos;
 
 		
 		this.originalWidth = 50;
@@ -39,8 +41,17 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
     update() {
         this.checkLadderStatus();
 		
-		//TODO REMOVE THIS
-		if(this.cursors.down.isDown && this.body.allowGravity == false && !this.isClimbing)
+		if(this.platform != null)
+		{
+			//If the platform is moving (MUST CHECK WHEN MOVING PLATFORMS ARE IMPLEMENTED)
+			if(this.platform.body.position.y != this.savedYPos)
+			{
+				//Change the position by the difference between the old and new positions of the platform.
+				this.body.position.y -= (this.savedYPos - this.platform.body.position.y);
+			}
+		}
+		
+		if(this.cursors.up.isUp && this.body.allowGravity == false && !this.isClimbing)
 		{
 			this.stickTimer.remove();
 			this.body.allowGravity = true;
@@ -192,9 +203,9 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		}
     }
 	
-	hangOut()
+	hangOut(platform)
 	{
-		if(this.body.touching.up)
+		if(this.body.touching.up && this.cursors.up.isDown && !this.isCeiling)
 		{
 			this.resetSprite();
 			this.stickTimer = this.scene.time.delayedCall(this.StickToCeilingDuration, () =>{
@@ -209,6 +220,14 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			this.body.velocity.x = 0;
 			this.isCeiling = true;
 			this.body.allowGravity = false;
+			this.platform = platform;
+			this.savedYPos = platform.body.position.y;
+		}
+		//If we collide with a new platform
+		else if(this.isCeiling)
+		{
+			//Update the platform reference.
+			this.platform = platform;
 		}
 	}
 	
