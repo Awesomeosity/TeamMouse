@@ -8,7 +8,7 @@ class Cat extends Phaser.Physics.Arcade.Sprite{
         this.hasMadeChoice=false;
 
         this.originalWidth = 50;
-        this.body.setSize(this.originalWidth + 2, this.body.height);
+        this.body.setSize(this.originalWidth + 4, this.body.height);
         this.currentStory=config.originalStory;
         this.left=true;
         this.down=true;
@@ -51,7 +51,7 @@ class Cat extends Phaser.Physics.Arcade.Sprite{
     climbOff()
     {
         this.isClimbing = false;
-        this.body.setSize(this.originalWidth + 2, this.body.height);
+        this.body.setSize(this.originalWidth + 4, this.body.height);
     }
 
     enterSematary(){

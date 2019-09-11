@@ -12,7 +12,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		this.PlayerMovementVelocity = 80;
 		this.LadderClimbingVelocity = 80;
 		this.JumpVelocityY = 300;
-		
+		this.spriteFattening = 4;
 
         this.original_x=config.x;
         this.original_y=config.y;
@@ -29,7 +29,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 
 		
 		this.originalWidth = 50;
-		this.body.setSize(this.originalWidth + 2, this.body.height);
+		this.body.setSize(this.originalWidth + this.spriteFattening, this.body.height);
 
         this.cursors = this.scene.input.keyboard.createCursorKeys();
 
@@ -51,7 +51,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			}
 		}
 		
-		if(this.cursors.up.isUp && this.body.allowGravity == false && !this.isClimbing)
+		if(this.cursors.up.isUp && this.body.allowGravity == false && !this.isClimbing && this.stickTimer != null)
 		{
 			this.stickTimer.remove();
 			this.body.allowGravity = true;
@@ -109,6 +109,8 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 					this.body.position.x = this.snapTo;
 					this.body.velocity.x = 0;
 					this.isClimbing = true;
+                console.log(this.body.width);
+
 				}
 				else
 				{
@@ -121,6 +123,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 				this.body.position.x = this.snapTo;
 				this.body.velocity.x = 0;
 				this.isClimbing = true;
+                console.log(this.body.width);
 			}
 		}
 		//Otherwise, we can jump
@@ -181,12 +184,12 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 	climbOff()
 	{
 		this.isClimbing = false;
-		this.body.setSize(this.originalWidth + 2, this.body.height);
+		this.body.setSize(this.originalWidth + this.spriteFattening, this.body.height);
 	}
 	
 	saveLadderPos(object1, object2)
 	{
-		object1.snapTo = object2.body.position.x;
+		object1.snapTo = object2.body.position.x - 2;
 	}
     
     checkLadderStatus()
