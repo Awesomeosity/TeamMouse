@@ -3,14 +3,15 @@ class StupidCat extends Cat{
         super(config);
         config.scene.physics.world.enable(this);
         config.scene.add.existing(this);
+        this.isMuggle=true;
     }
 
     move(){
         if(this.left){
-            this.body.velocity.x=-80;
+            this.body.velocity.x=-120;
             this.anims.play('left', true);
         }else{
-            this.body.velocity.x=80;
+            this.body.velocity.x=120;
             this.anims.play('right', true);
         }
     }
