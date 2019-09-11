@@ -87,10 +87,11 @@ class ExampleScene extends Phaser.Scene{
         this.catSematary=new CatSematary(sematary_config);
         
         this.PlatformOffset = 2;
+        this.ladderWidth = 21;
 
         this.addPlatformConfiguration(400, 785, 0, true, false, 250, 10, 2);
-        this.addLadderConfiguration(300, 205, 6);
-        this.addLadderConfiguration(500, 205, 6);
+        this.addLadderConfiguration(315, 205, 5);
+        this.addLadderConfiguration(485, 205, 5);
 
         
         let offSetArray = [20, 60, 20, 60, 20, 325];
@@ -217,7 +218,7 @@ class ExampleScene extends Phaser.Scene{
         this.ladder_configuration.x=x;
         this.ladder_configuration.y=y;
         this.ladder_configuration.story=story;
-        this.ladder_configuration.width=21;
+        this.ladder_configuration.width=this.ladderWidth;
         this.ladder_configuration.height=101;
         let ladd=new Ladder(this.ladder_configuration);
         ladd.body.allowGravity=false;
@@ -259,7 +260,7 @@ class ExampleScene extends Phaser.Scene{
                 //and 50 below the current floor's yPos. (in js, + 50)
                 this.addLadderConfiguration(10 + lastXPos + floorPlans[j - 1] / 2, floorY - 100 * i + 45, i - 1);
 
-                lastXPos = lastXPos + floorPlans[j-1] / 2 + 21 + floorPlans[j] / 2;
+                lastXPos = lastXPos + floorPlans[j-1] / 2 + this.ladderWidth + floorPlans[j] / 2;
                 this.addPlatformConfiguration(lastXPos, floorY - 100 * i, i, false, true, floorPlans[j] - this.PlatformOffset);
             }
         }
