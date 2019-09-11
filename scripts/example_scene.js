@@ -77,21 +77,6 @@ class ExampleScene extends Phaser.Scene{
         this.ladders = this.physics.add.group();
         this.platforms = this.physics.add.staticGroup();
 
-        /*
-        //Adds ladders to the level
-        this.addLadderConfiguration(100,604,1);
-        this.addLadderConfiguration(399,604,1);
-        this.addLadderConfiguration(699, 704, 0);
-        this.addLadderConfiguration(250, 504, 2);
-        this.addLadderConfiguration(649, 504, 2);
-        this.addLadderConfiguration(100, 404, 3);
-        this.addLadderConfiguration(330, 404, 3);
-        this.addLadderConfiguration(524, 404, 3);
-        this.addLadderConfiguration(160, 304, 4);
-        this.addLadderConfiguration(649, 304, 4);
-        this.addLadderConfiguration(300, 204, 5);
-        this.addLadderConfiguration(500, 204, 5);
-        */
         let sematary_config={
             scene:this,
             key:'cat_sematary',
@@ -101,36 +86,17 @@ class ExampleScene extends Phaser.Scene{
         
         this.catSematary=new CatSematary(sematary_config);
 
-        /*
-        //Adds platforms to the level
-        // this.platforms = this.physics.add.staticGroup();
-        this.addPlatformConfiguration(398,790,0,true,false,250,10,2);
-        this.addPlatformConfiguration(100,660,1,false,true,350);
-        this.addPlatformConfiguration(475,660,1,false,true,399);
-        this.addPlatformConfiguration(250,560,2,false,true,249);
-        this.addPlatformConfiguration(550,560,2,false,true);
-        this.addPlatformConfiguration(750,560,2,false,true,150);
-        this.addPlatformConfiguration(100,460,3,false,true);
-        this.addPlatformConfiguration(450,460,3,false,true,348);
-        this.addPlatformConfiguration(215,360,4,false,true,180);
-        this.addPlatformConfiguration(428,360,4,false,true,144);
-        this.addPlatformConfiguration(675,360,4,false,true);
-        this.addPlatformConfiguration(405,260,5,false,true,439);
-        this.addPlatformConfiguration(400,160,6,false,true,150);
-        */
-        
-        //Could make into a loop later for easier level configurations?
-        //Take first platform from the left's offset and width, then give it an array of widths.
-        //Each platform should be spaced 100 pixels (can change) from the previous floor, unless it's the ground floor.
-
         this.addPlatformConfiguration(400, 785, 0, true, false, 250, 10, 2);
+        this.addLadderConfiguration(300, 205);
+        this.addLadderConfiguration(500, 205);
+
         
         let offSetArray = [25, 60, 25, 60, 25, 325];
         let widthArray = [];
         widthArray[0] = [200, 400, 25];
         widthArray[1] = [50, 200, 400];
         widthArray[2] = [200, 400, 25];
-        widthArray[3] = [50, 300, 200];
+        widthArray[3] = [50, 300, 400];
         widthArray[4] = [200, 400, 25];
         widthArray[5] = [150];
         this.levelMaker(6, offSetArray, widthArray);
