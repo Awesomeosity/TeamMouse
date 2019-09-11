@@ -85,6 +85,8 @@ class ExampleScene extends Phaser.Scene{
         };
         
         this.catSematary=new CatSematary(sematary_config);
+        
+        this.PlatformOffset = 2;
 
         this.addPlatformConfiguration(400, 785, 0, true, false, 250, 10, 2);
         this.addLadderConfiguration(300, 205);
@@ -93,11 +95,11 @@ class ExampleScene extends Phaser.Scene{
         
         let offSetArray = [25, 60, 25, 60, 25, 325];
         let widthArray = [];
-        widthArray[0] = [200, 400, 25];
+        widthArray[0] = [200, 400, 1];
         widthArray[1] = [50, 200, 400];
-        widthArray[2] = [200, 400, 25];
+        widthArray[2] = [200, 400, 1];
         widthArray[3] = [50, 300, 400];
-        widthArray[4] = [200, 400, 25];
+        widthArray[4] = [190, 400, 1];
         widthArray[5] = [150];
         this.levelMaker(6, offSetArray, widthArray);
 
@@ -249,7 +251,7 @@ class ExampleScene extends Phaser.Scene{
         {
             let floorPlans = widthArray[i - 1];
             let lastXPos = offsetArray[i - 1] + floorPlans[0] / 2;
-            this.addPlatformConfiguration(lastXPos, floorY - 100 * i, i, false, true, floorPlans[0]);
+            this.addPlatformConfiguration(lastXPos, floorY - 100 * i, i, false, true, floorPlans[0] - this.PlatformOffset);
             for(let j = 1; j < floorPlans.length; j++)
             {
                 //The ladder's position is determined from the gaps left in the floor.
@@ -258,7 +260,7 @@ class ExampleScene extends Phaser.Scene{
                 this.addLadderConfiguration(25 + lastXPos + floorPlans[j - 1] / 2, floorY - 100 * i + 45, i);
 
                 lastXPos = lastXPos + floorPlans[j-1] / 2 + 50 + floorPlans[j] / 2;
-                this.addPlatformConfiguration(lastXPos, floorY - 100 * i, i, false, true, floorPlans[j]);
+                this.addPlatformConfiguration(lastXPos, floorY - 100 * i, i, false, true, floorPlans[j] - this.PlatformOffset);
             }
         }
     }

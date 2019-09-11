@@ -12,7 +12,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		this.PlayerMovementVelocity = 80;
 		this.LadderClimbingVelocity = 80;
 		this.JumpVelocityY = 300;
-		
+		this.spriteFattening = 4;
 
         this.original_x=config.x;
         this.original_y=config.y;
@@ -28,8 +28,8 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		this.savedYPos;
 
 		
-		this.originalWidth = 45;
-		this.body.setSize(this.originalWidth + 7, this.body.height);
+		this.originalWidth = 50;
+		this.body.setSize(this.originalWidth + this.spriteFattening, this.body.height);
 
         this.cursors = this.scene.input.keyboard.createCursorKeys();
 
@@ -184,12 +184,12 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 	climbOff()
 	{
 		this.isClimbing = false;
-		this.body.setSize(this.originalWidth + 7, this.body.height);
+		this.body.setSize(this.originalWidth + this.spriteFattening, this.body.height);
 	}
 	
 	saveLadderPos(object1, object2)
 	{
-		object1.snapTo = object2.body.position.x;
+		object1.snapTo = object2.body.position.x - 2;
 	}
     
     checkLadderStatus()
