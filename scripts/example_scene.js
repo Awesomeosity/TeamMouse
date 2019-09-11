@@ -90,13 +90,14 @@ class ExampleScene extends Phaser.Scene{
         this.addLadderConfiguration(649, 304, 4);
         this.addLadderConfiguration(300, 204, 5);
         this.addLadderConfiguration(500, 204, 5);
-
+        */
         let sematary_config={
             scene:this,
             key:'cat_sematary',
             x:30,
             y:720
         };
+        
         this.catSematary=new CatSematary(sematary_config);
 
         //Adds platforms to the level
@@ -114,7 +115,10 @@ class ExampleScene extends Phaser.Scene{
         this.addPlatformConfiguration(675,360,4,false,true);
         this.addPlatformConfiguration(405,260,5,false,true,439);
         this.addPlatformConfiguration(400,160,6,false,true,150);
-
+        */
+        
+        this.addPlatformConfiguration(400, 785, 0, true, false, 250, 10, 2);
+        this.addPlatformConfiguration(100, 660, 1, false, true, 200);
         this.physics.add.collider(this.ladders,this.platforms);
 
         //Mouse initialization
