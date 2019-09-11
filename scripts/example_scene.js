@@ -41,24 +41,43 @@ class ExampleScene extends Phaser.Scene{
 
 	preload()
 	{
+	    //Start up UI scene and assign to variable
 		this.scene.launch('GameUI');
 		this.uiOverlay = this.scene.get('GameUI');
-		this.highScore = 0; //TODO: Add to high score whenever you jump over a cat (For Tuesday)
+
+		//For tracking the player's high score throughout the level
+		this.highScore = 0; //TODO: Add to high score whenever you do something (get past a cat?)
+
+        //Loads level music
+        this.load.audio('LevelMus', '../audio/MouseLevel.wav');
 	}
 
     create()
     {
-        //TODO after colliding with another platform, this should be set to false
-
-        // this.isClimbing=false;
-
-        // this.add.image(400, 300, 'background');
-        //this.add.image(400, 300, 'background');
-		//this.input.keyboard.on('keydown-H', ()=> {this.highScore += 45;});
+        //Initializes and plays level music
+        this.levelMus = this.sound.add('LevelMus');
+        let musConfig =
+            {
+                mute: false,
+                volume: 0.5,
+                rate: 1,
+                detune: 0,
+                seek: 0,
+                loop: true,
+                delay: 0
+            }
+        this.levelMus.play(musConfig);
+        this.musicMute = true;                                      //Music mutes by default
+        this.levelMus.setMute(this.musicMute);
+        this.input.keyboard.on('keydown-M', ()=> {       //Pressing M mutes / un-mutes
+            this.musicMute = !this.musicMute;
+            this.levelMus.setMute(this.musicMute);
+        });
 
         this.ladders = this.physics.add.group();
         this.platforms = this.physics.add.staticGroup();
 
+        //Adds ladders to the level
         this.addLadderConfiguration(100,604,1);
         this.addLadderConfiguration(399,604,1);
         this.addLadderConfiguration(699, 704, 0);
@@ -80,8 +99,9 @@ class ExampleScene extends Phaser.Scene{
         };
         this.catSematary=new CatSematary(sematary_config);
 
+        //Adds platforms to the level
         // this.platforms = this.physics.add.staticGroup();
-        this.addPlatformConfiguration(398,785,0,true,false,250,10,2);
+        this.addPlatformConfiguration(398,790,0,true,false,250,10,2);
         this.addPlatformConfiguration(100,660,1,false,true,350);
         this.addPlatformConfiguration(475,660,1,false,true,399);
         this.addPlatformConfiguration(250,560,2,false,true,249);
@@ -97,6 +117,7 @@ class ExampleScene extends Phaser.Scene{
 
         this.physics.add.collider(this.ladders,this.platforms);
 
+        //Mouse initialization
         this.mouse=new Mouse({
             scene:this,
             key:'mouse',
@@ -107,44 +128,15 @@ class ExampleScene extends Phaser.Scene{
 
         this.cats=[];
 
-        // let cur_cat=CatFactory.getInstance().createCat(CatType,config);
-        // cur_cat.body.collideWorldBounds=true;
-        // this.cats.push(cur_cat);
-
         this.cursors = this.input.keyboard.createCursorKeys();
 
-        // this.anims.create({
-        //     key: 'left',
-        //     frames: this.anims.generateFrameNumbers('dude', {start: 0, end: 3}),
-        //     frameRate:10,
-        //     repeat: -1
-        // });
-        //
-        // this.anims.create({
-        //     key: 'leftStop',
-        //     frames: [ {key: 'dude', frame: 5}],
-        //     frameRate: 20
-        // });
-        // this.anims.create({
-        //     key: 'rightStop',
-        //     frames: [ {key: 'dude', frame: 0}],
-        //     frameRate: 20
-        // });
-        // this.anims.create({
-        //     key: 'right',
-        //     frames: this.anims.generateFrameNumbers('dude', {start: 5, end: 8}),
-        //     frameRate: 10,
-        //     repeat: -1
-        // });
 		let that = this;
 
 		this.physics.add.collider(this.mouse,this.platforms, (mouse,platform) =>
 	    {
+			mouse.hangOut(platform);
 			mouse.climbOff();
 			mouse.currentStory=platform.story;
-			// if(mouse.currentStory==1){
-			//     alert(1);
-            // }
 		});
 
 		this.physics.add.collider(this.mouse,this.catSematary);
@@ -204,10 +196,18 @@ class ExampleScene extends Phaser.Scene{
            cat.update();
         });
         this.uiOverlay.updateMouseLives(this.mouse.lives);
+
         //Win condition
         if (this.mouse.currentStory ==this.highestStory)
         {
             //TODO: transition to the next level, play any animations
+            this.scene.launch('GameOverScene');
+            this.scene.pause();
+        }
+
+        //Lose condition
+        if (this.mouse.lives <= 0)
+        {
             this.scene.launch('GameOverScene');
             this.scene.pause();
         }

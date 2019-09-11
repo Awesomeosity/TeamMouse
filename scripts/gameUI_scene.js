@@ -89,9 +89,16 @@ class GameUI extends Phaser.Scene{
         if (storageAvailable('localStorage'))
         {
             if (score > localStorage.getItem('HighScore'))
+            {
                 localStorage.setItem('HighScore', score);
+                this.highScoreText.setText(localStorage.getItem('HighScore'));
+            }
+            else if (score == 0)
+            {
+                this.highScoreText.setText(0);
+            }
 
-            this.highScoreText.setText(localStorage.getItem('HighScore'));
+
         }
         else
         {
