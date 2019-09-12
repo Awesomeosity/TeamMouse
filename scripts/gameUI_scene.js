@@ -86,6 +86,9 @@ class GameUI extends Phaser.Scene{
     {
         this.currentScore.setText(score);
 
+        //Use to reset local score (for testing)
+        //localStorage.setItem('HighScore', '0');
+
         if (storageAvailable('localStorage'))
         {
             if (score > localStorage.getItem('HighScore'))
@@ -93,9 +96,14 @@ class GameUI extends Phaser.Scene{
                 localStorage.setItem('HighScore', score);
                 this.highScoreText.setText(localStorage.getItem('HighScore'));
             }
+            else if (score <= localStorage.getItem('HighScore'))
+            {
+                this.highScoreText.setText(localStorage.getItem('HighScore'));
+            }
             else if (score == 0)
             {
                 this.highScoreText.setText(0);
+
             }
 
 
