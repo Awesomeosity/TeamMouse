@@ -37,7 +37,7 @@ function animations(scene) {
     scene.anims.create(config);
 
     config = {
-        key: 'left',
+        key: 'scleft',
         frames: scene.anims.generateFrameNumbers('stupid_cat', {start: 0, end: 3}),
         frameRate: 10,
         repeat: -1
@@ -45,7 +45,7 @@ function animations(scene) {
     scene.anims.create(config);
 
     config = {
-        key: 'right',
+        key: 'scright',
         frames: scene.anims.generateFrameNumbers('stupid_cat', {start: 5, end: 8}),
         frameRate: 10,
         repeat: -1
@@ -53,7 +53,7 @@ function animations(scene) {
     scene.anims.create(config);
 
     config = {
-        key: 'left',
+        key: 'mcleft',
         frames: scene.anims.generateFrameNumbers('maho_cat', {start: 0, end: 3}),
         frameRate: 10,
         repeat: -1
@@ -61,7 +61,7 @@ function animations(scene) {
     scene.anims.create(config);
 
     config = {
-        key: 'right',
+        key: 'mcright',
         frames: scene.anims.generateFrameNumbers('maho_cat', {start: 5, end: 8}),
         frameRate: 10,
         repeat: -1

@@ -9,10 +9,10 @@ class StupidCat extends Cat{
     move(){
         if(this.left){
             this.body.velocity.x=-120;
-            this.anims.play('left', true);
+            this.anims.play('scleft', true);
         }else{
             this.body.velocity.x=120;
-            this.anims.play('right', true);
+            this.anims.play('scright', true);
         }
     }
 

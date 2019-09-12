@@ -9,10 +9,10 @@ class MahoCat extends Cat{
     move(){
         if(this.left){
             this.body.velocity.x=-Math.random()*120;
-            this.anims.play('left', true);
+            this.anims.play('mcleft', true);
         }else{
             this.body.velocity.x=Math.random()*120;
-            this.anims.play('right', true);
+            this.anims.play('mcright', true);
         }
         if((this.x>=700&&(!this.left))||(this.x<=100&&this.left)){
             this.left=!this.left;
