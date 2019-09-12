@@ -57,11 +57,13 @@ class ExampleScene extends Phaser.Scene{
 		this.highScore = 0; //TODO: Add to high score whenever you do something (get past a cat?)
 
         //Loads level music
-        this.load.audio('LevelMus', '../audio/MouseLevel.wav');
+        this.load.audio('LevelMus', '../audio/Level1-Mus.wav'); //TODO: Make music reset when level reloads
 	}
 
     create()
     {
+        this.add.image(400, 400, 'sewer_background');
+
         //Initializes and plays level music
         this.cameras.main.backgroundColor.setTo(49, 64, 148);
         this.levelMus = this.sound.add('LevelMus');
