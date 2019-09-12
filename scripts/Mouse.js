@@ -121,10 +121,10 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 				this.body.position.x = this.snapTo;
 				this.body.velocity.x = 0;
 				this.isClimbing = true;
-			}
+			}    
 		}
 		//Otherwise, we can jump
-		else if(this.cursors.space.isDown && this.body.touching.down && this.body.velocity.y == 0)
+		if(this.cursors.space.isDown && this.body.touching.down && this.body.velocity.y == 0)
 		{
 			this.body.velocity.y = -1 * this.JumpVelocityY;
 		}
@@ -137,11 +137,11 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		this.body.setSize(this.originalWidth, this.body.height);
 		if(this.cursors.up.isDown)
 		{
-			this.body.velocity.y = -1 * this.PlayerMovementVelocity;
+			this.body.velocity.y = -1 * this.LadderClimbingVelocity;
 		}
 		else if(this.cursors.down.isDown)
 		{
-			this.body.velocity.y = this.PlayerMovementVelocity;
+			this.body.velocity.y = this.LadderClimbingVelocity;
 		}
 		else if(!this.cursors.down.isDown && !this.cursors.up.isDown)
 		{		
