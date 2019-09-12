@@ -33,7 +33,7 @@ class GameOverScene extends Phaser.Scene{
 
 
         this.input.keyboard.on('keydown-ENTER', () => {
-            this.scene.run('ExampleScene')
+            this.scene.start('ExampleScene')
             this.scene.stop();
         });
     }

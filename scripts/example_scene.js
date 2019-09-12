@@ -159,6 +159,12 @@ class ExampleScene extends Phaser.Scene{
         this.physics.add.overlap(this.mouse,this.cats,(mouse,cat)=>{
             mouse.hurtBy(cat);
         });
+        
+        this.input.keyboard.on('keydown-ENTER', () => {
+            this.scene.start('Level2')
+            this.scene.stop();
+        });
+
     }
 
     update()
