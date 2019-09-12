@@ -202,11 +202,11 @@ class ExampleScene extends Phaser.Scene{
         }
 
         //Lose condition
-        if (this.mouse.lives <= 0)
-        {
-            this.scene.launch('GameOverScene');
-            this.scene.pause();
-        }
+        // if (this.mouse.lives <= 0)
+        // {
+        //     this.scene.launch('GameOverScene');
+        //     this.scene.pause();
+        // }
 
         this.uiOverlay.updateHighScore(this.highScore); //TODO: use a HighScore text class to store and update high score
     }
