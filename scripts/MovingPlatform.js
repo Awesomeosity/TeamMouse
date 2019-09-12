@@ -1,8 +1,8 @@
 class MovingPlatform extends Phaser.Physics.Arcade.Sprite{
     constructor(config) {
         super(config.scene, config.x, config.y, config.key);
-        config.scene.physics.world.enable(this);
-        config.scene.add.existing(this);
+        config.scene.physics.world.enable(this, 0);
+        config.scene.add.existing(this, 0);
 
         if(config.setScale){
             this.setScale(config.scale);
@@ -20,10 +20,9 @@ class MovingPlatform extends Phaser.Physics.Arcade.Sprite{
         this.setSizeToFrame(this.frame);
         this.setCrop(0,0,config.width, config.height);
 
-        this.velocityY = config.velocityY;
         this.startY;
         this.endY;
-        if((this.velocityY > 0 && config.startY > config.endY) || (this.velocityY < 0 && config.startY < config.endY))
+        if((config.velocityY > 0 && config.startY > config.endY) || (config.velocityY < 0 && config.startY < config.endY))
         {
             this.startY = config.endY;
             this.endY = config.startY;
@@ -36,16 +35,14 @@ class MovingPlatform extends Phaser.Physics.Arcade.Sprite{
     }
 
     update(){
-        this.body.position.y += this.velocityY;
-        if(this.body.position.y >= this.endY && this.velocityY > 0)
+        if(this.body.position.y >= this.endY && this.body.velocity.y > 0)
         {
             this.body.position.y = this.startY;
         }
 
-        if(this.body.position.y <= this.endY && this.velocityY < 0)
+        if(this.body.position.y <= this.endY && this.body.velocity.y  < 0)
         {
             this.body.position.y = this.startY;
         }
-
     }
 }
