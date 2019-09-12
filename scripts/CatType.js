@@ -1,1 +1,1 @@
-const CatType={STUPID:'STUPID'};
+const CatType={STUPID:'STUPID',MAHO:'MAHO'};
