@@ -14,8 +14,6 @@ function load()
 			}
 		},
 		scene:[MenuScene,InitializationScene, ExampleScene, GameUI, GameOverScene],
-
-
 	};
 	var game = new Phaser.Game(config);
 

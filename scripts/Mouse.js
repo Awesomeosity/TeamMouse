@@ -124,7 +124,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			}
 		}
 		//Otherwise, we can jump
-		else if(this.cursors.space.isDown && this.body.touching.down && this.body.velocity.y == 0)
+		if(this.cursors.space.isDown && this.body.touching.down && this.body.velocity.y == 0)
 		{
 			this.body.velocity.y = -1 * this.JumpVelocityY;
 		}
