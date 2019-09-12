@@ -88,6 +88,7 @@ class ExampleScene extends Phaser.Scene{
         
         this.PlatformOffset = 2;
         this.ladderWidth = 21;
+		this.floorHeight = 100;
 
         this.addPlatformConfiguration(400, 785, 0, true, false, 250, 10, 2);
         this.addLadderConfiguration(315, 205, 5);
@@ -219,7 +220,7 @@ class ExampleScene extends Phaser.Scene{
         this.ladder_configuration.y=y;
         this.ladder_configuration.story=story;
         this.ladder_configuration.width=this.ladderWidth;
-        this.ladder_configuration.height=101;
+        this.ladder_configuration.height=this.floorHeight + 1;
         let ladd=new Ladder(this.ladder_configuration);
         ladd.body.allowGravity=false;
         this.ladders.add(ladd);
@@ -252,16 +253,16 @@ class ExampleScene extends Phaser.Scene{
         {
             let floorPlans = widthArray[i - 1];
             let lastXPos = offsetArray[i - 1] + floorPlans[0] / 2;
-            this.addPlatformConfiguration(lastXPos, floorY - 100 * i, i, false, true, floorPlans[0] - this.PlatformOffset);
+            this.addPlatformConfiguration(lastXPos, floorY - this.floorHeight * i, i, false, true, floorPlans[0] - this.PlatformOffset);
             for(let j = 1; j < floorPlans.length; j++)
             {
                 //The ladder's position is determined from the gaps left in the floor.
                 //Place the ladder 25 + firstPlat.XPos + firstPlat.width in x...
                 //and 50 below the current floor's yPos. (in js, + 50)
-                this.addLadderConfiguration(10 + lastXPos + floorPlans[j - 1] / 2, floorY - 100 * i + 45, i - 1);
+                this.addLadderConfiguration(10 + lastXPos + floorPlans[j - 1] / 2, floorY - this.floorHeight * i + 45, i - 1);
 
                 lastXPos = lastXPos + floorPlans[j-1] / 2 + this.ladderWidth + floorPlans[j] / 2;
-                this.addPlatformConfiguration(lastXPos, floorY - 100 * i, i, false, true, floorPlans[j] - this.PlatformOffset);
+                this.addPlatformConfiguration(lastXPos, floorY - this.floorHeight * i, i, false, true, floorPlans[j] - this.PlatformOffset);
             }
         }
     }
