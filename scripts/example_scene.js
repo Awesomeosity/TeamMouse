@@ -133,7 +133,9 @@ class ExampleScene extends Phaser.Scene{
 	    {
 			mouse.hangOut(platform);
 			mouse.climbOff();
-			mouse.currentStory=platform.story;
+            if(!mouse.isCeiling){
+                mouse.currentStory=platform.story;
+            }
 		});
 
 		this.physics.add.collider(this.mouse,this.catSematary);

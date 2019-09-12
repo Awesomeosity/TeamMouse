@@ -7,11 +7,12 @@ class Cat extends Phaser.Physics.Arcade.Sprite{
         this.isClimbing = false;
 
         this.originalWidth = 21;
-        this.body.setSize(this.originalWidth + 4, this.body.height);
+        this.body.setSize(this.originalWidth + 4, 40);
         this.currentStory=config.originalStory;
         this.left=true;
         this.down=true;
         this.ladder=null;
+        this.initScore=false;
     }
 
     update(){
@@ -21,6 +22,24 @@ class Cat extends Phaser.Physics.Arcade.Sprite{
             this.climb();
         }else{
             this.move();
+            this.passBy();
+        }
+        if(this.initScore){
+            let x=this.scene.mouse.body.position.x;
+            if(this.left){
+                if(this.body.position.x<x-this.originalWidth){
+                    this.scene.highScore++;
+                    this.initScore=false;
+                }
+            }else {
+                if(this.body.position.x>x+this.originalWidth){
+                    this.scene.highScore++;
+                    this.initScore=false;
+                }
+            }
+            if(!this.scene.mouse.isCeiling){
+                this.initScore=false;
+            }
         }
     }
 
@@ -56,5 +75,24 @@ class Cat extends Phaser.Physics.Arcade.Sprite{
 
     enterSematary(){
 
+    }
+
+    passBy(){
+        if(this.scene.mouse.currentStory==this.currentStory&&this.scene.mouse.isCeiling){
+            // alert('hey');
+            let x=this.scene.mouse.body.position.x;
+            if(this.left){
+                if(this.body.position.x>=x){
+                    // alert('pass');
+                    this.initScore=true;
+                }
+            }else {
+                if(this.body.position.x<=x){
+                    // alert('pass');
+                    this.initScore=true;
+                }
+            }
+
+        }
     }
 }
