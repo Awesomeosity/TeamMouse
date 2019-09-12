@@ -3,7 +3,6 @@ class MahoCat extends Cat{
         super(config);
         config.scene.physics.world.enable(this);
         config.scene.add.existing(this);
-        this.left=false;
     }
 
     move(){
