@@ -9,7 +9,15 @@ class ExampleScene extends Phaser.Scene{
             key:'stupid_cat',
             x:400,
             y:10,
-            originalStory:6
+            originalStory:6,
+            isMuggle:true
+        };
+        this.maho_config={
+            scene:this,
+            key:'maho_cat',
+            x:100,
+            y:670,
+            originalStory:0
         };
         this.cat_factory=CatFactory.getInstance();
         this.ladder_configuration={
@@ -65,7 +73,7 @@ class ExampleScene extends Phaser.Scene{
                 seek: 0,
                 loop: true,
                 delay: 0
-            }
+            };
         this.levelMus.play(musConfig);
         this.musicMute = true;                                      //Music mutes by default
         this.levelMus.setMute(this.musicMute);
@@ -126,7 +134,9 @@ class ExampleScene extends Phaser.Scene{
 	    {
 			mouse.hangOut(platform);
 			mouse.climbOff();
-			mouse.currentStory=platform.story;
+            if(!mouse.isCeiling){
+                mouse.currentStory=platform.story;
+            }
 		});
 
 		this.physics.add.collider(this.mouse,this.catSematary);
@@ -154,7 +164,7 @@ class ExampleScene extends Phaser.Scene{
     update()
     {
 		let that = this;
-		this.stupid_loop_count=(this.stupid_loop_count+1)%100;
+		this.stupid_loop_count=(this.stupid_loop_count+1)%200;
 		if(!this.stupid_loop_count){
 		    let cur_cat=this.cat_factory.createCat(CatType.STUPID,this.stupid_config);
 		    if(cur_cat){
@@ -183,7 +193,7 @@ class ExampleScene extends Phaser.Scene{
             cat.climbOrNot(ladder);
         });
 		this.cats.forEach(function (cat) {
-           cat.update();
+            cat.update();
         });
         this.uiOverlay.updateMouseLives(this.mouse.lives);
 
@@ -196,17 +206,25 @@ class ExampleScene extends Phaser.Scene{
         }
 
         //Lose condition
-        if (this.mouse.lives <= 0)
-        {
-            this.scene.launch('GameOverScene');
-            this.scene.pause();
-        }
+        // if (this.mouse.lives <= 0)
+        // {
+        //     this.scene.launch('GameOverScene');
+        //     this.scene.pause();
+        // }
 
         this.uiOverlay.updateHighScore(this.highScore); //TODO: use a HighScore text class to store and update high score
     }
 
     enter_sematary(cat){
         if(cat instanceof StupidCat){
+            if(!cat.isMuggle){
+                let newCat=CatFactory.getInstance().createCat(CatType.MAHO,this.maho_config);
+                if(newCat){
+                    newCat.body.collideWorldBounds=true;
+                    this.cats.push(newCat);
+                }
+            }
+
             CatFactory.getInstance().killCat(cat);
             var pos = this.cats.indexOf(cat);
             this.cats.splice(pos,1);
@@ -215,7 +233,7 @@ class ExampleScene extends Phaser.Scene{
         }
     }
 
-    addLadderConfiguration(x,y,story){
+    addLadderConfiguration(x,y,story=5){
         this.ladder_configuration.x=x;
         this.ladder_configuration.y=y;
         this.ladder_configuration.story=story;
@@ -248,7 +266,7 @@ class ExampleScene extends Phaser.Scene{
     {        
         //Formula: firstPlat.XPos + firstPlat.width / 2 + 21 + secondPlat.width / 2 = secondPlat.XPos
         //Each floor is offset by 760 - 100 * floor number.
-        let floorY = 760
+        let floorY = 760;
         for(let i = 1; i <= floorCount; i++)
         {
             let floorPlans = widthArray[i - 1];
