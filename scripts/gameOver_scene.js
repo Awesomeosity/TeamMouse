@@ -11,8 +11,6 @@ class GameOverScene extends Phaser.Scene{
 
 
     create() {
-
-
         var gameOverX = 800 / 2  - 100;
         var gameOverY = 600 / 2 - 50;
         //Sets BG to black
@@ -30,7 +28,6 @@ class GameOverScene extends Phaser.Scene{
         };
 
         this.add.text(gameOverX, gameOverY, 'GAME   OVER', styleBlueCenter);
-
 
         this.input.keyboard.on('keydown-ENTER', () => {
             var theOtherScene=this.scene.get('ExampleScene');

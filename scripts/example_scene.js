@@ -162,7 +162,7 @@ class ExampleScene extends Phaser.Scene{
         });
         
         this.input.keyboard.on('keydown-ENTER', () => {
-            this.scene.start('Level2')
+            this.scene.start('Level2');
             this.scene.stop();
         });
 

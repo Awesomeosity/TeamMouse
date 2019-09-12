@@ -26,8 +26,8 @@ class InitializationScene extends Phaser.Scene{
         this.load.image('ground', '../images/platform_tileable_middle_10px.png');
         this.load.image('ladder', '../images/manhole_tunnel_ladder.png');
 		this.load.image('breaker', '../images/background.jpg');
-        this.load.image('move', '../images/platform_tileable_middle_10px.png')
-		this.load.image('cat_sematary','../images/linku.png');
+        this.load.image('move', '../images/platform_tileable_middle_10px.png');
+		this.load.image('cat_sematary','../images/cat_spawn_door_v1.png');
         this.load.image('MarioSprite', '../images/MarioSprite.png');
 
         this.load.spritesheet('mouse', '../images/MouseWalkFlippedSmall.png', {frameWidth: 40, frameHeight: 48});

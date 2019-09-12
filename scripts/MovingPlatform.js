@@ -15,7 +15,7 @@ class MovingPlatform extends Phaser.Physics.Arcade.Sprite{
 
 
         //Cuts out an appropriate section of the sprite and aligns it within the GameObject bounds
-        this.newOrigin = config.width / this.frame.realWidth / 2
+        this.newOrigin = config.width / this.frame.realWidth / 2;
         this.setOrigin(this.newOrigin, .5);
         this.setSizeToFrame(this.frame);
         this.setCrop(0,0,config.width, config.height);
