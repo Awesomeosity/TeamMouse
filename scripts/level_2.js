@@ -99,7 +99,7 @@ class Level2 extends Phaser.Scene{
 
         this.ladders = this.physics.add.group();
         this.platforms = this.physics.add.staticGroup();
-        this.moving = this.physics.add.staticGroup();
+        this.moving = this.physics.add.group();
 
         let sematary_config={
             scene:this,
@@ -115,7 +115,7 @@ class Level2 extends Phaser.Scene{
         
         this.addPlatformConfiguration(100, 760, 0, false, true, 400, 10, 1);
         this.addPlatformConfiguration(500, 760, 0, false, true, 400, 10, 1);
-        this.addMovingConfiguration(300, 500, -1, 100, 700, false, true, 400);
+        this.addMovingConfiguration(300, 500, -50, 100, 700, false, true, 200);
 
         /*
         this.addPlatformConfiguration(400, 760, 0, false, true, 800, 10, 1);
@@ -160,13 +160,6 @@ class Level2 extends Phaser.Scene{
                 mouse.currentStory=platform.story;
             }
 		});
-        
-        this.physics.add.collider(this.mouse,this.moving, (mouse,platform) =>
-	    {
-			mouse.hangOut(platform);
-			mouse.climbOff();
-		});
-
 
 		this.physics.add.collider(this.mouse,this.catSematary);
 		this.physics.add.collider(this.cats,this.catSematary,(cat,catSematary)=>{
@@ -193,12 +186,17 @@ class Level2 extends Phaser.Scene{
             this.scene.start('Level2');
             this.scene.stop();
         });
+        
+        this.physics.add.overlap(this.mouse, this.moving, (mouse, move) =>{
+           mouse.ridePlatform(move); 
+        });
 
     }
 
     update()
     {
 		let that = this;
+
 		if(this.physics.overlap(this.mouse,this.ladders, this.mouse.saveLadderPos))
 		{
 			this.mouse.isOnLadder = true;
@@ -210,6 +208,7 @@ class Level2 extends Phaser.Scene{
 			this.mouse.snapTo = null;
 			this.mouse.climbOff();
 		}
+		
         this.mouse.update(this.cursors);
 
         this.uiOverlay.updateMouseLives(this.mouse.lives);
@@ -292,6 +291,7 @@ class Level2 extends Phaser.Scene{
         this.moving_configuration.scale=scale;
         let move=new MovingPlatform(this.moving_configuration);
         this.moving.add(move);
+        move.body.setVelocityY(velocityY);
         move.body.allowGravity = false;
     }
 	

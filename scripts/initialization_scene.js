@@ -22,7 +22,8 @@ class InitializationScene extends Phaser.Scene{
             this.scene.start('ExampleScene');
         });
 
-        this.load.image('background', '../images/background.jpg');
+        this.load.image('sewer_background', '../images/environment_background concept (tileable).png');
+        //this.load.image('ground', '../images/platform.png');
         this.load.image('ground', '../images/platform_tileable_middle_10px.png');
         this.load.image('ladder', '../images/manhole_tunnel_ladder.png');
 		this.load.image('breaker', '../images/background.jpg');
