@@ -77,7 +77,10 @@ class Level2 extends Phaser.Scene{
 
     create()
     {
+        this.add.image(400, 400, 'sewer_background');
+
         //Initializes and plays level music
+        this.cameras.main.backgroundColor.setTo(49, 64, 148);
         this.levelMus = this.sound.add('LevelMus');
         let musConfig =
             {
@@ -99,7 +102,6 @@ class Level2 extends Phaser.Scene{
 
         this.ladders = this.physics.add.group();
         this.platforms = this.physics.add.staticGroup();
-        this.moving = this.physics.add.group();
 
         let sematary_config={
             scene:this,
@@ -181,12 +183,7 @@ class Level2 extends Phaser.Scene{
         this.physics.add.overlap(this.mouse,this.cats,(mouse,cat)=>{
             mouse.hurtBy(cat);
         });
-        
-        this.input.keyboard.on('keydown-ENTER', () => {
-            this.scene.start('Level2');
-            this.scene.stop();
-        });
-        
+                
         this.physics.add.overlap(this.mouse, this.moving, (mouse, move) =>{
            mouse.ridePlatform(move); 
         });
