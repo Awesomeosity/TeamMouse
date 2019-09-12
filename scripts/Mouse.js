@@ -26,6 +26,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		this.stickTimer;
 		this.platform;
 		this.savedYPos;
+        this.savedXPos;
 
 		
 		this.originalWidth = 21;
@@ -41,23 +42,28 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
     update() {
         this.checkLadderStatus();
 		
-		if(this.platform != null)
+		if(this.cursors.space.isUp && this.isCeiling)
 		{
-			//If the platform is moving (MUST CHECK WHEN MOVING PLATFORMS ARE IMPLEMENTED)
-			if(this.platform.body.position.y != this.savedYPos)
+			if(this.stickTimer != null)
 			{
-				//Change the position by the difference between the old and new positions of the platform.
-				this.body.position.y -= (this.savedYPos - this.platform.body.position.y);
+				this.stickTimer.remove();
 			}
-		}
-		
-		if(this.cursors.space.isUp && this.body.allowGravity == false && !this.isClimbing && this.stickTimer != null)
-		{
-			this.stickTimer.remove();
 			this.body.allowGravity = true;
 			this.isCeiling = false;
+			this.platform = null;
+			this.body.velocity.y = 0;
+			this.body.velocity.x = 0;
 		}
 		
+		if(this.platform != null)
+		{
+			if(!this.scene.physics.overlap(this.scene.mouse, this.scene.moving))
+			{
+				this.body.allowGravity = true;
+				this.platform = null;
+				console.log('ugh');
+			}
+		}
 		if(this.isCeiling)
 		{
 			return;
@@ -77,7 +83,14 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 	///MOVEMENT CODE///
 	normalMovement()
 	{
-		this.body.allowGravity = true;        
+		if(this.platform == null)
+		{
+			this.body.allowGravity = true;
+		}
+		else
+		{
+			this.body.allowGravity = false;
+		}
         if (this.cursors.left.isDown)
 		{
 			this.lastDir = true;
@@ -121,10 +134,10 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 				this.body.position.x = this.snapTo;
 				this.body.velocity.x = 0;
 				this.isClimbing = true;
-			}
+			}    
 		}
 		//Otherwise, we can jump
-		else if(this.cursors.space.isDown && this.body.touching.down && this.body.velocity.y == 0)
+		if(this.cursors.space.isDown && this.body.touching.down && this.body.velocity.y == 0)
 		{
 			this.body.velocity.y = -1 * this.JumpVelocityY;
 		}
@@ -137,11 +150,11 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		this.body.setSize(this.originalWidth, this.body.height);
 		if(this.cursors.up.isDown)
 		{
-			this.body.velocity.y = -1 * this.PlayerMovementVelocity;
+			this.body.velocity.y = -1 * this.LadderClimbingVelocity;
 		}
 		else if(this.cursors.down.isDown)
 		{
-			this.body.velocity.y = this.PlayerMovementVelocity;
+			this.body.velocity.y = this.LadderClimbingVelocity;
 		}
 		else if(!this.cursors.down.isDown && !this.cursors.up.isDown)
 		{		
@@ -217,19 +230,51 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			}, null, this);
 
 			this.body.velocity.x = 0;
+            this.body.velocity.y = 0;
+			this.isCeiling = true;
+			this.body.allowGravity = false;
+		}
+	}
+    
+    ridePlatform(platform)
+    {
+        if(this.body.touching.up && this.cursors.space.isDown && !this.isCeiling)
+		{
+			this.resetSprite();
+			this.stickTimer = this.scene.time.delayedCall(this.StickToCeilingDuration, () =>{
+				console.log("UNSTICK");
+				if(this.isCeiling)
+				{
+					this.isCeiling = false;
+					this.body.allowGravity = true;
+				}
+			}, null, this);
+
+			this.body.velocity.x = platform.body.velocity.x;
+            this.body.velocity.y = platform.body.velocity.y;
 			this.isCeiling = true;
 			this.body.allowGravity = false;
 			this.platform = platform;
-			this.savedYPos = platform.body.position.y;
 		}
+        else if(this.body.touching.down)
+        {
+			this.body.position.y += 2;
+			if(this.scene.physics.overlap(this.scene.mouse, this.scene.moving))
+		   	{
+				this.body.velocity.x = platform.body.velocity.x;
+				this.body.velocity.y = platform.body.velocity.y;
+		   	}
+			this.body.position.y -= 2;
+			this.platform = platform;
+        }
 		//If we collide with a new platform
-		else if(this.isCeiling)
+		else if(this.isCeiling && this.cursors.space.isDown)
 		{
 			//Update the platform reference.
 			this.platform = platform;
 		}
-	}
-	
+    }
+		
 	///ETC HELPER FUNCTIONS///
 	resetSprite()
 	{

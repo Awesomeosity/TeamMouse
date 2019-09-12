@@ -40,6 +40,10 @@ var CatFactory=(function () {
                 }else if(cat instanceof MahoCat){
                     maho_total--;
                 }
+            },
+            resetNumber: function(cat){
+                stupid_total=0;
+                maho_total=0;
             }
         }
     }

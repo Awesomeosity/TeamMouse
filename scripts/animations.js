@@ -9,21 +9,21 @@ function animations(scene) {
 
     config = {
         key: 'leftStop',
-        frames: scene.anims.generateFrameNumbers('mouse', {prefix: 'walk/leftStop',start: 0, end: 0}),
+        frames: scene.anims.generateFrameNumbers('mouse', {prefix: 'walk/leftStop',start: 3, end: 3}),
         frameRate: 20
     };
     scene.anims.create(config);
 
     config = {
         key: 'rightStop',
-        frames: scene.anims.generateFrameNumbers('mouse', {prefix: 'walk/rightStop',start: 5, end: 5}),
+        frames: scene.anims.generateFrameNumbers('mouse', {prefix: 'walk/rightStop',start: 7, end: 7}),
         frameRate: 20
     };
     scene.anims.create(config);
 
     config = {
         key: 'right',
-        frames: scene.anims.generateFrameNumbers('mouse', {prefix: 'walk/right',start: 5, end: 8}),
+        frames: scene.anims.generateFrameNumbers('mouse', {prefix: 'walk/right',start: 4, end: 7}),
         frameRate: 10,
         repeat: -1
     };
@@ -31,7 +31,7 @@ function animations(scene) {
 
     config = {
         key: 'stand',
-        frames: [{key: 'mouse', frame: 4}],
+        frames: [{key: 'mouse', frame: 3}],
         frameRate: 0
     };
     scene.anims.create(config);

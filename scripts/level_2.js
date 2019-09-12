@@ -1,15 +1,15 @@
-class ExampleScene extends Phaser.Scene{
+class Level2 extends Phaser.Scene{
     constructor(test) {
         super({
-            key: 'ExampleScene'
+            key: 'Level2'
         });
         this.stupid_loop_count=0;
         this.stupid_config={
             scene:this,
             key:'stupid_cat',
-            x:100,
+            x:400,
             y:10,
-            originalStory:5,
+            originalStory:6,
             isMuggle:true
         };
         this.maho_config={
@@ -44,6 +44,21 @@ class ExampleScene extends Phaser.Scene{
             scale:1,
             story:0
         };
+        this.moving_configuration={
+            scene:this,
+            key: 'move',
+            x:398,
+            y:568,
+            velocityY: 10,
+            startY: 100,
+            endY: 700,
+            setScale:false,
+            setSize:false,
+            width:75,
+            height:10,
+            scale:1,
+        };
+
         this.highestStory=6;
     }
 
@@ -63,7 +78,6 @@ class ExampleScene extends Phaser.Scene{
     create()
     {
         //Initializes and plays level music
-        this.cameras.main.backgroundColor.setTo(49, 64, 148);
         this.levelMus = this.sound.add('LevelMus');
         let musConfig =
             {
@@ -85,6 +99,7 @@ class ExampleScene extends Phaser.Scene{
 
         this.ladders = this.physics.add.group();
         this.platforms = this.physics.add.staticGroup();
+        this.moving = this.physics.add.group();
 
         let sematary_config={
             scene:this,
@@ -93,12 +108,16 @@ class ExampleScene extends Phaser.Scene{
             y:720
         };
         
-        this.catSematary=new CatSematary(sematary_config);
+        //this.catSematary=new CatSematary(sematary_config);
         
         this.PlatformOffset = 2;
         this.ladderWidth = 21;
-		this.floorHeight = 100;
+        
+        this.addPlatformConfiguration(100, 760, 0, false, true, 400, 10, 1);
+        this.addPlatformConfiguration(500, 760, 0, false, true, 400, 10, 1);
+        this.addMovingConfiguration(300, 500, -50, 100, 700, false, true, 200);
 
+        /*
         this.addPlatformConfiguration(400, 760, 0, false, true, 800, 10, 1);
         this.addLadderConfiguration(315, 205, 5);
         this.addLadderConfiguration(485, 205, 5);
@@ -113,6 +132,7 @@ class ExampleScene extends Phaser.Scene{
         widthArray[4] = [190, 400, 1];
         widthArray[5] = [150];
         this.levelMaker(6, offSetArray, widthArray);
+        */
 
         this.physics.add.collider(this.ladders,this.platforms);
 
@@ -166,20 +186,17 @@ class ExampleScene extends Phaser.Scene{
             this.scene.start('Level2')
             this.scene.stop();
         });
+        
+        this.physics.add.overlap(this.mouse, this.moving, (mouse, move) =>{
+           mouse.ridePlatform(move); 
+        });
 
     }
 
     update()
     {
 		let that = this;
-		this.stupid_loop_count=(this.stupid_loop_count+1)%150;
-		if(!this.stupid_loop_count){
-		    let cur_cat=this.cat_factory.createCat(CatType.STUPID,this.stupid_config);
-		    if(cur_cat){
-		        cur_cat.body.collideWorldBounds=true;
-                this.cats.push(cur_cat);
-            }
-        }
+
 		if(this.physics.overlap(this.mouse,this.ladders, this.mouse.saveLadderPos))
 		{
 			this.mouse.isOnLadder = true;
@@ -191,18 +208,9 @@ class ExampleScene extends Phaser.Scene{
 			this.mouse.snapTo = null;
 			this.mouse.climbOff();
 		}
+		
         this.mouse.update(this.cursors);
 
-        this.physics.overlap(this.cats,this.ladders,(cat,ladder)=>{
-            // alert(2);
-            // if(ladder.story==0){
-            //     alert(2);
-            // }
-            cat.climbOrNot(ladder);
-        });
-		this.cats.forEach(function (cat) {
-            cat.update();
-        });
         this.uiOverlay.updateMouseLives(this.mouse.lives);
 
         //Win condition
@@ -212,6 +220,11 @@ class ExampleScene extends Phaser.Scene{
             this.scene.launch('GameOverScene');
             this.scene.pause();
         }
+        
+        this.moving.children.entries.forEach((d) =>
+        {
+           d.update(); 
+        });
 
         //Lose condition
         // if (this.mouse.lives <= 0)
@@ -246,7 +259,7 @@ class ExampleScene extends Phaser.Scene{
         this.ladder_configuration.y=y;
         this.ladder_configuration.story=story;
         this.ladder_configuration.width=this.ladderWidth;
-        this.ladder_configuration.height=this.floorHeight + 1;
+        this.ladder_configuration.height=101;
         let ladd=new Ladder(this.ladder_configuration);
         ladd.body.allowGravity=false;
         this.ladders.add(ladd);
@@ -264,6 +277,23 @@ class ExampleScene extends Phaser.Scene{
         let plat=new Platform(this.platform_configuration);
         this.platforms.add(plat);
     }
+    
+    addMovingConfiguration(x,y,velocityY, startY, endY, setScale,setSize,width=75,height=10,scale=1){
+        this.moving_configuration.x=x;
+        this.moving_configuration.y=y;
+        this.moving_configuration.velocityY = velocityY;
+        this.moving_configuration.startY = startY;
+        this.moving_configuration.endY = endY;
+        this.moving_configuration.setScale=setScale;
+        this.moving_configuration.setSize=setSize;
+        this.moving_configuration.width=width;
+        this.moving_configuration.height=height;
+        this.moving_configuration.scale=scale;
+        let move=new MovingPlatform(this.moving_configuration);
+        this.moving.add(move);
+        move.body.setVelocityY(velocityY);
+        move.body.allowGravity = false;
+    }
 	
     //Makes a level automatically from the following parameters:
     //floorCount: How many floors are there in this level? One-index.
@@ -279,16 +309,16 @@ class ExampleScene extends Phaser.Scene{
         {
             let floorPlans = widthArray[i - 1];
             let lastXPos = offsetArray[i - 1] + floorPlans[0] / 2;
-            this.addPlatformConfiguration(lastXPos, floorY - this.floorHeight * i, i, false, true, floorPlans[0] - this.PlatformOffset);
+            this.addPlatformConfiguration(lastXPos, floorY - 100 * i, i, false, true, floorPlans[0] - this.PlatformOffset);
             for(let j = 1; j < floorPlans.length; j++)
             {
                 //The ladder's position is determined from the gaps left in the floor.
                 //Place the ladder 25 + firstPlat.XPos + firstPlat.width in x...
                 //and 50 below the current floor's yPos. (in js, + 50)
-                this.addLadderConfiguration(10 + lastXPos + floorPlans[j - 1] / 2, floorY - this.floorHeight * i + 45, i - 1);
+                this.addLadderConfiguration(10 + lastXPos + floorPlans[j - 1] / 2, floorY - 100 * i + 45, i - 1);
 
                 lastXPos = lastXPos + floorPlans[j-1] / 2 + this.ladderWidth + floorPlans[j] / 2;
-                this.addPlatformConfiguration(lastXPos, floorY - this.floorHeight * i, i, false, true, floorPlans[j] - this.PlatformOffset);
+                this.addPlatformConfiguration(lastXPos, floorY - 100 * i, i, false, true, floorPlans[j] - this.PlatformOffset);
             }
         }
     }
