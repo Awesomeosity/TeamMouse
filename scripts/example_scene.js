@@ -95,13 +95,14 @@ class ExampleScene extends Phaser.Scene{
         this.catSematary=new CatSematary(sematary_config);
         
         this.PlatformOffset = 2;
+        this.ladderWidth = 21;
 
         this.addPlatformConfiguration(400, 785, 0, true, false, 250, 10, 2);
-        this.addLadderConfiguration(300, 205);
-        this.addLadderConfiguration(500, 205);
+        this.addLadderConfiguration(315, 205, 5);
+        this.addLadderConfiguration(485, 205, 5);
 
         
-        let offSetArray = [25, 60, 25, 60, 25, 325];
+        let offSetArray = [20, 60, 20, 60, 20, 325];
         let widthArray = [];
         widthArray[0] = [200, 400, 1];
         widthArray[1] = [50, 200, 400];
@@ -233,7 +234,7 @@ class ExampleScene extends Phaser.Scene{
         this.ladder_configuration.x=x;
         this.ladder_configuration.y=y;
         this.ladder_configuration.story=story;
-        this.ladder_configuration.width=50;
+        this.ladder_configuration.width=this.ladderWidth;
         this.ladder_configuration.height=101;
         let ladd=new Ladder(this.ladder_configuration);
         ladd.body.allowGravity=false;
@@ -260,7 +261,7 @@ class ExampleScene extends Phaser.Scene{
     //TODO: Modify this so that we can tell it which ladders are broken.
     levelMaker(floorCount, offsetArray, widthArray)
     {        
-        //Formula: firstPlat.XPos + firstPlat.width / 2 + 50 + secondPlat.width / 2 = secondPlat.XPos
+        //Formula: firstPlat.XPos + firstPlat.width / 2 + 21 + secondPlat.width / 2 = secondPlat.XPos
         //Each floor is offset by 760 - 100 * floor number.
         let floorY = 760;
         for(let i = 1; i <= floorCount; i++)
@@ -273,15 +274,11 @@ class ExampleScene extends Phaser.Scene{
                 //The ladder's position is determined from the gaps left in the floor.
                 //Place the ladder 25 + firstPlat.XPos + firstPlat.width in x...
                 //and 50 below the current floor's yPos. (in js, + 50)
-                this.addLadderConfiguration(25 + lastXPos + floorPlans[j - 1] / 2, floorY - 100 * i + 45, i-1);
+                this.addLadderConfiguration(10 + lastXPos + floorPlans[j - 1] / 2, floorY - 100 * i + 45, i - 1);
 
-                lastXPos = lastXPos + floorPlans[j-1] / 2 + 50 + floorPlans[j] / 2;
+                lastXPos = lastXPos + floorPlans[j-1] / 2 + this.ladderWidth + floorPlans[j] / 2;
                 this.addPlatformConfiguration(lastXPos, floorY - 100 * i, i, false, true, floorPlans[j] - this.PlatformOffset);
             }
         }
-        this.ladders.children.each((ladder)=>{
-            console.log(ladder.story);
-        });
-
     }
 }

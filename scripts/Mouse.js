@@ -28,7 +28,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		this.savedYPos;
 
 		
-		this.originalWidth = 50;
+		this.originalWidth = 21;
 		this.body.setSize(this.originalWidth + this.spriteFattening, this.body.height);
 
         this.cursors = this.scene.input.keyboard.createCursorKeys();
@@ -51,7 +51,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			}
 		}
 		
-		if(this.cursors.up.isUp && this.body.allowGravity == false && !this.isClimbing && this.stickTimer != null)
+		if(this.cursors.space.isUp && this.body.allowGravity == false && !this.isClimbing && this.stickTimer != null)
 		{
 			this.stickTimer.remove();
 			this.body.allowGravity = true;
@@ -109,8 +109,6 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 					this.body.position.x = this.snapTo;
 					this.body.velocity.x = 0;
 					this.isClimbing = true;
-                console.log(this.body.width);
-
 				}
 				else
 				{
@@ -123,11 +121,10 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 				this.body.position.x = this.snapTo;
 				this.body.velocity.x = 0;
 				this.isClimbing = true;
-                console.log(this.body.width);
 			}
 		}
 		//Otherwise, we can jump
-		else if(this.cursors.up.isDown && this.body.touching.down && this.body.velocity.y == 0)
+		else if(this.cursors.space.isDown && this.body.touching.down && this.body.velocity.y == 0)
 		{
 			this.body.velocity.y = -1 * this.JumpVelocityY;
 		}
@@ -207,7 +204,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 	
 	hangOut(platform)
 	{
-		if(this.body.touching.up && this.cursors.up.isDown && !this.isCeiling)
+		if(this.body.touching.up && this.cursors.space.isDown && !this.isCeiling)
 		{
 			this.resetSprite();
 			this.stickTimer = this.scene.time.delayedCall(this.StickToCeilingDuration, () =>{
