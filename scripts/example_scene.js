@@ -7,9 +7,9 @@ class ExampleScene extends Phaser.Scene{
         this.stupid_config={
             scene:this,
             key:'stupid_cat',
-            x:400,
+            x:100,
             y:10,
-            originalStory:6,
+            originalStory:5,
             isMuggle:true
         };
         this.maho_config={
@@ -63,6 +63,7 @@ class ExampleScene extends Phaser.Scene{
     create()
     {
         //Initializes and plays level music
+        this.cameras.main.backgroundColor.setTo(49, 64, 148);
         this.levelMus = this.sound.add('LevelMus');
         let musConfig =
             {
@@ -164,7 +165,7 @@ class ExampleScene extends Phaser.Scene{
     update()
     {
 		let that = this;
-		this.stupid_loop_count=(this.stupid_loop_count+1)%200;
+		this.stupid_loop_count=(this.stupid_loop_count+1)%150;
 		if(!this.stupid_loop_count){
 		    let cur_cat=this.cat_factory.createCat(CatType.STUPID,this.stupid_config);
 		    if(cur_cat){

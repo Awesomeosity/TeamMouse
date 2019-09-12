@@ -9,7 +9,7 @@ class Cat extends Phaser.Physics.Arcade.Sprite{
         this.originalWidth = 21;
         this.body.setSize(this.originalWidth + 4, 40);
         this.currentStory=config.originalStory;
-        this.left=true;
+        this.left=false;
         this.down=true;
         this.ladder=null;
         this.initScore=false;
