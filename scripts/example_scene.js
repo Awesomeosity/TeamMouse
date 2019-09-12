@@ -97,7 +97,7 @@ class ExampleScene extends Phaser.Scene{
         this.PlatformOffset = 2;
         this.ladderWidth = 21;
 
-        this.addPlatformConfiguration(400, 785, 0, true, false, 250, 10, 2);
+        this.addPlatformConfiguration(400, 760, 0, false, true, 800, 10, 1);
         this.addLadderConfiguration(315, 205, 5);
         this.addLadderConfiguration(485, 205, 5);
 
@@ -113,6 +113,7 @@ class ExampleScene extends Phaser.Scene{
         this.levelMaker(6, offSetArray, widthArray);
 
         this.physics.add.collider(this.ladders,this.platforms);
+
 
         //Mouse initialization
         this.mouse=new Mouse({
