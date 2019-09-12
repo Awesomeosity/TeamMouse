@@ -54,6 +54,8 @@ class ExampleScene extends Phaser.Scene{
 
     create()
     {
+        this.add.image(400, 400, 'sewer_background');
+
         //Initializes and plays level music
         this.levelMus = this.sound.add('LevelMus');
         let musConfig =

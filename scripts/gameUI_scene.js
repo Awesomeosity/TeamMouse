@@ -3,6 +3,8 @@ class GameUI extends Phaser.Scene{
     constructor(config) {
         super({key: 'GameUI'});
 
+        this.levelNum = 1;
+
     }
 
     preload() {
@@ -17,13 +19,25 @@ class GameUI extends Phaser.Scene{
         //this.cameras.main.setBackgroundColor('#000000');
 
         var graphics = this.add.graphics();
-        var uiRect = new Phaser.Geom.Rectangle(0, 0, 800, 100);
+        var uiRect = new Phaser.Geom.Rectangle(800, 0, 200, 800);
         graphics.fillStyle(0x000000, 1);
         graphics.fillRectShape(uiRect);
 
-        this.life1 = this.add.image(75, 80, 'MarioSprite');
-        this.life2 = this.add.image(100, 80, 'MarioSprite');
-        this.life3 = this.add.image(125, 80, 'MarioSprite');
+        var uiWidth = 200;
+        var startXUI = 800;
+        var textObjWidth = 200;
+        var lifeWidth = 25;
+        var centerXText = startXUI + uiWidth / 2 - textObjWidth / 2;
+        var centerXLives = startXUI + uiWidth / 2;
+
+        var headerY1 = 0;
+        var headerY2 = 200;
+        var headerY3 = 400;
+        var subY = 30;
+
+        this.life1 = this.add.image(centerXLives - lifeWidth, headerY2 + subY * 3, 'MarioSprite');
+        this.life2 = this.add.image(centerXLives, headerY2 + subY * 3, 'MarioSprite');
+        this.life3 = this.add.image(centerXLives + lifeWidth, headerY2 + subY * 3, 'MarioSprite');
 
 
         var styleRedCenter = {
@@ -31,7 +45,7 @@ class GameUI extends Phaser.Scene{
             fill: 'Red',
             fontSize: 'xx-large',
             align: 'center',
-            fixedWidth: 200,
+            fixedWidth: textObjWidth,
         }
 
         var styleWhiteCenter = {
@@ -39,13 +53,14 @@ class GameUI extends Phaser.Scene{
             fill: 'White',
             fontSize: 'xx-large',
             align: 'center',
-            fixedWidth: 200,
+            fixedWidth: textObjWidth,
         }
 
-        this.add.text(0, 0, '1UP', styleRedCenter);
-        this.add.text(300, 0, 'HIGH SCORE', styleRedCenter);
-        this.currentScore = this.add.text(0, 30, ''+ 0, styleWhiteCenter);
-        this.highScoreText = this.add.text(300, 30, "", styleWhiteCenter);
+        this.add.text(centerXText, headerY2, '1UP', styleRedCenter);
+        this.add.text(centerXText, headerY1, 'HIGH SCORE', styleRedCenter);
+        this.add.text(centerXText, headerY3, 'LEVEL = ' + this.levelNum, styleRedCenter);
+        this.currentScore = this.add.text(centerXText, headerY1 + subY, ''+ 0, styleWhiteCenter);
+        this.highScoreText = this.add.text(centerXText, headerY2 + subY, "", styleWhiteCenter);
 
     }
 
