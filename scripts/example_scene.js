@@ -229,7 +229,7 @@ class ExampleScene extends Phaser.Scene{
         }
     }
 
-    addLadderConfiguration(x,y,story){
+    addLadderConfiguration(x,y,story=5){
         this.ladder_configuration.x=x;
         this.ladder_configuration.y=y;
         this.ladder_configuration.story=story;
@@ -279,5 +279,9 @@ class ExampleScene extends Phaser.Scene{
                 this.addPlatformConfiguration(lastXPos, floorY - 100 * i, i, false, true, floorPlans[j] - this.PlatformOffset);
             }
         }
+        this.ladders.children.each((ladder)=>{
+            console.log(ladder.story);
+        });
+
     }
 }

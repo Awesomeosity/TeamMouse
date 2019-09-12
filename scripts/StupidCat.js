@@ -19,12 +19,16 @@ class StupidCat extends Cat{
     climb(){
         //stupid cat can only climb down (because it's stupid)
         this.body.position.x=this.ladder.body.position.x;
+        this.body.velocity.x=0;
         this.body.setSize(this.originalWidth, this.body.height);
         this.body.velocity.y = 40;
     }
 
     catAlgorithm(mouse){
         if(this.currentStory!=this.ladder.story){
+            // if(this.ladder.story==5){
+            //     alert('crap');
+            // }
             if(this.currentStory-mouse.currentStory==0){
                 this.isClimbing=false;
             }else if(this.currentStory-mouse.currentStory==1){

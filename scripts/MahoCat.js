@@ -4,16 +4,14 @@ class MahoCat extends Cat{
         config.scene.physics.world.enable(this);
         config.scene.add.existing(this);
         this.left=false;
-        this.originalWidth = 50;
-        this.body.setSize(this.originalWidth + 4, this.body.height);
     }
 
     move(){
         if(this.left){
-            this.body.velocity.x=-120;
+            this.body.velocity.x=-Math.random()*120;
             this.anims.play('left', true);
         }else{
-            this.body.velocity.x=120;
+            this.body.velocity.x=Math.random()*120;
             this.anims.play('right', true);
         }
         if((this.x>=700&&(!this.left))||(this.x<=100&&this.left)){
@@ -24,6 +22,7 @@ class MahoCat extends Cat{
     climb(){
         this.body.allowGravity=false;
         this.body.position.x=this.ladder.body.position.x;
+        this.body.velocity.x=0;
         this.body.setSize(this.originalWidth, this.body.height);
         if(this.down){
             this.body.velocity.y = 60;
