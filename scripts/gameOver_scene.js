@@ -27,13 +27,17 @@ class GameOverScene extends Phaser.Scene{
             fontSize: 'xx-large',
             align: 'center',
             fixedWidth: 200,
-        }
+        };
 
         this.add.text(gameOverX, gameOverY, 'GAME   OVER', styleBlueCenter);
 
 
         this.input.keyboard.on('keydown-ENTER', () => {
-            this.scene.start('ExampleScene')
+            var theOtherScene=this.scene.get('ExampleScene');
+            theOtherScene.scene.restart();
+            theOtherScene.cats=[];
+            CatFactory.getInstance().resetNumber();
+            // this.scene.run('ExampleScene');
             this.scene.stop();
         });
     }
