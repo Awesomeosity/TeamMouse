@@ -23,8 +23,8 @@ class InitializationScene extends Phaser.Scene{
         });
 
         this.load.image('background', '../images/background.jpg');
-        this.load.image('ground', '../images/platform.png');
-        //this.load.image('ground', '../images/platform_tileable_middle_v2.png');
+        //this.load.image('ground', '../images/platform.png');
+        this.load.image('ground', '../images/platform_tileable_middle_10px.png');
         //this.load.image('ladder', '../images/ladder.png');
         this.load.image('ladder', '../images/manhole_tunnel_ladder.png');
 		this.load.image('breaker', '../images/background.jpg');
@@ -32,6 +32,7 @@ class InitializationScene extends Phaser.Scene{
         this.load.image('MarioSprite', '../images/MarioSprite.png');
 
         this.load.spritesheet('mouse', '../images/dude.png', { frameWidth: 32, frameHeight: 48 });
+        //this.load.spritesheet('mouse-2', '../images/MouseWalkFlippedSmall.png', {frameWidth: 40, frameHeight: 48});
         this.load.spritesheet('stupid_cat','../images/dude.png',{ frameWidth: 32, frameHeight: 48 });
     }
 
