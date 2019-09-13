@@ -43,6 +43,12 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
     update() {
         this.checkLadderStatus();
 		
+		if(this.platform != null)
+		{
+			this.body.velocity.x = this.platform.body.velocity.x;
+            this.body.velocity.y = this.platform.body.velocity.y;
+		}
+		
 		if(this.cursors.space.isUp && this.isCeiling)
 		{
 			if(this.stickTimer != null)
