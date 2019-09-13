@@ -50,14 +50,16 @@ class ExampleScene extends Phaser.Scene{
 
         //Loads level music
         this.load.audio('LevelMus', '../audio/Level1-Mus.wav'); //TODO: Make music reset when level reloads
+        this.load.audio('MouseWalk', '../audio/Level1-MouseWalk.wav');
 	}
 
     create()
     {
         this.add.image(400, 400, 'sewer_background');
 
-        //Initializes and plays level music
+        //Initializes and plays level sounds
         this.levelMus = this.sound.add('LevelMus');
+        this.mouseWalk_SFX = this.sound.add('MouseWalk');
         let musConfig =
             {
                 mute: false,
@@ -67,7 +69,8 @@ class ExampleScene extends Phaser.Scene{
                 seek: 0,
                 loop: true,
                 delay: 0
-            }
+            };
+        //Music
         this.levelMus.play(musConfig);
         this.musicMute = true;                                      //Music mutes by default
         this.levelMus.setMute(this.musicMute);
@@ -75,6 +78,14 @@ class ExampleScene extends Phaser.Scene{
             this.musicMute = !this.musicMute;
             this.levelMus.setMute(this.musicMute);
         });
+
+        //SFX
+        this.mouseWalk_SFX.play(musConfig);
+        this.sfxMute = true;
+        this.mouseWalk_SFX.setMute(this.sfxMute);
+
+
+
 
         this.ladders = this.physics.add.group();
         this.platforms = this.physics.add.staticGroup();
@@ -177,6 +188,19 @@ class ExampleScene extends Phaser.Scene{
 		}
         this.mouse.update(this.cursors);
 
+		//Mouse SFX
+       if(this.mouse.isWalking)
+       {
+            this.sfxMute = false;
+            this.sfxMute = this.musicMute;
+            this.mouseWalk_SFX.setMute(this.sfxMute);
+       }
+       else
+       {
+           this.sfxMute = true;
+           this.mouseWalk_SFX.setMute(this.sfxMute);
+       }
+
         this.physics.overlap(this.cats,this.ladders,(cat,ladder)=>{
             // alert(2);
             // if(ladder.story==0){
@@ -190,7 +214,7 @@ class ExampleScene extends Phaser.Scene{
         this.uiOverlay.updateMouseLives(this.mouse.lives);
 
         //Win condition
-        if (this.mouse.currentStory ==this.highestStory)
+        if (this.mouse.currentStory == this.highestStory)
         {
             //TODO: transition to the next level, play any animations
             this.scene.launch('GameOverScene');
