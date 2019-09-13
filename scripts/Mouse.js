@@ -20,6 +20,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
         this.anims.play('stand');
 		this.isOnLadder = false;
         this.isClimbing = false;
+        this.isWalking = false; 	//Mouse walking SFX
 		this.lastPosition = 0;
 		this.snapTo = null;
 		this.isCeiling = false;
@@ -66,6 +67,9 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		}
 		if(this.isCeiling)
 		{
+			//Mouse walking SFX
+			this.isWalking = false;
+
 			return;
 		}
                 
@@ -93,6 +97,9 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		}
         if (this.cursors.left.isDown)
 		{
+			//For mouse walking SFX
+			this.isWalking = !!this.body.touching.down;
+
 			this.lastDir = true;
 			this.body.velocity.x = -1 * this.PlayerMovementVelocity;
 			this.left=true;
@@ -100,6 +107,9 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		}
 		else if (this.cursors.right.isDown)
 		{
+			//For mouse walking SFX
+			this.isWalking = !!this.body.touching.down;
+
 			this.lastDir = false;
 			this.body.velocity.x = this.PlayerMovementVelocity;
 			this.left=false;
@@ -107,6 +117,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		}
 		else
 		{
+			this.isWalking = false;
 			this.body.velocity.x = 0;
 			this.resetSprite();
 		}
@@ -115,6 +126,9 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		{
 			if(this.cursors.up.isDown)
 			{
+				//Mouse walking SFX
+				this.isWalking = false;
+
 				//Offset the player's position, to check if we're at the top of a ladder.
 				this.body.position.y -= 2;
 				if(this.scene.physics.overlap(this.scene.mouse, this.scene.ladders))
@@ -131,6 +145,9 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			}
 			else if(this.cursors.down.isDown)
 			{
+				//Mouse walking SFX
+				this.isWalking = false;
+
 				this.body.position.x = this.snapTo;
 				this.body.velocity.x = 0;
 				this.isClimbing = true;
@@ -140,6 +157,9 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		if(this.cursors.space.isDown && this.body.touching.down)
 		{
 			this.body.position.y -= 5;
+			//Mouse walking SFX
+			this.isWalking = false;
+
 			this.body.velocity.y = -1 * this.JumpVelocityY;
 		}
         
@@ -151,14 +171,17 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		this.body.setSize(this.originalWidth, this.body.height);
 		if(this.cursors.up.isDown)
 		{
+			this.isWalking = false;
 			this.body.velocity.y = -1 * this.LadderClimbingVelocity;
 		}
 		else if(this.cursors.down.isDown)
 		{
+			this.isWalking = false;
 			this.body.velocity.y = this.LadderClimbingVelocity;
 		}
 		else if(!this.cursors.down.isDown && !this.cursors.up.isDown)
-		{		
+		{
+			this.isWalking = false;
 			this.body.velocity.y = 0;
 		}
 

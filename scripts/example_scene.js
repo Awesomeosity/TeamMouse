@@ -58,15 +58,16 @@ class ExampleScene extends Phaser.Scene{
 
         //Loads level music
         this.load.audio('LevelMus', '../audio/Level1-Mus.wav'); //TODO: Make music reset when level reloads
+        this.load.audio('MouseWalk', '../audio/Level1-MouseWalk.wav');
 	}
 
     create()
     {
         this.add.image(400, 400, 'sewer_background');
 
-        //Initializes and plays level music
-        this.cameras.main.backgroundColor.setTo(49, 64, 148);
+        //Initializes and plays level sounds
         this.levelMus = this.sound.add('LevelMus');
+        this.mouseWalk_SFX = this.sound.add('MouseWalk');
         let musConfig =
             {
                 mute: false,
@@ -77,6 +78,7 @@ class ExampleScene extends Phaser.Scene{
                 loop: true,
                 delay: 0
             };
+        //Music
         this.levelMus.play(musConfig);
         this.musicMute = true;                                      //Music mutes by default
         this.levelMus.setMute(this.musicMute);
@@ -84,6 +86,14 @@ class ExampleScene extends Phaser.Scene{
             this.musicMute = !this.musicMute;
             this.levelMus.setMute(this.musicMute);
         });
+
+        //SFX
+        this.mouseWalk_SFX.play(musConfig);
+        this.sfxMute = true;
+        this.mouseWalk_SFX.setMute(this.sfxMute);
+
+
+
 
         this.ladders = this.physics.add.group();
         this.platforms = this.physics.add.staticGroup();
@@ -101,9 +111,7 @@ class ExampleScene extends Phaser.Scene{
         this.ladderWidth = 21;
 		this.floorHeight = 100;
 
-        this.addPlatformConfiguration(400, 760, 0, false, true, 800, 10, 1);
-        this.addLadderConfiguration(315, 205, 5);
-        this.addLadderConfiguration(485, 205, 5);
+        this.addPlatformConfiguration(400, 790, 0, false, true, 800, 10, 1);
 
         
         let offSetArray = [20, 60, 20, 60, 20, 325];
@@ -114,7 +122,7 @@ class ExampleScene extends Phaser.Scene{
         widthArray[3] = [50, 300, 400];
         widthArray[4] = [190, 400, 1];
         widthArray[5] = [150];
-        this.levelMaker(6, offSetArray, widthArray);
+        this.levelMaker(5, offSetArray, widthArray);
 
         this.physics.add.collider(this.ladders,this.platforms);
 
@@ -124,7 +132,7 @@ class ExampleScene extends Phaser.Scene{
             scene:this,
             key:'mouse',
             x:100,
-            y:700
+            y:730
         });
         this.mouse.body.collideWorldBounds=true;
 
@@ -195,6 +203,19 @@ class ExampleScene extends Phaser.Scene{
 		}
         this.mouse.update(this.cursors);
 
+		//Mouse SFX
+       if(this.mouse.isWalking)
+       {
+            this.sfxMute = false;
+            this.sfxMute = this.musicMute;
+            this.mouseWalk_SFX.setMute(this.sfxMute);
+       }
+       else
+       {
+           this.sfxMute = true;
+           this.mouseWalk_SFX.setMute(this.sfxMute);
+       }
+
         this.physics.overlap(this.cats,this.ladders,(cat,ladder)=>{
             // alert(2);
             // if(ladder.story==0){
@@ -208,7 +229,7 @@ class ExampleScene extends Phaser.Scene{
         this.uiOverlay.updateMouseLives(this.mouse.lives);
 
         //Win condition
-        if (this.mouse.currentStory ==this.highestStory)
+        if (this.mouse.currentStory == this.highestStory)
         {
             //TODO: transition to the next level, play any animations
             this.scene.launch('GameOverScene');
@@ -248,7 +269,7 @@ class ExampleScene extends Phaser.Scene{
         this.ladder_configuration.y=y;
         this.ladder_configuration.story=story;
         this.ladder_configuration.width=this.ladderWidth;
-        this.ladder_configuration.height=this.floorHeight + 1;
+        this.ladder_configuration.height=141.4;
         let ladd=new Ladder(this.ladder_configuration);
         ladd.body.allowGravity=false;
         this.ladders.add(ladd);
@@ -276,21 +297,22 @@ class ExampleScene extends Phaser.Scene{
     {        
         //Formula: firstPlat.XPos + firstPlat.width / 2 + 21 + secondPlat.width / 2 = secondPlat.XPos
         //Each floor is offset by 760 - 100 * floor number.
-        let floorY = 760;
+        let storeyHeight = 140;
+        let floorY = 790;
         for(let i = 1; i <= floorCount; i++)
         {
             let floorPlans = widthArray[i - 1];
             let lastXPos = offsetArray[i - 1] + floorPlans[0] / 2;
-            this.addPlatformConfiguration(lastXPos, floorY - this.floorHeight * i, i, false, true, floorPlans[0] - this.PlatformOffset);
+            this.addPlatformConfiguration(lastXPos, floorY - storeyHeight * i, i, false, true, floorPlans[0] - this.PlatformOffset);
             for(let j = 1; j < floorPlans.length; j++)
             {
                 //The ladder's position is determined from the gaps left in the floor.
                 //Place the ladder 25 + firstPlat.XPos + firstPlat.width in x...
                 //and 50 below the current floor's yPos. (in js, + 50)
-                this.addLadderConfiguration(10 + lastXPos + floorPlans[j - 1] / 2, floorY - this.floorHeight * i + 45, i - 1);
+                this.addLadderConfiguration(10 + lastXPos + floorPlans[j - 1] / 2, floorY - storeyHeight * i + 45, i - 1);
 
                 lastXPos = lastXPos + floorPlans[j-1] / 2 + this.ladderWidth + floorPlans[j] / 2;
-                this.addPlatformConfiguration(lastXPos, floorY - this.floorHeight * i, i, false, true, floorPlans[j] - this.PlatformOffset);
+                this.addPlatformConfiguration(lastXPos, floorY - storeyHeight * i, i, false, true, floorPlans[j] - this.PlatformOffset);
             }
         }
     }
