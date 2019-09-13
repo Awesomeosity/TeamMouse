@@ -49,9 +49,6 @@ class Level2 extends Phaser.Scene{
             key: 'move',
             x:398,
             y:568,
-            velocityY: 10,
-            startY: 100,
-            endY: 700,
             setScale:false,
             setSize:false,
             width:75,
@@ -116,21 +113,16 @@ class Level2 extends Phaser.Scene{
         this.PlatformOffset = 2;
         this.ladderWidth = 21;
         
-        this.addPlatformConfiguration(100, 790, 0, false, true, 200, 10, 1);
-        this.addPlatformConfiguration(400, 790, 0, false, true, 100, 10, 1);
-		this.addPlatformConfiguration(700, 790, 0, false, true, 200, 10, 1);
+        this.addPlatformConfiguration(400, 790, 0, false, true, 800, 10, 1);
 		this.addPlatformConfiguration( 37, 650, 0, false, true,  74, 10, 1);
 		this.addPlatformConfiguration(134, 650, 0, false, true,  74, 10, 1);
 		this.addPlatformConfiguration(102, 510, 0, false, true, 158, 10, 1);
         this.addPlatformConfiguration(400, 370, 0, false, true, 100, 10, 1);
         this.addPlatformConfiguration(368, 230, 0, false, true,  38, 10, 1);
         this.addPlatformConfiguration(430, 230, 0, false, true,  38, 10, 1);
-        this.addPlatformConfiguration(670, 750, 0, false, true,  38, 10, 1);
-        this.addPlatformConfiguration(700, 710, 0, false, true,  38, 10, 1);
-        this.addPlatformConfiguration(760, 650, 0, false, true,  70, 10, 1);
-        this.addPlatformConfiguration(630, 650, 0, false, true,  70, 10, 1);
-        this.addPlatformConfiguration(675, 510, 0, false, true, 175, 10, 1);
-        this.addPlatformConfiguration(787, 510, 0, false, true,   1, 10, 1);
+        this.addPlatformConfiguration(700, 510, 0, false, true, 200, 10, 1);
+		this.addPlatformConfiguration(700, 650, 0, false, true, 200, 10, 1);
+
         this.addPlatformConfiguration(637, 240, 0, false, true, 100, 10, 1);
         this.addPlatformConfiguration(310, 100, 0, false, true, 630, 10, 1);
         this.addPlatformConfiguration(651, 100, 0, false, true,   1, 10, 1);
@@ -141,17 +133,13 @@ class Level2 extends Phaser.Scene{
 		this.addLadderConfiguration( 86, 715, 5);
 		this.addLadderConfiguration( 12, 575, 5);
 		this.addLadderConfiguration(400, 294, 5);
-		this.addLadderConfiguration(775, 575, 5);
 		this.addLadderConfiguration(637, 165, 5);
-
 		
-        this.addMovingConfiguration(275, 200, -50, 200, 800, false, true, 300);
-		this.addMovingConfiguration(275, 400, -50, 200, 800, false, true, 300);
-        this.addMovingConfiguration(275, 600, -50, 200, 800, false, true, 300);
+		this.addMovingConfiguration(100, 120, false, true, 300);
+        this.addMovingConfiguration(275, 646.67, false, true, 300);
 
-		this.addMovingConfiguration(525, 200, -50, 200, 800, false, true, 300);
-		this.addMovingConfiguration(525, 400, -50, 200, 800, false, true, 300);
-		this.addMovingConfiguration(525, 600, -50, 200, 800, false, true, 300);
+		this.addMovingConfiguration(525, 120, false, true, 300);
+		this.addMovingConfiguration(525, 646.67, false, true, 300);
 
 
         /*
@@ -222,6 +210,78 @@ class Level2 extends Phaser.Scene{
         this.physics.add.collider(this.mouse, this.moving, (mouse, move) =>{
            mouse.ridePlatform(move); 
         });
+		
+		this.tweens.timeline({
+			targets: this.moving.children.entries[0].body.velocity,
+			loop: -1,
+			tweens: [
+				{x:   0, y:  100, duration: 2750, ease: 'Stepped'},
+				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
+				{x: 100, y:    0, duration: 1750, ease: 'Stepped'},
+				{x:   0, y:  100, duration: 2500, ease: 'Stepped'},
+				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
+				{x: 100, y:    0, duration: 2500, ease: 'Stepped'},
+				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
+				{x:   0, y: -100, duration: 5250, ease: 'Stepped'},
+				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
+				{x: -100, y:    0, duration: 4250, ease: 'Stepped'},
+			]
+		})
+		
+		this.tweens.timeline({
+			targets: this.moving.children.entries[1].body.velocity,
+			loop: -1,
+			tweens: [
+				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
+				{x: 100, y:    0, duration: 2500, ease: 'Stepped'},
+				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
+				{x:   0, y: -100, duration: 5250, ease: 'Stepped'},
+				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
+				{x: -100, y:    0, duration: 4250, ease: 'Stepped'},
+
+				{x:   0, y:  100, duration: 2750, ease: 'Stepped'},
+				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
+				{x: 100, y:    0, duration: 1750, ease: 'Stepped'},
+				{x:   0, y:  100, duration: 2500, ease: 'Stepped'},
+			]
+		})
+
+		this.tweens.timeline({
+			targets: this.moving.children.entries[2].body.velocity,
+			loop: -1,
+			tweens: [
+				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
+				{x: -100, y:    0, duration: 4250, ease: 'Stepped'},
+				{x:   0, y:  100, duration: 2750, ease: 'Stepped'},
+				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
+				{x: 100, y:    0, duration: 1750, ease: 'Stepped'},
+				{x:   0, y:  100, duration: 2500, ease: 'Stepped'},
+
+				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
+				{x: 100, y:    0, duration: 2500, ease: 'Stepped'},
+				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
+				{x:   0, y: -100, duration: 5250, ease: 'Stepped'},
+			]
+		})
+		
+		this.tweens.timeline({
+			targets: this.moving.children.entries[3].body.velocity,
+			loop: -1,
+			tweens: [
+				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
+				{x:   0, y: -100, duration: 5250, ease: 'Stepped'},
+
+				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
+				{x: -100, y:    0, duration: 4250, ease: 'Stepped'},
+				{x:   0, y:  100, duration: 2750, ease: 'Stepped'},
+				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
+				{x: 100, y:    0, duration: 1750, ease: 'Stepped'},
+				{x:   0, y:  100, duration: 2500, ease: 'Stepped'},
+				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
+				{x: 100, y:    0, duration: 2500, ease: 'Stepped'},
+			]
+		})
+
 
     }
 
@@ -310,12 +370,9 @@ class Level2 extends Phaser.Scene{
         this.platforms.add(plat);
     }
     
-    addMovingConfiguration(x,y,velocityY, startY, endY, setScale,setSize,width=75,height=10,scale=1){
+    addMovingConfiguration(x,y,setScale,setSize,width=75,height=10,scale=1){
         this.moving_configuration.x=x;
         this.moving_configuration.y=y;
-        this.moving_configuration.velocityY = velocityY;
-        this.moving_configuration.startY = startY;
-        this.moving_configuration.endY = endY;
         this.moving_configuration.setScale=setScale;
         this.moving_configuration.setSize=setSize;
         this.moving_configuration.width=width;
@@ -323,7 +380,6 @@ class Level2 extends Phaser.Scene{
         this.moving_configuration.scale=scale;
         let move=new MovingPlatform(this.moving_configuration);
         this.moving.add(move);
-        move.body.setVelocityY(velocityY);
         move.body.allowGravity = false;
 		move.body.setImmovable(true);
     }
