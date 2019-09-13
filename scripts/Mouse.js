@@ -13,6 +13,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		this.LadderClimbingVelocity = 80;
 		this.JumpVelocityY = 250;
 		this.spriteFattening = 4;
+		this.SwingSpeed = 300;
 
         this.original_x=config.x;
         this.original_y=config.y;
@@ -28,6 +29,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		this.platform;
 		this.savedYPos;
         this.savedXPos;
+		this.swingVelocity;
 
 		
 		this.originalWidth = 21;
@@ -59,13 +61,26 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			this.isCeiling = false;
 			this.platform = null;
 			this.body.velocity.y = 0;
-			this.body.velocity.x = 0;
+			this.body.velocity.x = this.swingVelocity;
 		}
 		
 		if(this.isCeiling)
 		{
 			//Mouse walking SFX
 			this.isWalking = false;
+
+			if(this.cursors.right.isDown)
+			{
+				this.swingVelocity = this.SwingSpeed;
+			}
+			else if(this.cursors.left.isDown)
+			{
+				this.swingVelocity = -1 * this.SwingSpeed;
+			}
+			else
+			{
+				this.swingVelocity = 0;
+			}
 
 			return;
 		}
@@ -98,7 +113,10 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			this.isWalking = !!this.body.touching.down;
 
 			this.lastDir = true;
-			this.body.velocity.x = -1 * this.PlayerMovementVelocity;
+			if(this.body.velocity.x >= -1 * this.PlayerMovementVelocity || this.body.touching.down)
+			{
+				this.body.velocity.x = -1 * this.PlayerMovementVelocity;
+			}
 			this.left=true;
 			this.anims.play('left', true);
 		}
@@ -108,7 +126,11 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			this.isWalking = !!this.body.touching.down;
 
 			this.lastDir = false;
-			this.body.velocity.x = this.PlayerMovementVelocity;
+			if(this.body.velocity.x <= this.PlayerMovementVelocity || this.body.touching.down)
+			{
+				this.body.velocity.x = this.PlayerMovementVelocity;
+			}
+
 			this.left=false;
 			this.anims.play('right', true);
 		}
@@ -243,6 +265,9 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 				{
 					this.isCeiling = false;
 					this.body.allowGravity = true;
+					this.body.velocity.y = 0;
+					this.body.velocity.x = this.swingVelocity;
+
 				}
 			}, null, this);
 
@@ -265,6 +290,9 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 					this.isCeiling = false;
 					this.body.allowGravity = true;
 					this.platform = null;
+					this.body.velocity.y = 0;
+					this.body.velocity.x = this.swingVelocity;
+
 				}
 			}, null, this);
 
