@@ -22,6 +22,7 @@ class MovingPlatform extends Phaser.Physics.Arcade.Sprite{
 
         this.startY;
         this.endY;
+		//Fixes the endpoints
         if((config.velocityY > 0 && config.startY > config.endY) || (config.velocityY < 0 && config.startY < config.endY))
         {
             this.startY = config.endY;
@@ -35,6 +36,7 @@ class MovingPlatform extends Phaser.Physics.Arcade.Sprite{
     }
 
     update(){
+		//Reset the block as appropriate.
         if(this.body.position.y >= this.endY && this.body.velocity.y > 0)
         {
             this.body.position.y = this.startY;

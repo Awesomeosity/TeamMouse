@@ -219,7 +219,7 @@ class Level2 extends Phaser.Scene{
             mouse.hurtBy(cat);
         });
                 
-        this.physics.add.overlap(this.mouse, this.moving, (mouse, move) =>{
+        this.physics.add.collider(this.mouse, this.moving, (mouse, move) =>{
            mouse.ridePlatform(move); 
         });
 
@@ -325,6 +325,7 @@ class Level2 extends Phaser.Scene{
         this.moving.add(move);
         move.body.setVelocityY(velocityY);
         move.body.allowGravity = false;
+		move.body.setImmovable(true);
     }
 	
     //Makes a level automatically from the following parameters:

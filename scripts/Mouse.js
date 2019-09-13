@@ -56,15 +56,6 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			this.body.velocity.x = 0;
 		}
 		
-		if(this.platform != null)
-		{
-			if(!this.scene.physics.overlap(this.scene.mouse, this.scene.moving))
-			{
-				this.body.allowGravity = true;
-				this.platform = null;
-				console.log('ugh');
-			}
-		}
 		if(this.isCeiling)
 		{
 			//Mouse walking SFX
@@ -271,6 +262,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 				{
 					this.isCeiling = false;
 					this.body.allowGravity = true;
+					this.platform = null;
 				}
 			}, null, this);
 
@@ -280,17 +272,6 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			this.body.allowGravity = false;
 			this.platform = platform;
 		}
-        else if(this.body.touching.down)
-        {
-			this.body.position.y += 2;
-			if(this.scene.physics.overlap(this.scene.mouse, this.scene.moving))
-		   	{
-				this.body.velocity.x = platform.body.velocity.x;
-				this.body.velocity.y = platform.body.velocity.y;
-		   	}
-			this.body.position.y -= 2;
-			this.platform = platform;
-        }
 		//If we collide with a new platform
 		else if(this.isCeiling && this.cursors.space.isDown)
 		{
