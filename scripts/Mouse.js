@@ -11,7 +11,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		this.StickToCeilingDuration = 2000;
 		this.PlayerMovementVelocity = 80;
 		this.LadderClimbingVelocity = 80;
-		this.JumpVelocityY = 200;
+		this.JumpVelocityY = 250;
 		this.spriteFattening = 4;
 
         this.original_x=config.x;
