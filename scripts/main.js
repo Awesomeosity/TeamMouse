@@ -10,7 +10,7 @@ function load()
 			arcade:
 			{
 				gravity: {y:400},
-				debug: false
+				debug: true
 			}
 		},
 		scene:[MenuScene,InitializationScene, Level2,ExampleScene, GameUI, GameOverScene],

@@ -11,7 +11,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		this.StickToCeilingDuration = 2000;
 		this.PlayerMovementVelocity = 80;
 		this.LadderClimbingVelocity = 80;
-		this.JumpVelocityY = 300;
+		this.JumpVelocityY = 200;
 		this.spriteFattening = 4;
 
         this.original_x=config.x;
@@ -137,8 +137,9 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			}    
 		}
 		//Otherwise, we can jump
-		if(this.cursors.space.isDown && this.body.touching.down && this.body.velocity.y == 0)
+		if(this.cursors.space.isDown && this.body.touching.down)
 		{
+			this.body.position.y -= 5;
 			this.body.velocity.y = -1 * this.JumpVelocityY;
 		}
         

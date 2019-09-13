@@ -102,6 +102,7 @@ class Level2 extends Phaser.Scene{
 
         this.ladders = this.physics.add.group();
         this.platforms = this.physics.add.staticGroup();
+		this.moving = this.physics.add.group();
 
         let sematary_config={
             scene:this,
@@ -115,9 +116,43 @@ class Level2 extends Phaser.Scene{
         this.PlatformOffset = 2;
         this.ladderWidth = 21;
         
-        this.addPlatformConfiguration(100, 760, 0, false, true, 400, 10, 1);
-        this.addPlatformConfiguration(500, 760, 0, false, true, 400, 10, 1);
-        this.addMovingConfiguration(300, 500, -50, 100, 700, false, true, 200);
+        this.addPlatformConfiguration(100, 760, 0, false, true, 200, 10, 1);
+        this.addPlatformConfiguration(400, 760, 0, false, true, 100, 10, 1);
+		this.addPlatformConfiguration(700, 760, 0, false, true, 200, 10, 1);
+		this.addPlatformConfiguration(37, 640, 0, false, true, 74, 10, 1);
+		this.addPlatformConfiguration(134, 640, 0, false, true, 74, 10, 1);
+		this.addPlatformConfiguration(102, 520, 0, false, true, 158, 10, 1);
+        this.addPlatformConfiguration(400, 450, 0, false, true, 100, 10, 1);
+        this.addPlatformConfiguration(368, 330, 0, false, true, 38, 10, 1);
+        this.addPlatformConfiguration(433, 330, 0, false, true, 38, 10, 1);
+        this.addPlatformConfiguration(670, 720, 0, false, true, 38, 10, 1);
+        this.addPlatformConfiguration(700, 680, 0, false, true, 38, 10, 1);
+        this.addPlatformConfiguration(760, 640, 0, false, true, 70, 10, 1);
+        this.addPlatformConfiguration(630, 640, 0, false, true, 70, 10, 1);
+        this.addPlatformConfiguration(675, 520, 0, false, true, 175, 10, 1);
+        this.addPlatformConfiguration(787, 520, 0, false, true, 1, 10, 1);
+        this.addPlatformConfiguration(637, 280, 0, false, true, 100, 10, 1);
+        this.addPlatformConfiguration(310, 160, 0, false, true, 620, 10, 1);
+        this.addPlatformConfiguration(651, 160, 0, false, true, 1, 10, 1);
+
+
+
+		//TODO change these to let AI work.
+		this.addLadderConfiguration(86, 690, 5);
+		this.addLadderConfiguration(12, 570, 5);
+		this.addLadderConfiguration(400, 380, 5);
+		this.addLadderConfiguration(775, 570, 5);
+		this.addLadderConfiguration(637, 210, 5);
+
+		
+        this.addMovingConfiguration(275, 200, -50, 200, 800, false, true, 300);
+		this.addMovingConfiguration(275, 400, -50, 200, 800, false, true, 300);
+        this.addMovingConfiguration(275, 600, -50, 200, 800, false, true, 300);
+
+		this.addMovingConfiguration(525, 200, -50, 200, 800, false, true, 300);
+		this.addMovingConfiguration(525, 400, -50, 200, 800, false, true, 300);
+		this.addMovingConfiguration(525, 600, -50, 200, 800, false, true, 300);
+
 
         /*
         this.addPlatformConfiguration(400, 760, 0, false, true, 800, 10, 1);
@@ -258,8 +293,8 @@ class Level2 extends Phaser.Scene{
         this.ladder_configuration.width=this.ladderWidth;
         this.ladder_configuration.height=101;
         let ladd=new Ladder(this.ladder_configuration);
-        ladd.body.allowGravity=false;
         this.ladders.add(ladd);
+		ladd.body.allowGravity=false;
     }
 
     addPlatformConfiguration(x,y,story,setScale,setSize,width=250,height=10,scale=1){
