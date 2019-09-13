@@ -271,8 +271,8 @@ class ExampleScene extends Phaser.Scene{
         this.ladder_configuration.width=this.ladderWidth;
         this.ladder_configuration.height=141.4;
         let ladd=new Ladder(this.ladder_configuration);
-        ladd.body.allowGravity=false;
         this.ladders.add(ladd);
+		ladd.body.allowGravity=false;
     }
 
     addPlatformConfiguration(x,y,story,setScale,setSize,width=250,height=10,scale=1){
@@ -309,7 +309,7 @@ class ExampleScene extends Phaser.Scene{
                 //The ladder's position is determined from the gaps left in the floor.
                 //Place the ladder 25 + firstPlat.XPos + firstPlat.width in x...
                 //and 50 below the current floor's yPos. (in js, + 50)
-                this.addLadderConfiguration(10 + lastXPos + floorPlans[j - 1] / 2, floorY - storeyHeight * i + 45, i - 1);
+                this.addLadderConfiguration(10 + lastXPos + floorPlans[j - 1] / 2, floorY - storeyHeight * i + 65, i - 1);
 
                 lastXPos = lastXPos + floorPlans[j-1] / 2 + this.ladderWidth + floorPlans[j] / 2;
                 this.addPlatformConfiguration(lastXPos, floorY - storeyHeight * i, i, false, true, floorPlans[j] - this.PlatformOffset);
