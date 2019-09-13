@@ -116,33 +116,33 @@ class Level2 extends Phaser.Scene{
         this.PlatformOffset = 2;
         this.ladderWidth = 21;
         
-        this.addPlatformConfiguration(100, 760, 0, false, true, 200, 10, 1);
-        this.addPlatformConfiguration(400, 760, 0, false, true, 100, 10, 1);
-		this.addPlatformConfiguration(700, 760, 0, false, true, 200, 10, 1);
-		this.addPlatformConfiguration(37, 640, 0, false, true, 74, 10, 1);
-		this.addPlatformConfiguration(134, 640, 0, false, true, 74, 10, 1);
-		this.addPlatformConfiguration(102, 520, 0, false, true, 158, 10, 1);
-        this.addPlatformConfiguration(400, 450, 0, false, true, 100, 10, 1);
-        this.addPlatformConfiguration(368, 330, 0, false, true, 38, 10, 1);
-        this.addPlatformConfiguration(433, 330, 0, false, true, 38, 10, 1);
-        this.addPlatformConfiguration(670, 720, 0, false, true, 38, 10, 1);
-        this.addPlatformConfiguration(700, 680, 0, false, true, 38, 10, 1);
-        this.addPlatformConfiguration(760, 640, 0, false, true, 70, 10, 1);
-        this.addPlatformConfiguration(630, 640, 0, false, true, 70, 10, 1);
-        this.addPlatformConfiguration(675, 520, 0, false, true, 175, 10, 1);
-        this.addPlatformConfiguration(787, 520, 0, false, true, 1, 10, 1);
-        this.addPlatformConfiguration(637, 280, 0, false, true, 100, 10, 1);
-        this.addPlatformConfiguration(310, 160, 0, false, true, 620, 10, 1);
-        this.addPlatformConfiguration(651, 160, 0, false, true, 1, 10, 1);
+        this.addPlatformConfiguration(100, 790, 0, false, true, 200, 10, 1);
+        this.addPlatformConfiguration(400, 790, 0, false, true, 100, 10, 1);
+		this.addPlatformConfiguration(700, 790, 0, false, true, 200, 10, 1);
+		this.addPlatformConfiguration( 37, 650, 0, false, true,  74, 10, 1);
+		this.addPlatformConfiguration(134, 650, 0, false, true,  74, 10, 1);
+		this.addPlatformConfiguration(102, 510, 0, false, true, 158, 10, 1);
+        this.addPlatformConfiguration(400, 370, 0, false, true, 100, 10, 1);
+        this.addPlatformConfiguration(368, 230, 0, false, true,  38, 10, 1);
+        this.addPlatformConfiguration(430, 230, 0, false, true,  38, 10, 1);
+        this.addPlatformConfiguration(670, 750, 0, false, true,  38, 10, 1);
+        this.addPlatformConfiguration(700, 710, 0, false, true,  38, 10, 1);
+        this.addPlatformConfiguration(760, 650, 0, false, true,  70, 10, 1);
+        this.addPlatformConfiguration(630, 650, 0, false, true,  70, 10, 1);
+        this.addPlatformConfiguration(675, 510, 0, false, true, 175, 10, 1);
+        this.addPlatformConfiguration(787, 510, 0, false, true,   1, 10, 1);
+        this.addPlatformConfiguration(637, 240, 0, false, true, 100, 10, 1);
+        this.addPlatformConfiguration(310, 100, 0, false, true, 630, 10, 1);
+        this.addPlatformConfiguration(651, 100, 0, false, true,   1, 10, 1);
 
 
 
 		//TODO change these to let AI work.
-		this.addLadderConfiguration(86, 690, 5);
-		this.addLadderConfiguration(12, 570, 5);
-		this.addLadderConfiguration(400, 380, 5);
-		this.addLadderConfiguration(775, 570, 5);
-		this.addLadderConfiguration(637, 210, 5);
+		this.addLadderConfiguration( 86, 715, 5);
+		this.addLadderConfiguration( 12, 575, 5);
+		this.addLadderConfiguration(400, 294, 5);
+		this.addLadderConfiguration(775, 575, 5);
+		this.addLadderConfiguration(637, 165, 5);
 
 		
         this.addMovingConfiguration(275, 200, -50, 200, 800, false, true, 300);
@@ -291,7 +291,7 @@ class Level2 extends Phaser.Scene{
         this.ladder_configuration.y=y;
         this.ladder_configuration.story=story;
         this.ladder_configuration.width=this.ladderWidth;
-        this.ladder_configuration.height=101;
+        this.ladder_configuration.height=141.4;
         let ladd=new Ladder(this.ladder_configuration);
         this.ladders.add(ladd);
 		ladd.body.allowGravity=false;
@@ -337,7 +337,7 @@ class Level2 extends Phaser.Scene{
     {        
         //Formula: firstPlat.XPos + firstPlat.width / 2 + 21 + secondPlat.width / 2 = secondPlat.XPos
         //Each floor is offset by 760 - 100 * floor number.
-        let floorY = 760;
+        let floorY = 790;
         for(let i = 1; i <= floorCount; i++)
         {
             let floorPlans = widthArray[i - 1];
