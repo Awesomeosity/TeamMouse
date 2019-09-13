@@ -128,10 +128,6 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 					this.body.velocity.x = 0;
 					this.isClimbing = true;
 				}
-				else
-				{
-					this.body.velocity.y = -1 * this.JumpVelocityY;
-				}
 				this.body.position.y += 2;
 			}
 			else if(this.cursors.down.isDown)
