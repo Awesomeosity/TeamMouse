@@ -135,12 +135,12 @@ class Level2 extends Phaser.Scene{
 		this.addLadderConfiguration(400, 294, 5);
 		this.addLadderConfiguration(637, 165, 5);
 		
-		this.addMovingConfiguration(100, 120, false, true, 300);
+		this.addMovingConfiguration(100, 130, false, true, 300);
         this.addMovingConfiguration(275, 646.67, false, true, 300);
-
-		this.addMovingConfiguration(525, 120, false, true, 300);
+		this.addMovingConfiguration(525, 130, false, true, 300);
 		this.addMovingConfiguration(525, 646.67, false, true, 300);
-
+		this.addMovingConfiguration(97.43, 406.66, false, true, 300);
+		this.addMovingConfiguration(525, 388.385, false, true, 300);
 
         /*
         this.addPlatformConfiguration(400, 760, 0, false, true, 800, 10, 1);
@@ -282,13 +282,48 @@ class Level2 extends Phaser.Scene{
 			]
 		})
 
+		this.tweens.timeline({
+			targets: this.moving.children.entries[4].body.velocity,
+			loop: -1,
+			tweens: [
+				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
+				{x: 100, y:    0, duration: 1750, ease: 'Stepped'},
+				{x:   0, y:  100, duration: 2500, ease: 'Stepped'},
+				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
+				{x: 100, y:    0, duration: 2500, ease: 'Stepped'},
+				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
+				{x:   0, y: -100, duration: 5250, ease: 'Stepped'},
+				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
+				{x: -100, y:    0, duration: 4250, ease: 'Stepped'},
+				{x:   0, y:  100, duration: 2750, ease: 'Stepped'},
+
+			]
+		})
+
+		this.tweens.timeline({
+			targets: this.moving.children.entries[5].body.velocity,
+			loop: -1,
+			tweens: [
+				{x:   0, y: -100, duration: 2625, ease: 'Stepped'},
+				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
+				{x: -100, y:    0, duration: 4250, ease: 'Stepped'},
+				{x:   0, y:  100, duration: 2750, ease: 'Stepped'},
+				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
+				{x: 100, y:    0, duration: 1750, ease: 'Stepped'},
+				{x:   0, y:  100, duration: 2500, ease: 'Stepped'},
+				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
+				{x: 100, y:    0, duration: 2500, ease: 'Stepped'},
+				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
+				{x:   0, y: -100, duration: 2625, ease: 'Stepped'},
+			]
+		})
 
     }
 
     update()
     {
 		let that = this;
-
+		console.log(this.moving.children.entries[3].body.position.x, this.moving.children.entries[3].body.position.y);
 		if(this.physics.overlap(this.mouse,this.ladders, this.mouse.saveLadderPos))
 		{
 			this.mouse.isOnLadder = true;
