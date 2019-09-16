@@ -49,6 +49,7 @@ class ExampleScene extends Phaser.Scene{
 
 	preload()
 	{
+	    this.physics.world.bounds.width=800;
 	    //Start up UI scene and assign to variable
 		this.scene.launch('GameUI');
 		this.uiOverlay = this.scene.get('GameUI');
@@ -91,9 +92,6 @@ class ExampleScene extends Phaser.Scene{
         this.mouseWalk_SFX.play(musConfig);
         this.sfxMute = true;
         this.mouseWalk_SFX.setMute(this.sfxMute);
-
-
-
 
         this.ladders = this.physics.add.group();
         this.platforms = this.physics.add.staticGroup();
