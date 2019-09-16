@@ -61,10 +61,11 @@ class Cat extends Phaser.Physics.Arcade.Sprite{
             this.scoreLoop=(this.scoreLoop+1)%50;
             if(!this.scoreLoop){
                 this.scoreText.destroy();
-                this.scoreText=0;
+                this.scoreText=null;
             }
         }
     }
+
 
     climbOrNot(ladder){
         // alert(3);

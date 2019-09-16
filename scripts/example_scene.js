@@ -62,8 +62,16 @@ class ExampleScene extends Phaser.Scene{
             x:600,
             y:550
         };
+        this.styleWhiteCenter = {
+            fontFamily: 'ArcadeClassic',
+            fill: 'White',
+            fontSize: 'x-large',
+            align: 'center',
+            fixedWidth: 200,
+        };
         this.highestStory=6;
-
+        this.killing_score_text=null;
+        this.scoreLoop=0;
     }
 
 	preload()
@@ -86,13 +94,19 @@ class ExampleScene extends Phaser.Scene{
         this.add.image(400, 400, 'sewer_background');
 
         //add cucumbers
-        this.cucumbers=this.physics.add.staticGroup();
+        this.cucumbers=this.physics.add.group();
         let cucumber=new Cucumber(this.cucumber_config);
+        // cucumber.body.allowGravity=false;
         this.cucumbers.add(cucumber);
         this.cucumber_config.x=80;
         this.cucumber_config.y=130;
         cucumber=new Cucumber(this.cucumber_config);
+        // cucumber.body.allowGravity=false;
         this.cucumbers.add(cucumber);
+
+        Phaser.Actions.Call(this.cucumbers.getChildren(), function (cu) {
+            cu.body.allowGravity = false;
+        });
 
         //Initializes and plays level sounds
         this.levelMus = this.sound.add('LevelMus');
@@ -195,8 +209,28 @@ class ExampleScene extends Phaser.Scene{
         });
 
         //TODO: kill mouse
+
         this.physics.add.overlap(this.mouse,this.cats,(mouse,cat)=>{
-            mouse.hurtBy(cat);
+            if(mouse.isHoldingCucumber){
+                //TODO: if mouse is holding a cucumber
+                this.enter_sematary(cat,true);
+                this.highScore+=150;
+                let x=mouse.body.position.x;
+                let y=mouse.body.position.y;
+                this.killing_score_text=this.add.text(x-50, y-50, "150", this.styleWhiteCenter);
+            }else{
+                mouse.hurtBy(cat);
+            }
+        });
+
+        this.physics.add.overlap(this.mouse,this.cucumbers,(mouse,cucumber)=>{
+            // alert('overlap');
+            //cucumber disappears
+            this.cucumbers.remove(cucumber);
+            cucumber.visible=false;
+            cucumber.destroy();
+            //start ticking
+            mouse.isHoldingCucumber=true;
         });
         
         this.input.keyboard.on('keydown-ENTER', () => {
@@ -271,24 +305,41 @@ class ExampleScene extends Phaser.Scene{
         // }
 
         this.uiOverlay.updateHighScore(this.highScore); //TODO: use a HighScore text class to store and update high score
+
+        if(this.killing_score_text){
+            this.scoreLoop=(this.scoreLoop+1)%50;
+            if(!this.scoreLoop){
+                this.killing_score_text.destroy();
+                this.killing_score_text=null;
+            }
+        }
     }
 
-    enter_sematary(cat){
-        if(cat instanceof StupidCat){
-            if(!cat.isMuggle){
-                let newCat=CatFactory.getInstance().createCat(CatType.MAHO,this.maho_config);
-                if(newCat){
-                    newCat.body.collideWorldBounds=true;
-                    this.cats.push(newCat);
+    enter_sematary(cat,cucumber=false){
+        if(!cucumber){
+            if(cat instanceof StupidCat){
+                if(!cat.isMuggle){
+                    let newCat=CatFactory.getInstance().createCat(CatType.MAHO,this.maho_config);
+                    if(newCat){
+                        newCat.body.collideWorldBounds=true;
+                        this.cats.push(newCat);
+                    }
                 }
-            }
 
+                CatFactory.getInstance().killCat(cat);
+                var pos = this.cats.indexOf(cat);
+                this.cats.splice(pos,1);
+                cat.visible=false;
+                cat.destroy();
+            }
+        }else{
             CatFactory.getInstance().killCat(cat);
             var pos = this.cats.indexOf(cat);
             this.cats.splice(pos,1);
             cat.visible=false;
             cat.destroy();
         }
+
     }
 
     addLadderConfiguration(x,y,story=5,position){

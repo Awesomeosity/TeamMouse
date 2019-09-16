@@ -40,10 +40,22 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
         this.currentStory=0;
         this.left=true;
         this.lives=3;
+
+        this.isHoldingCucumber=false;
+        this.cucumberLoop=1000;
     }
 
     update() {
         this.checkLadderStatus();
+
+        if(this.isHoldingCucumber){
+        	this.cucumberLoop--;
+        	if(this.cucumberLoop<=0){
+        		alert('over');
+        		this.isHoldingCucumber=false;
+        		this.cucumberLoop=1000;
+			}
+		}
 		
 		if(this.platform != null)
 		{
@@ -150,7 +162,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 
 				//Offset the player's position, to check if we're at the top of a ladder.
 				this.body.position.y -= 2;
-				if(this.scene.physics.overlap(this.scene.mouse, this.scene.ladders))
+				if(this.scene.physics.overlap(this.scene.mouse, this.scene.ladders)&&!this.isHoldingCucumber)
 				{
 					this.body.position.x = this.snapTo;
 					this.body.velocity.x = 0;
@@ -158,7 +170,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 				}
 				this.body.position.y += 2;
 			}
-			else if(this.cursors.down.isDown)
+			else if(this.cursors.down.isDown&&!this.isHoldingCucumber)
 			{
 				//Mouse walking SFX
 				this.isWalking = false;
@@ -169,7 +181,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			}    
 		}
 		//Otherwise, we can jump
-		if(this.cursors.space.isDown && this.body.touching.down)
+		if(this.cursors.space.isDown && this.body.touching.down&&!this.isHoldingCucumber)
 		{
 			this.body.position.y -= 5;
 			//Mouse walking SFX
@@ -215,8 +227,9 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		}else {
     		this.lives--;
 			this.body.position.x=this.original_x;
-			this.body.position.y=this.original_y;
+			this.body.position.y=this.original_y-50;
 		}
+    	// this.isHoldingCucumber=false;
     }
 
     //Probably play a death animation
@@ -256,7 +269,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 	
 	hangOut(platform)
 	{
-		if(this.body.touching.up && this.cursors.space.isDown && !this.isCeiling)
+		if(this.body.touching.up && this.cursors.space.isDown && !this.isCeiling&&!this.isHoldingCucumber)
 		{
 			this.resetSprite();
 			this.stickTimer = this.scene.time.delayedCall(this.StickToCeilingDuration, () =>{
@@ -280,7 +293,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
     
     ridePlatform(platform)
     {
-        if(this.body.touching.up && this.cursors.space.isDown && !this.isCeiling)
+        if(this.body.touching.up && this.cursors.space.isDown && !this.isCeiling&&!this.isHoldingCucumber)
 		{
 			this.resetSprite();
 			this.stickTimer = this.scene.time.delayedCall(this.StickToCeilingDuration, () =>{
