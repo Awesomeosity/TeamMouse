@@ -56,6 +56,12 @@ class ExampleScene extends Phaser.Scene{
             scale:1,
             story:0
         };
+        this.cucumber_config={
+            scene:this,
+            key:'cucumber',
+            x:600,
+            y:550
+        };
         this.highestStory=6;
 
     }
@@ -78,6 +84,15 @@ class ExampleScene extends Phaser.Scene{
     create()
     {
         this.add.image(400, 400, 'sewer_background');
+
+        //add cucumbers
+        this.cucumbers=this.physics.add.staticGroup();
+        let cucumber=new Cucumber(this.cucumber_config);
+        this.cucumbers.add(cucumber);
+        this.cucumber_config.x=80;
+        this.cucumber_config.y=130;
+        cucumber=new Cucumber(this.cucumber_config);
+        this.cucumbers.add(cucumber);
 
         //Initializes and plays level sounds
         this.levelMus = this.sound.add('LevelMus');
