@@ -51,7 +51,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
         if(this.isHoldingCucumber){
         	this.cucumberLoop--;
         	if(this.cucumberLoop<=0){
-        		alert('over');
+        		// alert('over');
         		this.isHoldingCucumber=false;
         		this.cucumberLoop=1000;
 			}
