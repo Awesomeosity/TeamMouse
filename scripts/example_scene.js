@@ -32,6 +32,18 @@ class ExampleScene extends Phaser.Scene{
             height:182,
             story:0
         };
+        this.broken_configuration={
+            scene:this,
+            key: 'broken_ladder',
+            x:400,
+            y:445,
+            setScale:false,
+            setSize:true,
+            scale:1,
+            width:32,
+            height:182,
+            story:0
+        };
         this.platform_configuration={
             scene:this,
             key: 'ground',
@@ -45,6 +57,7 @@ class ExampleScene extends Phaser.Scene{
             story:0
         };
         this.highestStory=6;
+
     }
 
 	preload()
@@ -94,6 +107,7 @@ class ExampleScene extends Phaser.Scene{
         this.mouseWalk_SFX.setMute(this.sfxMute);
 
         this.ladders = this.physics.add.group();
+        this.normalLadder=this.physics.add.group();
         this.platforms = this.physics.add.staticGroup();
 
         let sematary_config={
@@ -114,11 +128,11 @@ class ExampleScene extends Phaser.Scene{
         
         let offSetArray = [20, 60, 20, 60, 20, 325];
         let widthArray = [];
-        widthArray[0] = [200, 400, 1];
-        widthArray[1] = [50, 200, 400];
-        widthArray[2] = [200, 400, 1];
-        widthArray[3] = [50, 300, 400];
-        widthArray[4] = [190, 400, 1];
+        widthArray[0] = [200, 400, 10];
+        widthArray[1] = [50, 200, 450];
+        widthArray[2] = [200, 400, 10];
+        widthArray[3] = [50, 300, 450];
+        widthArray[4] = [190, 400, 10];
         widthArray[5] = [150];
         this.levelMaker(5, offSetArray, widthArray);
 
@@ -188,7 +202,7 @@ class ExampleScene extends Phaser.Scene{
                 this.cats.push(cur_cat);
             }
         }
-		if(this.physics.overlap(this.mouse,this.ladders, this.mouse.saveLadderPos))
+		if(this.physics.overlap(this.mouse,this.normalLadder, this.mouse.saveLadderPos))
 		{
 			this.mouse.isOnLadder = true;
 		}
@@ -262,15 +276,51 @@ class ExampleScene extends Phaser.Scene{
         }
     }
 
-    addLadderConfiguration(x,y,story=5){
+    addLadderConfiguration(x,y,story=5,position){
+        let ladd=null;
+        if(story%2==1){
+            if(story!=1){
+                if(position%2==1){
+                    this.setNormalLadder(x,y,story,position);
+                    ladd=new Ladder(this.ladder_configuration);
+                    this.normalLadder.add(ladd);
+                }else{
+                    this.setBrokenLadder(x,y,story,position);
+                    ladd=new BrokenLadder(this.broken_configuration);
+                }
+            }else{
+                this.setNormalLadder(x,y,story,position);
+                ladd=new Ladder(this.ladder_configuration);
+                this.normalLadder.add(ladd);
+            }
+        }else{
+            if(position%2==1){
+                this.setBrokenLadder(x,y,story,position);
+                ladd=new BrokenLadder(this.broken_configuration);
+            }else{
+                this.setNormalLadder(x,y,story,position);
+                ladd=new Ladder(this.ladder_configuration);
+                this.normalLadder.add(ladd);
+            }
+        }
+        this.ladders.add(ladd);
+		ladd.body.allowGravity=false;
+    }
+
+    setNormalLadder(x,y,story=5,position){
         this.ladder_configuration.x=x;
         this.ladder_configuration.y=y;
         this.ladder_configuration.story=story;
         this.ladder_configuration.width=this.ladderWidth;
         this.ladder_configuration.height=141.4;
-        let ladd=new Ladder(this.ladder_configuration);
-        this.ladders.add(ladd);
-		ladd.body.allowGravity=false;
+    }
+
+    setBrokenLadder(x,y,story=5,position){
+        this.broken_configuration.x=x;
+        this.broken_configuration.y=y;
+        this.broken_configuration.story=story;
+        this.broken_configuration.width=this.ladderWidth;
+        this.broken_configuration.height=141.4;
     }
 
     addPlatformConfiguration(x,y,story,setScale,setSize,width=250,height=10,scale=1){
@@ -307,7 +357,7 @@ class ExampleScene extends Phaser.Scene{
                 //The ladder's position is determined from the gaps left in the floor.
                 //Place the ladder 25 + firstPlat.XPos + firstPlat.width in x...
                 //and 50 below the current floor's yPos. (in js, + 50)
-                this.addLadderConfiguration(10 + lastXPos + floorPlans[j - 1] / 2, floorY - storeyHeight * i + 65, i - 1);
+                this.addLadderConfiguration(10 + lastXPos + floorPlans[j - 1] / 2, floorY - storeyHeight * i + 65, i - 1,j);
 
                 lastXPos = lastXPos + floorPlans[j-1] / 2 + this.ladderWidth + floorPlans[j] / 2;
                 this.addPlatformConfiguration(lastXPos, floorY - storeyHeight * i, i, false, true, floorPlans[j] - this.PlatformOffset);
