@@ -102,7 +102,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			this.isWalking = !!this.body.touching.down;
 
 			this.lastDir = true;
-			if(this.body.velocity.x >= -1 * this.PlayerMovementVelocity || this.body.touching.down)
+			if(this.body.velocity.x >= -1 * this.PlayerMovementVelocity || (this.body.velocity.y == 0 && this.body.touching.down))
 			{
 				if(this.platform == null)
 				{
@@ -127,7 +127,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			this.isWalking = !!this.body.touching.down;
 
 			this.lastDir = false;
-			if(this.body.velocity.x <= this.PlayerMovementVelocity || this.body.touching.down)
+			if(this.body.velocity.x <= this.PlayerMovementVelocity || (this.body.velocity.y == 0 && this.body.touching.down))
 			{
 				if(this.platform == null)
 				{
@@ -165,7 +165,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 
 				//Offset the player's position, to check if we're at the top of a ladder.
 				this.body.position.y -= 2;
-				if(this.scene.physics.overlap(this.scene.mouse, this.scene.ladders)&&!this.isHoldingCucumber)
+				if(this.scene.checkOverlap() && !this.isHoldingCucumber)
 				{
 					this.body.position.x = this.snapTo;
 					this.body.velocity.x = 0;
