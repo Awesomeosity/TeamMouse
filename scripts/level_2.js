@@ -352,16 +352,9 @@ class Level2 extends Phaser.Scene{
         // alert(this.cats.length);
 		let that = this;
 		// console.log(this.moving.children.entries[3].body.position.x, this.moving.children.entries[3].body.position.y);
-		if(this.physics.overlap(this.mouse,this.ladders, this.mouse.saveLadderPos))
+		if(!this.physics.overlap(this.mouse,this.ladders, this.mouse.saveLadderPos))
 		{
-			this.mouse.isOnLadder = true;
-		}
-		else
-		{
-			this.mouse.isOnLadder = false;
-
-			this.mouse.snapTo = null;
-			this.mouse.climbOff();
+			this.mouse.checkLadderStatus();
 		}
 		
         this.mouse.update(this.cursors);
