@@ -179,6 +179,12 @@ class Level2 extends Phaser.Scene{
 
 		this.physics.add.collider(this.mouse,this.platforms, (mouse,platform) =>
 	    {
+			if(mouse.platform != null && mouse.body.touching.up && mouse.body.allowGravity)
+			{
+				mouse.hurtBy("lmao");
+				return;
+			}
+
 			mouse.hangOut(platform);
 			mouse.climbOff();
             if(!mouse.isCeiling){
