@@ -77,17 +77,13 @@ class ExampleScene extends Phaser.Scene{
 	preload()
 	{
 	    this.physics.world.bounds.width=800;
+
 	    //Start up UI scene and assign to variable
 		this.scene.launch('GameUI');
 		this.uiOverlay = this.scene.get('GameUI');
 
 		//For tracking the player's high score throughout the level
-		this.highScore = 0; //TODO: Add to high score whenever you do something (get past a cat?)
-
-        //Loads level music
-        this.load.audio('LevelMus', '../audio/Level1-Mus.wav'); //TODO: Make music reset when level reloads
-        this.load.audio('MouseWalk', '../audio/Level1-MouseWalk.wav');
-        this.load.audio('MouseJump', '../audio/MouseJump_sfx.wav');
+		this.highScore = 0;
 	}
 
     create()
@@ -95,8 +91,6 @@ class ExampleScene extends Phaser.Scene{
         //Adds sewer background
         this.add.image(400, 400, 'sewer_background');
 
-
-        /*-*-*-*-*-*   Audio   *-*-*-*-*-*-*/
 
         //add cheese
         let cheese_config={
@@ -122,7 +116,7 @@ class ExampleScene extends Phaser.Scene{
             cu.body.allowGravity = false;
         });
 
-
+        /*-*-*-*-*-*   Audio   *-*-*-*-*-*-*/
         //Base config
         let audioConfig =
             {
@@ -139,6 +133,7 @@ class ExampleScene extends Phaser.Scene{
         this.levelMus = this.sound.add('LevelMus');
         this.mouseWalk_SFX = this.sound.add('MouseWalk');
         this.mouseJump_SFX = this.sound.add('MouseJump', audioConfig);
+        this.pointGain_SFX = this.sound.add('PointGain', audioConfig);
 
         //Music
         this.levelMus.play(audioConfig);
@@ -156,6 +151,8 @@ class ExampleScene extends Phaser.Scene{
         this.mouseWalk_SFX.setMute(this.walkMute);
         this.mouseJump_SFX.setMute(this.sfxMute);
         this.mouseJump_SFX.setLoop(false);
+        this.pointGain_SFX.setMute(this.sfxMute);
+        this.pointGain_SFX.setLoop(false);
         /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
 
@@ -248,6 +245,7 @@ class ExampleScene extends Phaser.Scene{
                 //TODO: if mouse is holding a cucumber
                 this.enter_sematary(cat,true);
                 this.highScore+=150;
+                this.pointGain_SFX.play();
                 let x=mouse.body.position.x;
                 let y=mouse.body.position.y;
                 this.killing_score_text=this.add.text(x-50, y-50, "150", this.styleWhiteCenter);
@@ -279,8 +277,11 @@ class ExampleScene extends Phaser.Scene{
     }
 
     nextScene(){
+        this.mouseJump_SFX.stop();
+        this.pointGain_SFX.stop();
+        this.mouseWalk_SFX.stop();
+        this.levelMus.stop();
         this.scene.start('Level2');
-        this.scene.stop();
     }
 
     update()
@@ -331,6 +332,7 @@ class ExampleScene extends Phaser.Scene{
        //Update SFX mute with Music mute
        this.sfxMute = this.musicMute;
        this.mouseJump_SFX.setMute(this.sfxMute);
+       this.pointGain_SFX.setMute(this.sfxMute);
         /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
 
@@ -345,25 +347,9 @@ class ExampleScene extends Phaser.Scene{
             cat.update();
         });
 
-		//Updates the UI to show the correct amount of mouse lives
+		//Updates the UI with lives and scores
         this.uiOverlay.updateMouseLives(this.mouse.lives);
-
-        //Win condition
-        if (this.mouse.currentStory == this.highestStory)
-        {
-            //TODO: transition to the next level, play any animations
-            this.scene.launch('GameOverScene');
-            this.scene.pause();
-        }
-
-        //Lose condition
-        // if (this.mouse.lives <= 0)
-        // {
-        //     this.scene.launch('GameOverScene');
-        //     this.scene.pause();
-        // }
-
-        this.uiOverlay.updateHighScore(this.highScore); //TODO: use a HighScore text class to store and update high score
+        this.uiOverlay.updateHighScore(this.highScore);
 
         if(this.killing_score_text){
             this.scoreLoop=(this.scoreLoop+1)%50;

@@ -41,12 +41,14 @@ class Cat extends Phaser.Physics.Arcade.Sprite{
             let height=this.scene.mouse.body.height;
             if(this.left){
                 if(this.body.position.x<x-this.originalWidth){
+                    this.scene.pointGain_SFX.play();
                     this.scene.highScore+=100;
                     this.initScore=false;
                     this.scoreText=this.scene.add.text(x-50, y+height/2, "100", this.styleWhiteCenter);
                 }
             }else {
                 if(this.body.position.x>x+this.originalWidth){
+                    this.scene.pointGain_SFX.play();
                     this.scene.highScore+=100;
                     this.initScore=false;
                     this.scoreText=this.scene.add.text(x-50, y+height/2, "100", this.styleWhiteCenter);

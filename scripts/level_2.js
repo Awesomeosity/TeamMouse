@@ -60,19 +60,18 @@ class Level2 extends Phaser.Scene{
 	preload()
 	{
         this.physics.world.bounds.width=800;
+
 	    //Start up UI scene and assign to variable
 		this.scene.launch('GameUI');
 		this.uiOverlay = this.scene.get('GameUI');
 
 		//For tracking the player's high score throughout the level
-		this.highScore = 0; //TODO: Add to high score whenever you do something (get past a cat?)
-
-        //Loads level music
-        this.load.audio('LevelMus', '../audio/MouseLevel.wav');
+		this.highScore = 0;
 	}
 
     create()
     {
+        /*-*-*-*-*-*   Audio   *-*-*-*-*-*-*/
         //Base config
         let audioConfig =
             {
@@ -89,6 +88,7 @@ class Level2 extends Phaser.Scene{
         this.levelMus = this.sound.add('LevelMus');
         this.mouseWalk_SFX = this.sound.add('MouseWalk');
         this.mouseJump_SFX = this.sound.add('MouseJump', audioConfig);
+        this.pointGain_SFX = this.sound.add('PointGain', audioConfig);
 
         //Music
         this.levelMus.play(audioConfig);
@@ -106,6 +106,8 @@ class Level2 extends Phaser.Scene{
         this.mouseWalk_SFX.setMute(this.walkMute);
         this.mouseJump_SFX.setMute(this.sfxMute);
         this.mouseJump_SFX.setLoop(false);
+        this.pointGain_SFX.setMute(this.sfxMute);
+        this.pointGain_SFX.setLoop(false);
         /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
 
@@ -120,39 +122,11 @@ class Level2 extends Phaser.Scene{
         };
         this.cheese=new Cheese(cheese_config);
 
-        //Initializes and plays level music
         this.cameras.main.backgroundColor.setTo(49, 64, 148);
-        this.levelMus = this.sound.add('LevelMus');
-        let musConfig =
-            {
-                mute: false,
-                volume: 0.5,
-                rate: 1,
-                detune: 0,
-                seek: 0,
-                loop: true,
-                delay: 0
-            };
-        this.levelMus.play(musConfig);
-        this.musicMute = true;                                      //Music mutes by default
-        this.levelMus.setMute(this.musicMute);
-        this.input.keyboard.on('keydown-M', ()=> {       //Pressing M mutes / un-mutes
-            this.musicMute = !this.musicMute;
-            this.levelMus.setMute(this.musicMute);
-        });
 
         this.ladders = this.physics.add.group();
         this.platforms = this.physics.add.staticGroup();
 		this.moving = this.physics.add.group();
-
-        // let sematary_config={
-        //     scene:this,
-        //     key:'cat_sematary',
-        //     x:30,
-        //     y:720
-        // };
-        
-        //this.catSematary=new CatSematary(sematary_config);
         
         this.PlatformOffset = 2;
         this.ladderWidth = 21;
@@ -212,10 +186,6 @@ class Level2 extends Phaser.Scene{
             }
 		});
 
-		// this.physics.add.collider(this.mouse,this.catSematary);
-		// this.physics.add.collider(this.cats,this.catSematary,(cat,catSematary)=>{
-		//     this.enter_sematary(cat);
-        // });
 
         //TODO: kill mouse
         this.physics.add.overlap(this.mouse,this.cats,(mouse,cat)=>{
@@ -357,8 +327,11 @@ class Level2 extends Phaser.Scene{
     }
 
     nextScene(){
+        this.mouseJump_SFX.stop();
+        this.pointGain_SFX.stop();
+        this.mouseWalk_SFX.stop();
+        this.levelMus.stop();
         this.scene.start('ExampleScene');
-        this.scene.stop();
     }
 
     update()
@@ -380,6 +353,7 @@ class Level2 extends Phaser.Scene{
         //Update SFX mute with Music mute
         this.sfxMute = this.musicMute;
         this.mouseJump_SFX.setMute(this.sfxMute);
+        this.pointGain_SFX.setMute(this.sfxMute);
         /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
 
