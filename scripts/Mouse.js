@@ -11,8 +11,9 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		this.StickToCeilingDuration = 2000;
 		this.PlayerMovementVelocity = 80;
 		this.LadderClimbingVelocity = 80;
-		this.JumpVelocityY = 300;
+		this.JumpVelocityY = 250;
 		this.spriteFattening = 4;
+		this.SwingSpeed = 300;
 
         this.original_x=config.x;
         this.original_y=config.y;
@@ -27,6 +28,8 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		this.stickTimer;
 		this.platform;
 		this.savedYPos;
+        this.savedXPos;
+		this.swingVelocity;
 
 		
 		this.originalWidth = 30;
@@ -37,32 +40,59 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
         this.currentStory=0;
         this.left=true;
         this.lives=3;
+
+        this.isHoldingCucumber=false;
+        this.cucumberLoop=1000;
     }
 
     update() {
         this.checkLadderStatus();
-		
-		if(this.platform != null)
-		{
-			//If the platform is moving (MUST CHECK WHEN MOVING PLATFORMS ARE IMPLEMENTED)
-			if(this.platform.body.position.y != this.savedYPos)
-			{
-				//Change the position by the difference between the old and new positions of the platform.
-				this.body.position.y -= (this.savedYPos - this.platform.body.position.y);
+
+        if(this.isHoldingCucumber){
+        	this.cucumberLoop--;
+        	if(this.cucumberLoop<=0){
+        		// alert('over');
+        		this.isHoldingCucumber=false;
+        		this.cucumberLoop=1000;
 			}
 		}
 		
-		if(this.cursors.space.isUp && this.body.allowGravity == false && !this.isClimbing && this.stickTimer != null)
+		if(this.platform != null)
 		{
-			this.stickTimer.remove();
+			this.body.velocity.x = this.platform.body.velocity.x;
+            this.body.velocity.y = this.platform.body.velocity.y;
+		}
+		
+		if(this.cursors.space.isUp && this.isCeiling)
+		{
+			if(this.stickTimer != null)
+			{
+				this.stickTimer.remove();
+			}
 			this.body.allowGravity = true;
 			this.isCeiling = false;
+			this.platform = null;
+			this.body.velocity.y = 0;
+			this.body.velocity.x = this.swingVelocity;
 		}
 		
 		if(this.isCeiling)
 		{
 			//Mouse walking SFX
 			this.isWalking = false;
+
+			if(this.cursors.right.isDown)
+			{
+				this.swingVelocity = this.SwingSpeed;
+			}
+			else if(this.cursors.left.isDown)
+			{
+				this.swingVelocity = -1 * this.SwingSpeed;
+			}
+			else
+			{
+				this.swingVelocity = 0;
+			}
 
 			return;
 		}
@@ -81,16 +111,32 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 	///MOVEMENT CODE///
 	normalMovement()
 	{
-		this.body.allowGravity = true;        
+		if(this.platform == null)
+		{
+			this.body.allowGravity = true;
+		}
+		else
+		{
+			this.body.allowGravity = false;
+		}
         if (this.cursors.left.isDown)
 		{
 			//For mouse walking SFX
 			this.isWalking = !!this.body.touching.down;
 
 			this.lastDir = true;
-			this.body.velocity.x = -1 * this.PlayerMovementVelocity;
+			if(this.body.velocity.x >= -1 * this.PlayerMovementVelocity || this.body.touching.down)
+			{
+				this.body.velocity.x = -1 * this.PlayerMovementVelocity;
+			}
 			this.left=true;
-			this.anims.play('left', true);
+			if(this.isHoldingCucumber){
+				this.anims.play('cu_left',true);
+			}
+			else{
+				this.anims.play('left', true);
+			}
+
 		}
 		else if (this.cursors.right.isDown)
 		{
@@ -98,9 +144,18 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			this.isWalking = !!this.body.touching.down;
 
 			this.lastDir = false;
-			this.body.velocity.x = this.PlayerMovementVelocity;
+			if(this.body.velocity.x <= this.PlayerMovementVelocity || this.body.touching.down)
+			{
+				this.body.velocity.x = this.PlayerMovementVelocity;
+			}
+
 			this.left=false;
-			this.anims.play('right', true);
+			if(this.isHoldingCucumber){
+				this.anims.play('cu_right',true);
+			}
+			else{
+				this.anims.play('right', true);
+			}
 		}
 		else
 		{
@@ -118,19 +173,15 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 
 				//Offset the player's position, to check if we're at the top of a ladder.
 				this.body.position.y -= 2;
-				if(this.scene.physics.overlap(this.scene.mouse, this.scene.ladders))
+				if(this.scene.physics.overlap(this.scene.mouse, this.scene.ladders)&&!this.isHoldingCucumber)
 				{
 					this.body.position.x = this.snapTo;
 					this.body.velocity.x = 0;
 					this.isClimbing = true;
 				}
-				else
-				{
-					this.body.velocity.y = -1 * this.JumpVelocityY;
-				}
 				this.body.position.y += 2;
 			}
-			else if(this.cursors.down.isDown)
+			else if(this.cursors.down.isDown&&!this.isHoldingCucumber)
 			{
 				//Mouse walking SFX
 				this.isWalking = false;
@@ -138,11 +189,12 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 				this.body.position.x = this.snapTo;
 				this.body.velocity.x = 0;
 				this.isClimbing = true;
-			}
+			}    
 		}
 		//Otherwise, we can jump
-		else if(this.cursors.space.isDown && this.body.touching.down && this.body.velocity.y == 0)
+		if(this.cursors.space.isDown && this.body.touching.down&&!this.isHoldingCucumber)
 		{
+			this.body.position.y -= 5;
 			//Mouse walking SFX
 			this.isWalking = false;
 			this.scene.mouseJump_SFX.play();
@@ -158,12 +210,12 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		if(this.cursors.up.isDown)
 		{
 			this.isWalking = false;
-			this.body.velocity.y = -1 * this.PlayerMovementVelocity;
+			this.body.velocity.y = -1 * this.LadderClimbingVelocity;
 		}
 		else if(this.cursors.down.isDown)
 		{
 			this.isWalking = false;
-			this.body.velocity.y = this.PlayerMovementVelocity;
+			this.body.velocity.y = this.LadderClimbingVelocity;
 		}
 		else if(!this.cursors.down.isDown && !this.cursors.up.isDown)
 		{
@@ -186,18 +238,18 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		}else {
     		this.lives--;
 			this.body.position.x=this.original_x;
-			this.body.position.y=this.original_y;
+			this.body.position.y=this.original_y-50;
 		}
+    	// this.isHoldingCucumber=false;
     }
 
     //Probably play a death animation
     die() {
 		//Lose condition
 
-		this.scene.launch('GameOverScene');
-		this.scene.pause();
+		this.scene.scene.launch('GameOverScene');
+		this.scene.scene.pause();
         this.alive=false;
-		alert("YOU DIE");
     }
 	
 	///MOVEMENT HELPER FUNCTIONS///
@@ -228,7 +280,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 	
 	hangOut(platform)
 	{
-		if(this.body.touching.up && this.cursors.space.isDown && !this.isCeiling)
+		if(this.body.touching.up && this.cursors.space.isDown && !this.isCeiling&&!this.isHoldingCucumber)
 		{
 			this.resetSprite();
 			this.stickTimer = this.scene.time.delayedCall(this.StickToCeilingDuration, () =>{
@@ -237,34 +289,83 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 				{
 					this.isCeiling = false;
 					this.body.allowGravity = true;
+					this.body.velocity.y = 0;
+					this.body.velocity.x = this.swingVelocity;
+
 				}
 			}, null, this);
 
 			this.body.velocity.x = 0;
+            this.body.velocity.y = 0;
+			this.isCeiling = true;
+			this.body.allowGravity = false;
+			if(this.left){
+				this.setTexture('climb_left');
+			}else{
+				this.setTexture('climb_right');
+			}
+
+		}
+	}
+    
+    ridePlatform(platform)
+    {
+        if(this.body.touching.up && this.cursors.space.isDown && !this.isCeiling&&!this.isHoldingCucumber)
+		{
+			this.resetSprite();
+			this.stickTimer = this.scene.time.delayedCall(this.StickToCeilingDuration, () =>{
+				console.log("UNSTICK");
+				if(this.isCeiling)
+				{
+					this.isCeiling = false;
+					this.body.allowGravity = true;
+					this.platform = null;
+					this.body.velocity.y = 0;
+					this.body.velocity.x = this.swingVelocity;
+				}
+			}, null, this);
+
+			this.body.velocity.x = platform.body.velocity.x;
+            this.body.velocity.y = platform.body.velocity.y;
 			this.isCeiling = true;
 			this.body.allowGravity = false;
 			this.platform = platform;
-			this.savedYPos = platform.body.position.y;
+			if(this.left){
+				this.setTexture('climb_left');
+			}else{
+				this.setTexture('climb_right');
+			}
+
+
 		}
 		//If we collide with a new platform
-		else if(this.isCeiling)
+		else if(this.isCeiling && this.cursors.space.isDown)
 		{
 			//Update the platform reference.
 			this.platform = platform;
 		}
-	}
-	
+    }
+		
 	///ETC HELPER FUNCTIONS///
 	resetSprite()
 	{
 		if (this.lastDir == null || this.lastDir === false)
 		{
-			this.anims.play('rightStop');
+			if(this.isHoldingCucumber){
+				this.anims.play('cu_rightStop');
+			}else{
+				this.anims.play('rightStop');
+			}
+
 
 		}
 		else
 		{
-			this.anims.play('leftStop');
+			if(this.isHoldingCucumber){
+				this.anims.play('cu_leftStop');
+			}else{
+				this.anims.play('leftStop');
+			}
 		}
 	}
 

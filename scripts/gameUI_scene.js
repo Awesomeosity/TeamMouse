@@ -46,7 +46,7 @@ class GameUI extends Phaser.Scene{
             fontSize: 'xx-large',
             align: 'center',
             fixedWidth: textObjWidth,
-        }
+        };
 
         var styleWhiteCenter = {
             fontFamily: 'ArcadeClassic',
@@ -54,7 +54,7 @@ class GameUI extends Phaser.Scene{
             fontSize: 'xx-large',
             align: 'center',
             fixedWidth: textObjWidth,
-        }
+        };
 
         this.add.text(centerXText, headerY2, '1UP', styleRedCenter);
         this.add.text(centerXText, headerY1, 'HIGH SCORE', styleRedCenter);

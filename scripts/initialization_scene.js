@@ -22,17 +22,25 @@ class InitializationScene extends Phaser.Scene{
             this.scene.start('ExampleScene');
         });
 
-        //Load up the basic textures needed
-        this.load.image('sewer_background', '../images/environment_background concept (tileable).png');     //Main background
-        this.load.image('ground', '../images/platform_tileable_middle_10px.png');                           //Platforms
-        this.load.image('ladder', '../images/manhole_tunnel_ladder.png');                                   //Ladders
+        this.load.image('sewer_background', '../images/background.png');
+        //this.load.image('ground', '../images/platform.png');
+        this.load.image('ground', '../images/platform_tileable_middle_10px.png');
+        this.load.image('ladder', '../images/ladder_v2.png');
+        this.load.image('broken_ladder','../images/broken_ladder_v2.png');
+		this.load.image('breaker', '../images/background.jpg');
+        this.load.image('move', '../images/platform_tileable_middle_10px.png');
+		this.load.image('cat_sematary','../images/cat_spawn_door_v1.png');
+		this.load.image('cucumber','../images/power_up_cucumber_v1.png');
+		this.load.image('delicious_cheese','../images/win_state_cheese_v1.png');
+        this.load.image('MarioSprite', '../images/MarioSprite.png');
+		this.load.image('climb_left', '../images/mouse_climb_ceiling_left_v2.png');
+        this.load.image('climb_right', '../images/mouse_climb_ceiling_right_v2.png');
 		this.load.image('LifeUI-Temp', '../images/MouseHeadUITemp.png');                                    //Temp Life Icon
-        this.load.image('breaker', '../images/background.jpg');
-        this.load.image('cat_sematary','../images/linku.png');
 
-        //Load in the spritesheets
-        this.load.spritesheet('mouse', '../images/MouseWalkFlippedSmall.png', {frameWidth: 56, frameHeight: 67});
-        this.load.spritesheet('stupid_cat','../images/cat walking pixel_w37h54.png',{ frameWidth: 37, frameHeight: 54 });
+        this.load.spritesheet('mouse', '../images/mouse.png', {frameWidth: 56, frameHeight: 67});
+        this.load.spritesheet('stupid_cat','../images/stupid_cat.png',{ frameWidth: 37, frameHeight: 54 });
+        this.load.spritesheet('maho_cat','../images/maho_cat.png',{ frameWidth: 47, frameHeight: 56 });
+        this.load.image('tigger_cat','../images/bouncing_cat_v1.png');
     }
 
 }
