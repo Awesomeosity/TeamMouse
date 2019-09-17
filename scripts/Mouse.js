@@ -59,6 +59,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			if(this.body.touching.down || this.isCeiling)
 			{
 				this.body.velocity.x = this.platform.body.velocity.x;
+				this.body.velocity.y = this.platform.body.velocity.y;
 			}
 			else
 			{
