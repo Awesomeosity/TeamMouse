@@ -122,10 +122,6 @@ class ExampleScene extends Phaser.Scene{
             cu.body.allowGravity = false;
         });
 
-        //Initializes and plays level sounds
-        this.levelMus = this.sound.add('LevelMus');
-        this.mouseWalk_SFX = this.sound.add('MouseWalk');
-
 
         //Base config
         let audioConfig =

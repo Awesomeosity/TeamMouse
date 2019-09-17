@@ -247,7 +247,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
     die() {
 		//Lose condition
 
-		this.scene.scene.launch('GameOverScene');
+		this.scene.scene.launch('GameOverScene', this.scene.highScore);
 		this.scene.scene.pause();
         this.alive=false;
     }

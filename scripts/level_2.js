@@ -73,6 +73,42 @@ class Level2 extends Phaser.Scene{
 
     create()
     {
+        //Base config
+        let audioConfig =
+            {
+                mute: false,
+                volume: 0.5,
+                rate: 1,
+                detune: 0,
+                seek: 0,
+                loop: true,
+                delay: 0
+            };
+
+        //Initializes level sounds
+        this.levelMus = this.sound.add('LevelMus');
+        this.mouseWalk_SFX = this.sound.add('MouseWalk');
+        this.mouseJump_SFX = this.sound.add('MouseJump', audioConfig);
+
+        //Music
+        this.levelMus.play(audioConfig);
+        this.musicMute = true;                                      //Music mutes by default
+        this.levelMus.setMute(this.musicMute);
+        this.input.keyboard.on('keydown-M', ()=> {       //Pressing M mutes / un-mutes
+            this.musicMute = !this.musicMute;
+            this.levelMus.setMute(this.musicMute);
+        });
+
+        //SFX
+        this.walkMute = this.musicMute;                             //SFX mutes with music on initialization
+        this.sfxMute = this.musicMute;
+        this.mouseWalk_SFX.play(audioConfig);
+        this.mouseWalk_SFX.setMute(this.walkMute);
+        this.mouseJump_SFX.setMute(this.sfxMute);
+        this.mouseJump_SFX.setLoop(false);
+        /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+
         this.add.image(400, 400, 'sewer_background');
         this.add.image(50,470,'cat_sematary');
         //add cheese
@@ -349,6 +385,26 @@ class Level2 extends Phaser.Scene{
 
     update()
     {
+        /*-*-*-*-*-*   Audio   *-*-*-*-*-*-*/
+        //Mouse walk SFX
+        if(this.mouse.isWalking)
+        {
+            this.walkMute = false;
+            this.walkMute = this.musicMute;
+            this.mouseWalk_SFX.setMute(this.walkMute);
+        }
+        else
+        {
+            this.walkMute = true;
+            this.mouseWalk_SFX.setMute(this.walkMute);
+        }
+
+        //Update SFX mute with Music mute
+        this.sfxMute = this.musicMute;
+        this.mouseJump_SFX.setMute(this.sfxMute);
+        /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+
         // alert(this.cats.length);
 		let that = this;
 		// console.log(this.moving.children.entries[3].body.position.x, this.moving.children.entries[3].body.position.y);
