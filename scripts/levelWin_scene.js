@@ -10,7 +10,10 @@ class LevelWinScene extends Phaser.Scene{
     }
 
 
-    create() {
+    //////////////////////////////////////////////////////////////////////////
+    //  When using this scene, use scene number (data) as second parameter  //
+    //////////////////////////////////////////////////////////////////////////
+    create(data) {
 
 
         var gameOverX = 800 / 2  - 200;
@@ -33,8 +36,18 @@ class LevelWinScene extends Phaser.Scene{
 
 
         this.input.keyboard.on('keydown-ENTER', () => {
-            this.scene.run('ExampleScene');              //TODO: have it run the second level
-            this.scene.stop();
+            if (data === 1)
+            {
+                this.scene.run('ExampleScene');              //TODO: have it run the second level
+                this.scene.stop();
+            }
+            else if (data === 2)
+            {
+                this.scene.run('Level2');              //TODO: have it run the second level
+                this.scene.stop();
+            }
+
+
         });
     }
 }
