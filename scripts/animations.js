@@ -9,7 +9,7 @@ function animations(scene) {
 
     config = {
         key: 'leftStop',
-        frames: scene.anims.generateFrameNumbers('mouse', {prefix: 'walk/leftStop',start: 3, end: 3}),
+        frames: scene.anims.generateFrameNumbers('mouse', {prefix: 'walk/leftStop',start: 0, end: 0}),
         frameRate: 20
     };
     scene.anims.create(config);
@@ -47,6 +47,36 @@ function animations(scene) {
     config = {
         key: 'scright',
         frames: scene.anims.generateFrameNumbers('stupid_cat', {start: 5, end: 8}),
+        frameRate: 10,
+        repeat: -1
+    };
+    scene.anims.create(config);
+
+    config = {
+        key: 'cu_left',
+        frames: scene.anims.generateFrameNumbers('mouse', {prefix: 'walk/left',start: 8, end: 11}),
+        frameRate: 10,
+        repeat: -1
+    };
+    scene.anims.create(config);
+
+    config = {
+        key: 'cu_leftStop',
+        frames: scene.anims.generateFrameNumbers('mouse', {prefix: 'walk/leftStop',start: 8, end: 8}),
+        frameRate: 20
+    };
+    scene.anims.create(config);
+
+    config = {
+        key: 'cu_rightStop',
+        frames: scene.anims.generateFrameNumbers('mouse', {prefix: 'walk/rightStop',start: 15, end: 15}),
+        frameRate: 20
+    };
+    scene.anims.create(config);
+
+    config = {
+        key: 'cu_right',
+        frames: scene.anims.generateFrameNumbers('mouse', {prefix: 'walk/right',start: 12, end: 15}),
         frameRate: 10,
         repeat: -1
     };

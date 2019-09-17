@@ -1,3 +1,3 @@
-class TiggerCat extends Phaser.Physics.Arcade.Sprite{
+class TiggerCat extends Cat{
 
 }

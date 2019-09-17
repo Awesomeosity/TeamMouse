@@ -34,9 +34,9 @@ class InitializationScene extends Phaser.Scene{
 		this.load.image('delicious_cheese','../images/win_state_cheese_v1.png');
         this.load.image('MarioSprite', '../images/MarioSprite.png');
 
-        this.load.spritesheet('mouse', '../images/MouseWalkFlippedSmall.png', {frameWidth: 56, frameHeight: 67});
-        this.load.spritesheet('stupid_cat','../images/dude2.png',{ frameWidth: 32, frameHeight: 48 });
-        this.load.spritesheet('maho_cat','../images/dude3.png',{ frameWidth: 32, frameHeight: 48 });
+        this.load.spritesheet('mouse', '../images/mouse.png', {frameWidth: 56, frameHeight: 67});
+        this.load.spritesheet('stupid_cat','../images/stupid_cat.png',{ frameWidth: 37, frameHeight: 54 });
+        this.load.spritesheet('maho_cat','../images/maho_cat.png',{ frameWidth: 47, frameHeight: 56 });
     }
 
 }

@@ -130,7 +130,13 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 				this.body.velocity.x = -1 * this.PlayerMovementVelocity;
 			}
 			this.left=true;
-			this.anims.play('left', true);
+			if(this.isHoldingCucumber){
+				this.anims.play('cu_left',true);
+			}
+			else{
+				this.anims.play('left', true);
+			}
+
 		}
 		else if (this.cursors.right.isDown)
 		{
@@ -144,7 +150,12 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			}
 
 			this.left=false;
-			this.anims.play('right', true);
+			if(this.isHoldingCucumber){
+				this.anims.play('cu_right',true);
+			}
+			else{
+				this.anims.play('right', true);
+			}
 		}
 		else
 		{
@@ -328,12 +339,21 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 	{
 		if (this.lastDir == null || this.lastDir === false)
 		{
-			this.anims.play('rightStop');
+			if(this.isHoldingCucumber){
+				this.anims.play('cu_rightStop');
+			}else{
+				this.anims.play('rightStop');
+			}
+
 
 		}
 		else
 		{
-			this.anims.play('leftStop');
+			if(this.isHoldingCucumber){
+				this.anims.play('cu_leftStop');
+			}else{
+				this.anims.play('leftStop');
+			}
 		}
 	}
 
