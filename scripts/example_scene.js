@@ -37,6 +37,16 @@ class ExampleScene extends Phaser.Scene{
             story:0
         };
         this.highestStory=6;
+
+        this.cheese_configuration={
+            scene: this,
+            key: 'Cheese',
+            X: 400,
+            y: 400,
+            scale: 1,
+            width: 25,
+            height: 35
+        };
     }
 
 	preload()
@@ -87,8 +97,10 @@ class ExampleScene extends Phaser.Scene{
 
 
 
+        this.cheese = this.physics.add.group();     //Adds cheese group (option for multiple cheeses)
         this.ladders = this.physics.add.group();
         this.platforms = this.physics.add.staticGroup();
+
 
         let sematary_config={
             scene:this,
@@ -106,6 +118,8 @@ class ExampleScene extends Phaser.Scene{
         //Ground floor (storey 0)
         this.addPlatformConfiguration(400, 790, 0, false, true, 800, 10, 1);
 
+        //Add cheese
+        this.addCheeseConfiguration(400, 790 - 140 * 5 - 35);
 
 
         //Level making arrays
@@ -164,6 +178,13 @@ class ExampleScene extends Phaser.Scene{
         this.physics.add.overlap(this.mouse,this.cats,(mouse,cat)=>{
             mouse.hurtBy(cat);
         });
+
+        //Cheese collisions
+        this.physics.add.collider(this.cheese, this.platforms);
+        this.physics.add.collider(this.cheese,this.mouse,(mouse)=>{
+            mouse.hasCheese = true;
+        });
+
     }
 
     update()
@@ -217,11 +238,16 @@ class ExampleScene extends Phaser.Scene{
 		//Updates the UI to show the correct amount of mouse lives
         this.uiOverlay.updateMouseLives(this.mouse.lives);
 
-        //Win condition
-        if (this.mouse.currentStory == this.highestStory)
+        //Collision with mouse sets that he has the cheese
+        if (this.physics.overlap(this.mouse, this.cheese))
         {
-            //TODO: transition to the next level, play any animations
-            this.scene.launch('GameOverScene');
+            this.mouse.hasCheese = true;
+        }
+
+        //Win condition, Mouse has cheese
+        if (this.mouse.hasCheese)
+        {
+            this.scene.launch('LevelWinScene');
             this.scene.pause();
         }
 
@@ -267,6 +293,16 @@ class ExampleScene extends Phaser.Scene{
         this.platform_configuration.scale=scale;
         let plat=new Platform(this.platform_configuration);
         this.platforms.add(plat);
+    }
+
+    addCheeseConfiguration(x, y, width = 25, height = 35, scale = 1){
+        this.cheese_configuration.x = x;
+        this.cheese_configuration.y = y;
+        this.cheese_configuration.width = width;
+        this.cheese_configuration.height = height;
+        this.cheese_configuration.scale = scale;
+        let winCheese = new Cheese(this.cheese_configuration);
+        this.cheese.add(winCheese);
     }
 	
     //Makes a level automatically from the following parameters:
