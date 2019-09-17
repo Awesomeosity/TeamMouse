@@ -299,7 +299,11 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
             this.body.velocity.y = 0;
 			this.isCeiling = true;
 			this.body.allowGravity = false;
-			this.setTexture('climb');
+			if(this.left){
+				this.setTexture('climb_left');
+			}else{
+				this.setTexture('climb_right');
+			}
 
 		}
 	}
@@ -326,7 +330,12 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			this.isCeiling = true;
 			this.body.allowGravity = false;
 			this.platform = platform;
-			this.setTexture('climb');
+			if(this.left){
+				this.setTexture('climb_left');
+			}else{
+				this.setTexture('climb_right');
+			}
+
 
 		}
 		//If we collide with a new platform

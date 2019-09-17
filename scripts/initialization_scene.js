@@ -25,15 +25,16 @@ class InitializationScene extends Phaser.Scene{
         this.load.image('sewer_background', '../images/environment_background concept (tileable).png');
         //this.load.image('ground', '../images/platform.png');
         this.load.image('ground', '../images/platform_tileable_middle_10px.png');
-        this.load.image('ladder', '../images/manhole_tunnel_ladder.png');
-        this.load.image('broken_ladder','../images/broken_manhole_tunnel_ladder.png');
+        this.load.image('ladder', '../images/ladder_v2.png');
+        this.load.image('broken_ladder','../images/broken_ladder_v2.png');
 		this.load.image('breaker', '../images/background.jpg');
         this.load.image('move', '../images/platform_tileable_middle_10px.png');
 		this.load.image('cat_sematary','../images/cat_spawn_door_v1.png');
 		this.load.image('cucumber','../images/power_up_cucumber_v1.png');
 		this.load.image('delicious_cheese','../images/win_state_cheese_v1.png');
         this.load.image('MarioSprite', '../images/MarioSprite.png');
-		this.load.image('climb', '../images/mouse_climb_ceiling_v1.png');
+		this.load.image('climb_left', '../images/mouse_climb_ceiling_left_v2.png');
+        this.load.image('climb_right', '../images/mouse_climb_ceiling_right_v2.png');
 
         this.load.spritesheet('mouse', '../images/mouse.png', {frameWidth: 56, frameHeight: 67});
         this.load.spritesheet('stupid_cat','../images/stupid_cat.png',{ frameWidth: 37, frameHeight: 54 });

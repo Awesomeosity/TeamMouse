@@ -5,6 +5,20 @@ class SimpleHarmonicCat extends Cat{
         this.left_border=config.left_border;
     }
 
-
+    move() {
+        if(this.left){
+            this.body.velocity.x=-120;
+            this.anims.play('scleft', true);
+            if(this.body.position.x<=this.left_border){
+                this.left=false;
+            }
+        }else{
+            this.body.velocity.x=120;
+            this.anims.play('scright', true);
+            if(this.body.position.x>=this.right_border){
+                this.left=true;
+            }
+        }
+    }
 
 }

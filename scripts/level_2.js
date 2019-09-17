@@ -55,6 +55,14 @@ class Level2 extends Phaser.Scene{
             height:10,
             scale:1,
         };
+        this.simple_cat_configuration={
+            scene:this,
+            key:'stupid_cat',
+            x: 150,
+            y: 700,
+            right_border:700,
+            left_border:100
+        };
 
         this.highestStory=6;
     }
@@ -163,6 +171,7 @@ class Level2 extends Phaser.Scene{
 
 
         //Mouse initialization
+        //TODO: change y
         this.mouse=new Mouse({
             scene:this,
             key:'mouse',
@@ -317,6 +326,9 @@ class Level2 extends Phaser.Scene{
 				{x:   0, y: -100, duration: 2625, ease: 'Stepped'},
 			]
 		});
+
+		//add cats
+        this.cats=[];
 
     }
 
