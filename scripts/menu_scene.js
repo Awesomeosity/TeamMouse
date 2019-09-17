@@ -84,12 +84,28 @@ class MenuScene extends Phaser.Scene{
             this.highScoreText.setText('0');
         }
 
+
+        this.firstScore = 0;
+        this.secondScore = 0;
+        this.thirdScore = 0;
+
+        if (storageAvailable('localStorage') &&
+            localStorage.getItem('1stScore') &&
+            localStorage.getItem('2ndScore') &&
+            localStorage.getItem('3rdScore'))
+        {
+            this.firstScore = localStorage.getItem('1stScore');
+            this.secondScore = localStorage.getItem('2ndScore');
+            this.thirdScore = localStorage.getItem('3rdScore');
+        }
+
+
         this.coinText = this.add.text(longTextCenterPos, 115, 'INSERT  COIN', styleBlueCenter);
         this.add.text(longTextCenterPos, 225, 'PLAYER     COIN', styleBlueCenter);
         this.add.text(400, 450, 'RANK   SCORE', styleBlueLeft);
-        this.add.text(400, 500, '1st\t\t\t\t\t\t0', styleRedLeft);
-        this.add.text(400, 550, '2nd\t\t\t\t\t\t0', styleRedLeft);
-        this.add.text(400, 600, '3rd\t\t\t\t\t\t0', styleRedLeft);
+        this.add.text(400, 500, '1st\t\t\t\t\t\t' + this.firstScore, styleRedLeft);
+        this.add.text(400, 550, '2nd\t\t\t\t\t\t' + this.secondScore, styleRedLeft);
+        this.add.text(400, 600, '3rd\t\t\t\t\t\t' + this.thirdScore, styleRedLeft);
 
 
 
