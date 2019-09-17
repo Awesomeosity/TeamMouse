@@ -8,10 +8,10 @@ class StupidCat extends Cat{
     move(){
         if(this.left){
             this.body.velocity.x=-80;
-            this.anims.play('left', true);
+            this.anims.play('left_stupid_cat', true);
         }else{
             this.body.velocity.x=80;
-            this.anims.play('right', true);
+            this.anims.play('right_stupid_cat', true);
         }
     }
 
