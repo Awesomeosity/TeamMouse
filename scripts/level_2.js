@@ -177,7 +177,7 @@ class Level2 extends Phaser.Scene{
 		this.addLadderConfiguration( 86, 715, 5);
 		this.addLadderConfiguration( 12, 575, 5);
 		this.addLadderConfiguration(400, 294, 5);
-		this.addLadderConfiguration(637, 210, 5);
+		this.addLadderConfiguration(637, 205, 5);
 		
 		this.addMovingConfiguration(100, 150, false, true, 300);
         this.addMovingConfiguration(275, 660, false, true, 300);
