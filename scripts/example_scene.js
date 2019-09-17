@@ -183,6 +183,8 @@ class ExampleScene extends Phaser.Scene{
             key:'mouse',
             x:100,
             y:730
+            // x:360,
+            // y:50
         });
         this.mouse.body.collideWorldBounds=true;
 

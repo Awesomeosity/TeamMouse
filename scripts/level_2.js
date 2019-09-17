@@ -177,6 +177,8 @@ class Level2 extends Phaser.Scene{
             key:'mouse',
             x:100,
             y:450
+            // x:360,
+            // y:50
         });
         this.mouse.body.collideWorldBounds=true;
 
@@ -349,7 +351,7 @@ class Level2 extends Phaser.Scene{
     {
         // alert(this.cats.length);
 		let that = this;
-		console.log(this.moving.children.entries[3].body.position.x, this.moving.children.entries[3].body.position.y);
+		// console.log(this.moving.children.entries[3].body.position.x, this.moving.children.entries[3].body.position.y);
 		if(this.physics.overlap(this.mouse,this.ladders, this.mouse.saveLadderPos))
 		{
 			this.mouse.isOnLadder = true;
