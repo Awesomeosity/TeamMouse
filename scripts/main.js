@@ -3,20 +3,21 @@ function load()
 	let config = 
 	{
 		type: Phaser.AUTO,
-		width: 800,
+		width: 1000,
 		height: 800,
 		physics:{
 			default: 'arcade',
 			arcade:
 			{
 				gravity: {y:400},
-				debug: false
+				//debug: true
 			}
 		},
-		scene:[MenuScene,InitializationScene, ExampleScene, GameUI, GameOverScene],
+		scene:[MenuScene,InitializationScene, Level2, ExampleScene, GameUI, GameOverScene, LevelWinScene],
 
 
 	};
 	var game = new Phaser.Game(config);
 
 }
+
