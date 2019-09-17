@@ -53,6 +53,17 @@ class Cat extends Phaser.Physics.Arcade.Sprite{
                 }
             }
             if(!this.scene.mouse.isCeiling){
+                if(this.left){
+                    if(this.body.position.x<x-this.originalWidth){
+                        this.scene.highScore+=100;
+                        this.scoreText=this.scene.add.text(x-50, y+height/2, "100", this.styleWhiteCenter);
+                    }
+                }else {
+                    if(this.body.position.x>x+this.originalWidth){
+                        this.scene.highScore+=100;
+                        this.scoreText=this.scene.add.text(x-50, y+height/2, "100", this.styleWhiteCenter);
+                    }
+                }
                 this.initScore=false;
             }
         }

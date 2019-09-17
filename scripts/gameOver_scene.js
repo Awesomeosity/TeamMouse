@@ -33,6 +33,7 @@ class GameOverScene extends Phaser.Scene{
             var theOtherScene=this.scene.get('ExampleScene');
             theOtherScene.scene.restart();
             theOtherScene.cats=[];
+            theOtherScene.cucumbers=[];
             CatFactory.getInstance().resetNumber();
             // this.scene.run('ExampleScene');
             this.scene.stop();

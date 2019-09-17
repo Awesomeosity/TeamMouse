@@ -386,7 +386,7 @@ class Level2 extends Phaser.Scene{
             cur_cat.setBounce(1);
             this.cats.push(cur_cat);
         }
-        this.tigger_loop=(this.tigger_loop+1)%200;
+        this.tigger_loop=(this.tigger_loop+1)%350;
 
         let index=0;
         while(index<this.cats.length){
