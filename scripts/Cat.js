@@ -32,7 +32,7 @@ class Cat extends Phaser.Physics.Arcade.Sprite{
             this.climb();
         }else{
             this.move();
-            this.passBy();
+            // this.passBy();
         }
         if(this.initScore){
             //TODO: identify what kind of enemy it is
@@ -111,22 +111,22 @@ class Cat extends Phaser.Physics.Arcade.Sprite{
 
     }
 
-    passBy(){
-        if(this.scene.mouse.currentStory==this.currentStory&&this.scene.mouse.isCeiling){
-            // alert('hey');
-            let x=this.scene.mouse.body.position.x;
-            if(this.left){
-                if(this.body.position.x>=x){
-                    // alert('pass');
-                    this.initScore=true;
-                }
-            }else {
-                if(this.body.position.x<=x){
-                    // alert('pass');
-                    this.initScore=true;
-                }
-            }
-
-        }
-    }
+    // passBy(){
+    //     if(this.scene.mouse.currentStory==this.currentStory&&this.scene.mouse.isCeiling){
+    //         // alert('hey');
+    //         let x=this.scene.mouse.body.position.x;
+    //         if(this.left){
+    //             if(this.body.position.x>=x){
+    //                 // alert('pass');
+    //                 this.initScore=true;
+    //             }
+    //         }else {
+    //             if(this.body.position.x<=x){
+    //                 // alert('pass');
+    //                 this.initScore=true;
+    //             }
+    //         }
+    //
+    //     }
+    // }
 }
