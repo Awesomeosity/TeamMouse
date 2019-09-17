@@ -56,7 +56,7 @@ class GameUI extends Phaser.Scene{
             fixedWidth: textObjWidth,
         };
 
-        this.add.text(centerXText, headerY2, '1UP', styleRedCenter);
+        this.add.text(centerXText, headerY2, 'SCORE', styleRedCenter);
         this.add.text(centerXText, headerY1, 'HIGH SCORE', styleRedCenter);
         this.add.text(centerXText, headerY3, 'LEVEL = ' + this.levelNum, styleRedCenter);
         this.currentScore = this.add.text(centerXText, headerY2 + subY, ''+ 0, styleWhiteCenter);
