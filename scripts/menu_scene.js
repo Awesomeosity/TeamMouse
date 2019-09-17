@@ -18,13 +18,20 @@ class MenuScene extends Phaser.Scene{
         //Sets BG to black
         this.cameras.main.setBackgroundColor('#000000');
 
+        var screenWidth = 1000;
+        var screenHeight = 800;
+        var textObjWidth = 200;
+        var largeTextObjWidth = 400;
+        var textCenterPos = screenWidth / 2 - textObjWidth / 2;
+        var longTextCenterPos = screenWidth / 2 - largeTextObjWidth / 2;
+
         //Style for red centered text on screen
         var styleRedCenter = {
             fontFamily: 'ArcadeClassic',
             fill: 'Red',
             fontSize: 'xx-large',
             align: 'center',
-            fixedWidth: 200,
+            fixedWidth: textObjWidth,
 
         }
 
@@ -34,7 +41,7 @@ class MenuScene extends Phaser.Scene{
             fill: 'DeepSkyBlue',
             fontSize: 'xx-large',
             align: 'center',
-            fixedWidth: 400,
+            fixedWidth: largeTextObjWidth,
 
         }
 
@@ -51,12 +58,15 @@ class MenuScene extends Phaser.Scene{
             fontSize: 'xx-large',
         }
 
+
+
+
         //Adds menu text to the screen
         this.add.text(0, 0, '1UP', styleRedCenter);
-        this.add.text(300, 0, 'HIGH SCORE', styleRedCenter);
+        this.add.text(textCenterPos, 0, 'HIGH SCORE', styleRedCenter);
 
-        this.coinText = this.add.text(200, 115, 'INSERT  COIN', styleBlueCenter);
-        this.add.text(200, 225, 'PLAYER     COIN', styleBlueCenter);
+        this.coinText = this.add.text(longTextCenterPos, 115, 'INSERT  COIN', styleBlueCenter);
+        this.add.text(longTextCenterPos, 225, 'PLAYER     COIN', styleBlueCenter);
         this.add.text(0, 450, 'RANK   SCORE   NAME', styleBlueLeft);
         this.add.text(0, 500, '1st      0', styleRedLeft);
         this.add.text(0, 550, '2nd      0', styleRedLeft);
@@ -64,7 +74,7 @@ class MenuScene extends Phaser.Scene{
 
 
 
-        this.numCoinsText = this.add.text(200, 275, '1               ' + this.numCoins, styleBlueCenter);
+        this.numCoinsText = this.add.text(longTextCenterPos, 275, '1               ' + this.numCoins, styleBlueCenter);
 
 
         this.input.keyboard.on('keydown-ENTER', () => {
