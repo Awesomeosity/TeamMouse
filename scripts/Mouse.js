@@ -145,7 +145,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		{
 			//Mouse walking SFX
 			this.isWalking = false;
-
+			this.scene.mouseJump_SFX.play();
 			this.body.velocity.y = -1 * this.JumpVelocityY;
 		}
         

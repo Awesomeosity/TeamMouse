@@ -51,16 +51,18 @@ class ExampleScene extends Phaser.Scene{
         //Loads level music
         this.load.audio('LevelMus', '../audio/Level1-Mus.wav'); //TODO: Make music reset when level reloads
         this.load.audio('MouseWalk', '../audio/Level1-MouseWalk.wav');
+        this.load.audio('MouseJump', '../audio/MouseJump_sfx.wav');
 	}
 
     create()
     {
+        //Adds sewer background
         this.add.image(400, 400, 'sewer_background');
 
-        //Initializes and plays level sounds
-        this.levelMus = this.sound.add('LevelMus');
-        this.mouseWalk_SFX = this.sound.add('MouseWalk');
-        let musConfig =
+
+        /*-*-*-*-*-*   Audio   *-*-*-*-*-*-*/
+        //Base config
+        let audioConfig =
             {
                 mute: false,
                 volume: 0.5,
@@ -70,8 +72,14 @@ class ExampleScene extends Phaser.Scene{
                 loop: true,
                 delay: 0
             };
+
+        //Initializes level sounds
+        this.levelMus = this.sound.add('LevelMus');
+        this.mouseWalk_SFX = this.sound.add('MouseWalk');
+        this.mouseJump_SFX = this.sound.add('MouseJump', audioConfig);
+
         //Music
-        this.levelMus.play(musConfig);
+        this.levelMus.play(audioConfig);
         this.musicMute = true;                                      //Music mutes by default
         this.levelMus.setMute(this.musicMute);
         this.input.keyboard.on('keydown-M', ()=> {       //Pressing M mutes / un-mutes
@@ -80,9 +88,14 @@ class ExampleScene extends Phaser.Scene{
         });
 
         //SFX
-        this.mouseWalk_SFX.play(musConfig);
-        this.sfxMute = true;
-        this.mouseWalk_SFX.setMute(this.sfxMute);
+        this.walkMute = this.musicMute;                             //SFX mutes with music on initialization
+        this.sfxMute = this.musicMute;
+        this.mouseWalk_SFX.play(audioConfig);
+        this.mouseWalk_SFX.setMute(this.walkMute);
+        this.mouseJump_SFX.setMute(this.sfxMute);
+        this.mouseJump_SFX.setLoop(false);
+        /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
 
 
 
@@ -190,18 +203,26 @@ class ExampleScene extends Phaser.Scene{
 		}
         this.mouse.update(this.cursors);
 
-		//Mouse SFX
+
+        /*-*-*-*-*-*   Audio   *-*-*-*-*-*-*/
+        //Mouse walk SFX
        if(this.mouse.isWalking)
        {
-            this.sfxMute = false;
-            this.sfxMute = this.musicMute;
-            this.mouseWalk_SFX.setMute(this.sfxMute);
+            this.walkMute = false;
+            this.walkMute = this.musicMute;
+            this.mouseWalk_SFX.setMute(this.walkMute);
        }
        else
        {
-           this.sfxMute = true;
-           this.mouseWalk_SFX.setMute(this.sfxMute);
+           this.walkMute = true;
+           this.mouseWalk_SFX.setMute(this.walkMute);
        }
+
+       //Update SFX mute with Music mute
+       this.sfxMute = this.musicMute;
+       this.mouseJump_SFX.setMute(this.sfxMute);
+        /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
 
         this.physics.overlap(this.cats,this.ladders,(cat,ladder)=>{
             // alert(2);
@@ -229,6 +250,7 @@ class ExampleScene extends Phaser.Scene{
         if (this.mouse.lives <= 0)
         {
             this.scene.launch('GameOverScene');
+
             this.scene.pause();
         }
 
