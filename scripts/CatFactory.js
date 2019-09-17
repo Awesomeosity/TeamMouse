@@ -30,6 +30,10 @@ var CatFactory=(function () {
                         else{
                             return null;
                         }
+                    case CatType.TIGGER:
+                        return new TiggerCat(config);
+                    case CatType.SIMPLE:
+                        return new SimpleHarmonicCat(config);
                     default:
                         return new StupidCat(config);
                 }

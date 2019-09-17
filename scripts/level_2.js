@@ -226,7 +226,7 @@ class Level2 extends Phaser.Scene{
 				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
 				{x: -100, y:    0, duration: 4250, ease: 'Stepped'},
 			]
-		})
+		});
 		
 		this.tweens.timeline({
 			targets: this.moving.children.entries[1].body.velocity,
@@ -244,7 +244,7 @@ class Level2 extends Phaser.Scene{
 				{x: 100, y:    0, duration: 1750, ease: 'Stepped'},
 				{x:   0, y:  100, duration: 2500, ease: 'Stepped'},
 			]
-		})
+		});
 
 		this.tweens.timeline({
 			targets: this.moving.children.entries[2].body.velocity,
@@ -262,7 +262,7 @@ class Level2 extends Phaser.Scene{
 				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
 				{x:   0, y: -100, duration: 5250, ease: 'Stepped'},
 			]
-		})
+		});
 		
 		this.tweens.timeline({
 			targets: this.moving.children.entries[3].body.velocity,
@@ -280,7 +280,7 @@ class Level2 extends Phaser.Scene{
 				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
 				{x: 100, y:    0, duration: 2500, ease: 'Stepped'},
 			]
-		})
+		});
 
 		this.tweens.timeline({
 			targets: this.moving.children.entries[4].body.velocity,
@@ -298,7 +298,7 @@ class Level2 extends Phaser.Scene{
 				{x:   0, y:  100, duration: 2750, ease: 'Stepped'},
 
 			]
-		})
+		});
 
 		this.tweens.timeline({
 			targets: this.moving.children.entries[5].body.velocity,
@@ -316,7 +316,7 @@ class Level2 extends Phaser.Scene{
 				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
 				{x:   0, y: -100, duration: 2625, ease: 'Stepped'},
 			]
-		})
+		});
 
     }
 

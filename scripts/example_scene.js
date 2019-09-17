@@ -93,6 +93,15 @@ class ExampleScene extends Phaser.Scene{
     {
         this.add.image(400, 400, 'sewer_background');
 
+        //add cheese
+        let cheese_config={
+            scene:this,
+            key:'delicious_cheese',
+            x: 400,
+            y: 50
+        };
+        this.cheese=new Cheese(cheese_config);
+
         //add cucumbers
         this.cucumbers=this.physics.add.group();
         let cucumber=new Cucumber(this.cucumber_config);
@@ -232,12 +241,22 @@ class ExampleScene extends Phaser.Scene{
             //start ticking
             mouse.isHoldingCucumber=true;
         });
-        
+
+        //cheating
         this.input.keyboard.on('keydown-ENTER', () => {
-            this.scene.start('Level2');
-            this.scene.stop();
+            this.nextScene();
         });
 
+        //winning
+        this.physics.add.overlap(this.mouse,this.cheese,()=>{
+           this.nextScene();
+        });
+
+    }
+
+    nextScene(){
+        this.scene.start('Level2');
+        this.scene.stop();
     }
 
     update()
