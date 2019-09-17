@@ -35,6 +35,15 @@ class MenuScene extends Phaser.Scene{
 
         }
 
+        var styleWhiteCenter = {
+            fontFamily: 'ArcadeClassic',
+            fill: 'White',
+            fontSize: 'xx-large',
+            align: 'center',
+            fixedWidth: textObjWidth,
+
+        }
+
         //Style for blue centered text on screen
         var styleBlueCenter = {
             fontFamily: 'ArcadeClassic',
@@ -62,15 +71,25 @@ class MenuScene extends Phaser.Scene{
 
 
         //Adds menu text to the screen
-        this.add.text(0, 0, '1UP', styleRedCenter);
         this.add.text(textCenterPos, 0, 'HIGH SCORE', styleRedCenter);
+
+        this.highScoreText = this.add.text(textCenterPos, 40, '0', styleWhiteCenter);
+
+        if (storageAvailable('localStorage') && localStorage.getItem('HighScore') > 0)
+        {
+            this.highScoreText.setText(localStorage.getItem('HighScore'));
+        }
+        else
+        {
+            this.highScoreText.setText('0');
+        }
 
         this.coinText = this.add.text(longTextCenterPos, 115, 'INSERT  COIN', styleBlueCenter);
         this.add.text(longTextCenterPos, 225, 'PLAYER     COIN', styleBlueCenter);
-        this.add.text(0, 450, 'RANK   SCORE   NAME', styleBlueLeft);
-        this.add.text(0, 500, '1st      0', styleRedLeft);
-        this.add.text(0, 550, '2nd      0', styleRedLeft);
-        this.add.text(0, 600, '3rd      0', styleRedLeft);
+        this.add.text(400, 450, 'RANK   SCORE', styleBlueLeft);
+        this.add.text(400, 500, '1st\t\t\t\t\t\t0', styleRedLeft);
+        this.add.text(400, 550, '2nd\t\t\t\t\t\t0', styleRedLeft);
+        this.add.text(400, 600, '3rd\t\t\t\t\t\t0', styleRedLeft);
 
 
 
@@ -98,7 +117,7 @@ class MenuScene extends Phaser.Scene{
 
     changeNumCoinsText()
     {
-        this.numCoinsText.setText('1               ' + this.numCoins);
+        this.numCoinsText.setText('1         ' + this.numCoins);
     }
 
     changeCoinText()
@@ -108,4 +127,30 @@ class MenuScene extends Phaser.Scene{
     }
 
 
+}
+
+
+function storageAvailable(type) {
+    var storage;
+    try {
+        storage = window[type];
+        var x = '__storage_test__';
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    }
+    catch(e) {
+        return e instanceof DOMException && (
+                // everything except Firefox
+            e.code === 22 ||
+            // Firefox
+            e.code === 1014 ||
+            // test name field too, because code might not be present
+            // everything except Firefox
+            e.name === 'QuotaExceededError' ||
+            // Firefox
+            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            // acknowledge QuotaExceededError only if there's something already stored
+            (storage && storage.length !== 0);
+    }
 }

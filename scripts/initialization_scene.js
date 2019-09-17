@@ -23,12 +23,12 @@ class InitializationScene extends Phaser.Scene{
         });
 
         //Load up the basic textures needed
-        this.load.image('sewer_background', '../images/environment_background concept (tileable).png');
-        this.load.image('ground', '../images/platform_tileable_middle_10px.png');
-        this.load.image('ladder', '../images/manhole_tunnel_ladder.png');
-		this.load.image('breaker', '../images/background.jpg');
-		this.load.image('cat_sematary','../images/linku.png');
-		this.load.image('LifeUI-Temp', '../images/MouseHeadUITemp.png');
+        this.load.image('sewer_background', '../images/environment_background concept (tileable).png');     //Main background
+        this.load.image('ground', '../images/platform_tileable_middle_10px.png');                           //Platforms
+        this.load.image('ladder', '../images/manhole_tunnel_ladder.png');                                   //Ladders
+		this.load.image('LifeUI-Temp', '../images/MouseHeadUITemp.png');                                    //Temp Life Icon
+        this.load.image('breaker', '../images/background.jpg');
+        this.load.image('cat_sematary','../images/linku.png');
 
         //Load in the spritesheets
         this.load.spritesheet('mouse', '../images/MouseWalkFlippedSmall.png', {frameWidth: 56, frameHeight: 67});

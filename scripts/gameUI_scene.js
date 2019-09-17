@@ -59,8 +59,8 @@ class GameUI extends Phaser.Scene{
         this.add.text(centerXText, headerY2, '1UP', styleRedCenter);
         this.add.text(centerXText, headerY1, 'HIGH SCORE', styleRedCenter);
         this.add.text(centerXText, headerY3, 'LEVEL = ' + this.levelNum, styleRedCenter);
-        this.currentScore = this.add.text(centerXText, headerY1 + subY, ''+ 0, styleWhiteCenter);
-        this.highScoreText = this.add.text(centerXText, headerY2 + subY, "", styleWhiteCenter);
+        this.currentScore = this.add.text(centerXText, headerY2 + subY, ''+ 0, styleWhiteCenter);
+        this.highScoreText = this.add.text(centerXText, headerY1 + subY, "", styleWhiteCenter);
 
     }
 
@@ -115,7 +115,7 @@ class GameUI extends Phaser.Scene{
             {
                 this.highScoreText.setText(localStorage.getItem('HighScore'));
             }
-            else if (score == 0)
+            else if (score === 0)
             {
                 this.highScoreText.setText(0);
 

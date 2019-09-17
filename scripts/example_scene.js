@@ -102,9 +102,13 @@ class ExampleScene extends Phaser.Scene{
         this.PlatformOffset = 2;
         this.ladderWidth = 30;
 
+
+        //Ground floor (storey 0)
         this.addPlatformConfiguration(400, 790, 0, false, true, 800, 10, 1);
 
-        
+
+
+        //Level making arrays
         let offSetArray = [20, 60, 20, 60, 20, 325];
         let widthArray = [];
         widthArray[0] = [200, 400, 1];
@@ -209,6 +213,8 @@ class ExampleScene extends Phaser.Scene{
 		this.cats.forEach(function (cat) {
            cat.update();
         });
+
+		//Updates the UI to show the correct amount of mouse lives
         this.uiOverlay.updateMouseLives(this.mouse.lives);
 
         //Win condition
