@@ -26,7 +26,7 @@ class GameUI extends Phaser.Scene{
         var uiWidth = 200;
         var startXUI = 800;
         var textObjWidth = 200;
-        var lifeWidth = 25;
+        var lifeWidth = 40;
         var centerXText = startXUI + uiWidth / 2 - textObjWidth / 2;
         var centerXLives = startXUI + uiWidth / 2;
 
@@ -35,9 +35,9 @@ class GameUI extends Phaser.Scene{
         var headerY3 = 400;
         var subY = 30;
 
-        this.life1 = this.add.image(centerXLives - lifeWidth, headerY2 + subY * 3, 'MarioSprite');
-        this.life2 = this.add.image(centerXLives, headerY2 + subY * 3, 'MarioSprite');
-        this.life3 = this.add.image(centerXLives + lifeWidth, headerY2 + subY * 3, 'MarioSprite');
+        this.life1 = this.add.image(centerXLives - lifeWidth, headerY2 + subY * 3, 'LifeUI-Temp');
+        this.life2 = this.add.image(centerXLives, headerY2 + subY * 3, 'LifeUI-Temp');
+        this.life3 = this.add.image(centerXLives + lifeWidth, headerY2 + subY * 3, 'LifeUI-Temp');
 
 
         var styleRedCenter = {
