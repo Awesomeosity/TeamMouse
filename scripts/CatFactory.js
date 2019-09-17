@@ -43,6 +43,8 @@ var CatFactory=(function () {
 
                     case CatType.SIMPLE:
                         return new SimpleHarmonicCat(config);
+                    case CatType.STATIC:
+                        return new StaticCat(config);
                     default:
                         return new StupidCat(config);
                 }

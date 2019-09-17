@@ -60,7 +60,7 @@ class ExampleScene extends Phaser.Scene{
             scene:this,
             key:'cucumber',
             x:600,
-            y:550
+            y:535
         };
         this.styleWhiteCenter = {
             fontFamily: 'ArcadeClassic',
@@ -108,7 +108,7 @@ class ExampleScene extends Phaser.Scene{
         // cucumber.body.allowGravity=false;
         this.cucumbers.add(cucumber);
         this.cucumber_config.x=80;
-        this.cucumber_config.y=130;
+        this.cucumber_config.y=115;
         cucumber=new Cucumber(this.cucumber_config);
         // cucumber.body.allowGravity=false;
         this.cucumbers.add(cucumber);

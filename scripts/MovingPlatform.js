@@ -23,6 +23,8 @@ class MovingPlatform extends Phaser.Physics.Arcade.Sprite{
         this.startY;
         this.endY;
 		//Fixes the endpoints
+
+        this.static_cat=null;
     }
 
     update(){

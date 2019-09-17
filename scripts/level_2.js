@@ -47,6 +47,14 @@ class Level2 extends Phaser.Scene{
             right_border:750,
             left_border:50
         };
+        this.static_cat_configuration={
+            scene:this,
+            key:'stupid_cat',
+            x: 150,
+            y: 700,
+            right_border:750,
+            left_border:50
+        };
         this.tigger_cat_configuration={
             scene:this,
             key:'tigger_cat',
@@ -310,6 +318,11 @@ class Level2 extends Phaser.Scene{
         this.simple_cat_configuration.left_border=600;
         cur_cat=this.cat_factory.createCat(CatType.SIMPLE,this.simple_cat_configuration);
         this.cats.push(cur_cat);
+
+        for(var i=0;i<this.moving.children.entries.length&&i%2==0;i++){
+            cur_cat=this.cat_factory.createCat(CatType.STATIC,this.static_cat_configuration);
+
+        }
 
         this.physics.add.collider(this.cats,this.platforms);
         this.physics.add.overlap(this.cats,this.mouse,(cat,mouse)=>{
