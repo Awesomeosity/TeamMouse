@@ -27,7 +27,6 @@ class InitializationScene extends Phaser.Scene{
         this.load.image('ground', '../images/platform_tileable_middle_10px.png');                           //Platforms
         this.load.image('ladder', '../images/manhole_tunnel_ladder.png');                                   //Ladders
 		this.load.image('LifeUI-Temp', '../images/MouseHeadUITemp.png');                                    //Temp Life Icon
-		this.load.image('Cheese', '../images/win_state_cheese_v1.png');                                     //Cheese
         this.load.image('breaker', '../images/background.jpg');
         this.load.image('cat_sematary','../images/linku.png');
 

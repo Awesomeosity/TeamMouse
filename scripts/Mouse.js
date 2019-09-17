@@ -34,7 +34,6 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 
         this.cursors = this.scene.input.keyboard.createCursorKeys();
 
-        this.hasCheese = false;
         this.currentStory=0;
         this.left=true;
         this.lives=3;
