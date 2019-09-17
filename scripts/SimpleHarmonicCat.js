@@ -6,6 +6,7 @@ class SimpleHarmonicCat extends Cat{
     }
 
     move() {
+        // alert('yes');
         if(this.left){
             this.body.velocity.x=-120;
             this.anims.play('scleft', true);

@@ -3,22 +3,6 @@ class Level2 extends Phaser.Scene{
         super({
             key: 'Level2'
         });
-        this.stupid_loop_count=0;
-        this.stupid_config={
-            scene:this,
-            key:'stupid_cat',
-            x:400,
-            y:10,
-            originalStory:6,
-            isMuggle:true
-        };
-        this.maho_config={
-            scene:this,
-            key:'maho_cat',
-            x:100,
-            y:670,
-            originalStory:0
-        };
         this.cat_factory=CatFactory.getInstance();
         this.ladder_configuration={
             scene:this,
@@ -60,15 +44,22 @@ class Level2 extends Phaser.Scene{
             key:'stupid_cat',
             x: 150,
             y: 700,
-            right_border:700,
-            left_border:100
+            right_border:750,
+            left_border:50
         };
-
+        this.tigger_cat_configuration={
+            scene:this,
+            key:'tigger_cat',
+            x: 100,
+            y: 50,
+        };
+        this.tigger_loop=0;
         this.highestStory=6;
     }
 
 	preload()
 	{
+        this.physics.world.bounds.width=800;
 	    //Start up UI scene and assign to variable
 		this.scene.launch('GameUI');
 		this.uiOverlay = this.scene.get('GameUI');
@@ -83,6 +74,15 @@ class Level2 extends Phaser.Scene{
     create()
     {
         this.add.image(400, 400, 'sewer_background');
+        this.add.image(50,470,'cat_sematary');
+        //add cheese
+        let cheese_config={
+            scene:this,
+            key:'delicious_cheese',
+            x: 325,
+            y: 50
+        };
+        this.cheese=new Cheese(cheese_config);
 
         //Initializes and plays level music
         this.cameras.main.backgroundColor.setTo(49, 64, 148);
@@ -109,12 +109,12 @@ class Level2 extends Phaser.Scene{
         this.platforms = this.physics.add.staticGroup();
 		this.moving = this.physics.add.group();
 
-        let sematary_config={
-            scene:this,
-            key:'cat_sematary',
-            x:30,
-            y:720
-        };
+        // let sematary_config={
+        //     scene:this,
+        //     key:'cat_sematary',
+        //     x:30,
+        //     y:720
+        // };
         
         //this.catSematary=new CatSematary(sematary_config);
         
@@ -176,11 +176,9 @@ class Level2 extends Phaser.Scene{
             scene:this,
             key:'mouse',
             x:100,
-            y:700
+            y:450
         });
         this.mouse.body.collideWorldBounds=true;
-
-        this.cats=[];
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -195,21 +193,10 @@ class Level2 extends Phaser.Scene{
             }
 		});
 
-		this.physics.add.collider(this.mouse,this.catSematary);
-		this.physics.add.collider(this.cats,this.catSematary,(cat,catSematary)=>{
-		    this.enter_sematary(cat);
-        });
-        this.physics.add.collider(this.cats,this.platforms,(cat,platform)=>{
-            if(cat.currentStory!=platform.story){
-                cat.left=cat.left? false: true;
-                cat.currentStory=platform.story;
-                if(cat.isClimbing){
-                    cat.climbOff();
-                }
-            }
-            cat.currentStory=platform.story;
-            cat.body.velocity.x=0;
-        });
+		// this.physics.add.collider(this.mouse,this.catSematary);
+		// this.physics.add.collider(this.cats,this.catSematary,(cat,catSematary)=>{
+		//     this.enter_sematary(cat);
+        // });
 
         //TODO: kill mouse
         this.physics.add.overlap(this.mouse,this.cats,(mouse,cat)=>{
@@ -327,13 +314,40 @@ class Level2 extends Phaser.Scene{
 			]
 		});
 
-		//add cats
+        //add cats
         this.cats=[];
+        let cur_cat=this.cat_factory.createCat(CatType.SIMPLE,this.simple_cat_configuration);
+        this.cats.push(cur_cat);
 
+        this.simple_cat_configuration.x=650;
+        this.simple_cat_configuration.y=600;
+        this.simple_cat_configuration.left_border=600;
+        cur_cat=this.cat_factory.createCat(CatType.SIMPLE,this.simple_cat_configuration);
+        this.cats.push(cur_cat);
+
+        this.simple_cat_configuration.x=650;
+        this.simple_cat_configuration.y=450;
+        this.simple_cat_configuration.left_border=600;
+        cur_cat=this.cat_factory.createCat(CatType.SIMPLE,this.simple_cat_configuration);
+        this.cats.push(cur_cat);
+
+        this.physics.add.collider(this.cats,this.platforms);
+        this.physics.add.overlap(this.cats,this.mouse,(cat,mouse)=>{
+            mouse.hurtBy(cat);
+        });
+        this.physics.add.overlap(this.mouse,this.cheese,()=>{
+            this.nextScene();
+        });
+    }
+
+    nextScene(){
+        this.scene.start('ExampleScene');
+        this.scene.stop();
     }
 
     update()
     {
+        // alert(this.cats.length);
 		let that = this;
 		console.log(this.moving.children.entries[3].body.position.x, this.moving.children.entries[3].body.position.y);
 		if(this.physics.overlap(this.mouse,this.ladders, this.mouse.saveLadderPos))
@@ -365,6 +379,34 @@ class Level2 extends Phaser.Scene{
            d.update(); 
         });
 
+        if(this.tigger_loop==0){
+            let cur_cat=this.cat_factory.createCat(CatType.TIGGER,this.tigger_cat_configuration);
+            cur_cat.setBounce(1);
+            this.cats.push(cur_cat);
+        }
+        this.tigger_loop=(this.tigger_loop+1)%200;
+
+        let index=0;
+        while(index<this.cats.length){
+            let cat=this.cats[index];
+            if(cat instanceof TiggerCat){
+                if(cat.body.position.x>800){
+                    this.cats.splice(index,1);
+                    cat.visible=false;
+                    cat.destroy();
+                    continue;
+                }
+                else{
+                    cat.update();
+                }
+            }else{
+                cat.update();
+            }
+            index++;
+        }
+        this.cats.forEach(function (cat) {
+            cat.update();
+        });
         //Lose condition
         // if (this.mouse.lives <= 0)
         // {
@@ -373,24 +415,6 @@ class Level2 extends Phaser.Scene{
         // }
 
         this.uiOverlay.updateHighScore(this.highScore); //TODO: use a HighScore text class to store and update high score
-    }
-
-    enter_sematary(cat){
-        if(cat instanceof StupidCat){
-            if(!cat.isMuggle){
-                let newCat=CatFactory.getInstance().createCat(CatType.MAHO,this.maho_config);
-                if(newCat){
-                    newCat.body.collideWorldBounds=true;
-                    this.cats.push(newCat);
-                }
-            }
-
-            CatFactory.getInstance().killCat(cat);
-            var pos = this.cats.indexOf(cat);
-            this.cats.splice(pos,1);
-            cat.visible=false;
-            cat.destroy();
-        }
     }
 
     addLadderConfiguration(x,y,story=5){

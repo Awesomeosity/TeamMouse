@@ -97,7 +97,7 @@ class ExampleScene extends Phaser.Scene{
         let cheese_config={
             scene:this,
             key:'delicious_cheese',
-            x: 400,
+            x: 325,
             y: 50
         };
         this.cheese=new Cheese(cheese_config);
@@ -152,7 +152,7 @@ class ExampleScene extends Phaser.Scene{
             scene:this,
             key:'cat_sematary',
             x:30,
-            y:720
+            y:760
         };
         
         this.catSematary=new CatSematary(sematary_config);
@@ -262,14 +262,14 @@ class ExampleScene extends Phaser.Scene{
     update()
     {
 		let that = this;
-		this.stupid_loop_count=(this.stupid_loop_count+1)%150;
-		if(!this.stupid_loop_count){
-		    let cur_cat=this.cat_factory.createCat(CatType.STUPID,this.stupid_config);
-		    if(cur_cat){
-		        cur_cat.body.collideWorldBounds=true;
+        if(!this.stupid_loop_count){
+            let cur_cat=this.cat_factory.createCat(CatType.STUPID,this.stupid_config);
+            if(cur_cat){
+                cur_cat.body.collideWorldBounds=true;
                 this.cats.push(cur_cat);
             }
         }
+		this.stupid_loop_count=(this.stupid_loop_count+1)%150;
 		if(this.physics.overlap(this.mouse,this.normalLadder, this.mouse.saveLadderPos))
 		{
 			this.mouse.isOnLadder = true;

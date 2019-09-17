@@ -27,8 +27,7 @@ class Cat extends Phaser.Physics.Arcade.Sprite{
     }
 
     update(){
-        //TODO how do you reset climbing
-        //TODO after resetting, how will it keep moving instead of choosing again
+        // alert('yes');
         if(this.isClimbing){
             this.climb();
         }else{
