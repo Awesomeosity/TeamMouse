@@ -56,8 +56,14 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		
 		if(this.platform != null)
 		{
-			this.body.velocity.x = this.platform.body.velocity.x;
-            this.body.velocity.y = this.platform.body.velocity.y;
+			if(this.body.touching.down || this.isCeiling)
+			{
+				this.body.velocity.x = this.platform.body.velocity.x;
+			}
+			else
+			{
+				this.platform = null;
+			}
 		}
 		
 		if(this.cursors.space.isUp && this.isCeiling)
@@ -89,10 +95,6 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		{
 			this.body.allowGravity = true;
 		}
-		else
-		{
-			this.body.allowGravity = false;
-		}
         if (this.cursors.left.isDown)
 		{
 			//For mouse walking SFX
@@ -101,7 +103,14 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			this.lastDir = true;
 			if(this.body.velocity.x >= -1 * this.PlayerMovementVelocity || this.body.touching.down)
 			{
-				this.body.velocity.x = -1 * this.PlayerMovementVelocity;
+				if(this.platform == null)
+				{
+					this.body.velocity.x = -1 * this.PlayerMovementVelocity;
+				}
+				else
+				{
+					this.body.velocity.x += -1 * this.PlayerMovementVelocity;
+				}
 			}
 			if(this.isHoldingCucumber){
 				this.anims.play('cu_left',true);
@@ -119,7 +128,14 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			this.lastDir = false;
 			if(this.body.velocity.x <= this.PlayerMovementVelocity || this.body.touching.down)
 			{
-				this.body.velocity.x = this.PlayerMovementVelocity;
+				if(this.platform == null)
+				{
+					this.body.velocity.x = this.PlayerMovementVelocity;
+				}
+				else
+				{
+					this.body.velocity.x += this.PlayerMovementVelocity;
+				}
 			}
 
 			if(this.isHoldingCucumber){
@@ -132,7 +148,10 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		else
 		{
 			this.isWalking = false;
-			this.body.velocity.x = 0;
+			if(this.platform == null)
+			{
+				this.body.velocity.x = 0;
+			}
 			this.resetSprite();
 		}
 
@@ -306,7 +325,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
     
     ridePlatform(platform)
     {
-        if(this.body.touching.up && this.cursors.space.isDown && !this.isCeiling&&!this.isHoldingCucumber)
+        if(this.body.touching.up && this.cursors.space.isDown && !this.isCeiling && !this.isHoldingCucumber)
 		{
 			this.resetSprite();
 			this.stickTimer = this.scene.time.delayedCall(this.StickToCeilingDuration, () =>{
@@ -338,6 +357,11 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		else if(this.isCeiling && this.cursors.space.isDown)
 		{
 			//Update the platform reference.
+			this.platform = platform;
+		}
+		else
+		{
+			this.body.velocity.x = platform.body.velocity.x;
 			this.platform = platform;
 		}
     }
