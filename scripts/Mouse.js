@@ -275,6 +275,8 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
             this.body.velocity.y = 0;
 			this.isCeiling = true;
 			this.body.allowGravity = false;
+			this.setTexture('climb');
+
 		}
 	}
     
@@ -292,7 +294,6 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 					this.platform = null;
 					this.body.velocity.y = 0;
 					this.body.velocity.x = this.swingVelocity;
-
 				}
 			}, null, this);
 
@@ -301,6 +302,8 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			this.isCeiling = true;
 			this.body.allowGravity = false;
 			this.platform = platform;
+			this.setTexture('climb');
+
 		}
 		//If we collide with a new platform
 		else if(this.isCeiling && this.cursors.space.isDown)
