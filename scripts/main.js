@@ -13,7 +13,7 @@ function load()
 				debug: true
 			}
 		},
-		scene:[MenuScene,InitializationScene, ExampleScene, GameUI, GameOverScene],
+		scene:[MenuScene,InitializationScene, ExampleScene, GameUI, GameOverScene, LevelWinScene],
 
 
 	};
