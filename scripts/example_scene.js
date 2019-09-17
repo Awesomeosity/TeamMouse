@@ -489,4 +489,14 @@ class ExampleScene extends Phaser.Scene{
             }
         }
     }
+	
+	checkOverlap()
+	{
+		if(this.physics.overlap(this.mouse, this.normalLadder))
+		{
+			return true;
+		}
+		
+		return false;
+	}
 }

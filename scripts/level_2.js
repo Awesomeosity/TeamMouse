@@ -511,4 +511,15 @@ class Level2 extends Phaser.Scene{
             }
         }
     }
+	
+	checkOverlap()
+	{
+		if(this.physics.overlap(this.mouse, this.ladders))
+		{
+			return true;
+		}
+		
+		return false;
+	}
+
 }
