@@ -298,18 +298,24 @@ class ExampleScene extends Phaser.Scene{
             }
         }
 		this.stupid_loop_count=(this.stupid_loop_count+1)%150;
-		if(this.physics.overlap(this.mouse,this.normalLadder, this.mouse.saveLadderPos))
+		
+		if(!this.physics.overlap(this.mouse,this.normalLadder, this.mouse.saveLadderPos))
 		{
-			this.mouse.isOnLadder = true;
+			this.mouse.checkLadderStatus();
+		}
+
+        this.mouse.update(this.cursors);
+		if(this.mouse.isWalking)
+		{
+			this.sfxMute = false;
+			this.sfxMute = this.musicMute;
+			this.mouseWalk_SFX.setMute(this.sfxMute);
 		}
 		else
 		{
-			this.mouse.isOnLadder = false;
-
-			this.mouse.snapTo = null;
-			this.mouse.climbOff();
+		   this.sfxMute = true;
+		   this.mouseWalk_SFX.setMute(this.sfxMute);
 		}
-        this.mouse.update(this.cursors);
 
 
         /*-*-*-*-*-*   Audio   *-*-*-*-*-*-*/
