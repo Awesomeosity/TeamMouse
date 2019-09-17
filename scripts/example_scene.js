@@ -97,8 +97,7 @@ class ExampleScene extends Phaser.Scene{
 
 
         /*-*-*-*-*-*   Audio   *-*-*-*-*-*-*/
-        //Base config
-        let audioConfig =
+
         //add cheese
         let cheese_config={
             scene:this,
@@ -126,7 +125,10 @@ class ExampleScene extends Phaser.Scene{
         //Initializes and plays level sounds
         this.levelMus = this.sound.add('LevelMus');
         this.mouseWalk_SFX = this.sound.add('MouseWalk');
-        let musConfig =
+
+
+        //Base config
+        let audioConfig =
             {
                 mute: false,
                 volume: 0.5,
@@ -275,7 +277,7 @@ class ExampleScene extends Phaser.Scene{
 
         //winning
         this.physics.add.overlap(this.mouse,this.cheese,()=>{
-           this.nextScene();
+           this.nextScene(); //TODO: Launch LevelWin, then have LevelWin take you to next level
         });
 
     }
