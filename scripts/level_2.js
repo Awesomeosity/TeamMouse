@@ -131,9 +131,9 @@ class Level2 extends Phaser.Scene{
         this.addPlatformConfiguration(700, 510, 0, false, true, 200, 10, 1);
 		this.addPlatformConfiguration(700, 650, 0, false, true, 200, 10, 1);
 
-        this.addPlatformConfiguration(637, 240, 0, false, true, 100, 10, 1);
-        this.addPlatformConfiguration(310, 100, 0, false, true, 630, 10, 1);
-        this.addPlatformConfiguration(651, 100, 0, false, true,   1, 10, 1);
+        this.addPlatformConfiguration(637, 280, 0, false, true, 100, 10, 1);
+        this.addPlatformConfiguration(310, 140, 0, false, true, 630, 10, 1);
+        this.addPlatformConfiguration(651, 140, 0, false, true,   1, 10, 1);
 
 
 
@@ -141,31 +141,14 @@ class Level2 extends Phaser.Scene{
 		this.addLadderConfiguration( 86, 715, 5);
 		this.addLadderConfiguration( 12, 575, 5);
 		this.addLadderConfiguration(400, 294, 5);
-		this.addLadderConfiguration(637, 165, 5);
+		this.addLadderConfiguration(637, 210, 5);
 		
-		this.addMovingConfiguration(100, 130, false, true, 300);
-        this.addMovingConfiguration(275, 646.67, false, true, 300);
-		this.addMovingConfiguration(525, 130, false, true, 300);
-		this.addMovingConfiguration(525, 646.67, false, true, 300);
-		this.addMovingConfiguration(97.43, 406.66, false, true, 300);
-		this.addMovingConfiguration(525, 388.385, false, true, 300);
-
-        /*
-        this.addPlatformConfiguration(400, 760, 0, false, true, 800, 10, 1);
-        this.addLadderConfiguration(315, 205, 5);
-        this.addLadderConfiguration(485, 205, 5);
-
-        
-        let offSetArray = [20, 60, 20, 60, 20, 325];
-        let widthArray = [];
-        widthArray[0] = [200, 400, 1];
-        widthArray[1] = [50, 200, 400];
-        widthArray[2] = [200, 400, 1];
-        widthArray[3] = [50, 300, 400];
-        widthArray[4] = [190, 400, 1];
-        widthArray[5] = [150];
-        this.levelMaker(6, offSetArray, widthArray);
-        */
+		this.addMovingConfiguration(100, 150, false, true, 300);
+        this.addMovingConfiguration(275, 660, false, true, 300);
+		this.addMovingConfiguration(525, 150, false, true, 300);
+		this.addMovingConfiguration(525, 660, false, true, 300);
+		this.addMovingConfiguration(97.43, 410, false, true, 300);
+		this.addMovingConfiguration(525, 400, false, true, 300);
 
         this.physics.add.collider(this.ladders,this.platforms);
 
@@ -177,8 +160,6 @@ class Level2 extends Phaser.Scene{
             key:'mouse',
             x:100,
             y:450
-            // x:360,
-            // y:50
         });
         this.mouse.body.collideWorldBounds=true;
 
@@ -213,14 +194,14 @@ class Level2 extends Phaser.Scene{
 			targets: this.moving.children.entries[0].body.velocity,
 			loop: -1,
 			tweens: [
-				{x:   0, y:  100, duration: 2750, ease: 'Stepped'},
+				{x:   0, y:  100, duration: 2600, ease: 'Stepped'},
 				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
 				{x: 100, y:    0, duration: 1750, ease: 'Stepped'},
 				{x:   0, y:  100, duration: 2500, ease: 'Stepped'},
 				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
 				{x: 100, y:    0, duration: 2500, ease: 'Stepped'},
 				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
-				{x:   0, y: -100, duration: 5250, ease: 'Stepped'},
+				{x:   0, y: -100, duration: 5100, ease: 'Stepped'},
 				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
 				{x: -100, y:    0, duration: 4250, ease: 'Stepped'},
 			]
@@ -233,11 +214,10 @@ class Level2 extends Phaser.Scene{
 				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
 				{x: 100, y:    0, duration: 2500, ease: 'Stepped'},
 				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
-				{x:   0, y: -100, duration: 5250, ease: 'Stepped'},
+				{x:   0, y: -100, duration: 5100, ease: 'Stepped'},
 				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
-				{x: -100, y:    0, duration: 4250, ease: 'Stepped'},
-
-				{x:   0, y:  100, duration: 2750, ease: 'Stepped'},
+				{x:-100, y:    0, duration: 4250, ease: 'Stepped'},
+				{x:   0, y:  100, duration: 2600, ease: 'Stepped'},
 				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
 				{x: 100, y:    0, duration: 1750, ease: 'Stepped'},
 				{x:   0, y:  100, duration: 2500, ease: 'Stepped'},
@@ -250,15 +230,14 @@ class Level2 extends Phaser.Scene{
 			tweens: [
 				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
 				{x: -100, y:    0, duration: 4250, ease: 'Stepped'},
-				{x:   0, y:  100, duration: 2750, ease: 'Stepped'},
+				{x:   0, y:  100, duration: 2600, ease: 'Stepped'},
 				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
 				{x: 100, y:    0, duration: 1750, ease: 'Stepped'},
 				{x:   0, y:  100, duration: 2500, ease: 'Stepped'},
-
 				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
 				{x: 100, y:    0, duration: 2500, ease: 'Stepped'},
 				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
-				{x:   0, y: -100, duration: 5250, ease: 'Stepped'},
+				{x:   0, y: -100, duration: 5100, ease: 'Stepped'},
 			]
 		});
 		
@@ -267,11 +246,10 @@ class Level2 extends Phaser.Scene{
 			loop: -1,
 			tweens: [
 				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
-				{x:   0, y: -100, duration: 5250, ease: 'Stepped'},
-
+				{x:   0, y: -100, duration: 5100, ease: 'Stepped'},
 				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
-				{x: -100, y:    0, duration: 4250, ease: 'Stepped'},
-				{x:   0, y:  100, duration: 2750, ease: 'Stepped'},
+				{x:-100, y:    0, duration: 4250, ease: 'Stepped'},
+				{x:   0, y:  100, duration: 2600, ease: 'Stepped'},
 				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
 				{x: 100, y:    0, duration: 1750, ease: 'Stepped'},
 				{x:   0, y:  100, duration: 2500, ease: 'Stepped'},
@@ -290,29 +268,29 @@ class Level2 extends Phaser.Scene{
 				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
 				{x: 100, y:    0, duration: 2500, ease: 'Stepped'},
 				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
-				{x:   0, y: -100, duration: 5250, ease: 'Stepped'},
+				{x:   0, y: -100, duration: 5100, ease: 'Stepped'},
 				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
-				{x: -100, y:    0, duration: 4250, ease: 'Stepped'},
-				{x:   0, y:  100, duration: 2750, ease: 'Stepped'},
+				{x:-100, y:    0, duration: 4250, ease: 'Stepped'},
+				{x:   0, y:  100, duration: 2600, ease: 'Stepped'},
 
 			]
 		});
-
+ 
 		this.tweens.timeline({
 			targets: this.moving.children.entries[5].body.velocity,
 			loop: -1,
 			tweens: [
-				{x:   0, y: -100, duration: 2625, ease: 'Stepped'},
+				{x:   0, y: -100, duration: 2500, ease: 'Stepped'},
 				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
-				{x: -100, y:    0, duration: 4250, ease: 'Stepped'},
-				{x:   0, y:  100, duration: 2750, ease: 'Stepped'},
+				{x:-100, y:    0, duration: 4250, ease: 'Stepped'},
+				{x:   0, y:  100, duration: 2600, ease: 'Stepped'},
 				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
 				{x: 100, y:    0, duration: 1750, ease: 'Stepped'},
 				{x:   0, y:  100, duration: 2500, ease: 'Stepped'},
 				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
 				{x: 100, y:    0, duration: 2500, ease: 'Stepped'},
 				{x:   0, y:    0, duration: 1000, ease: 'Stepped'},
-				{x:   0, y: -100, duration: 2625, ease: 'Stepped'},
+				{x:   0, y: -100, duration: 2600, ease: 'Stepped'},
 			]
 		});
 
