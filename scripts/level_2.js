@@ -89,6 +89,8 @@ class Level2 extends Phaser.Scene{
         this.mouseWalk_SFX = this.sound.add('MouseWalk');
         this.mouseJump_SFX = this.sound.add('MouseJump', audioConfig);
         this.pointGain_SFX = this.sound.add('PointGain', audioConfig);
+        this.lifeLost_SFX = this.sound.add('LifeLost', audioConfig);
+
 
         //Music
         this.levelMus.play(audioConfig);
@@ -108,6 +110,8 @@ class Level2 extends Phaser.Scene{
         this.mouseJump_SFX.setLoop(false);
         this.pointGain_SFX.setMute(this.sfxMute);
         this.pointGain_SFX.setLoop(false);
+        this.lifeLost_SFX.setMute(this.sfxMute);
+        this.lifeLost_SFX.setLoop(false);
         /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
 
@@ -336,6 +340,7 @@ class Level2 extends Phaser.Scene{
         this.mouseJump_SFX.stop();
         this.pointGain_SFX.stop();
         this.mouseWalk_SFX.stop();
+        this.lifeLost_SFX.stop();
         this.levelMus.stop();
         this.scene.start('ExampleScene');
     }
@@ -360,6 +365,7 @@ class Level2 extends Phaser.Scene{
         this.sfxMute = this.musicMute;
         this.mouseJump_SFX.setMute(this.sfxMute);
         this.pointGain_SFX.setMute(this.sfxMute);
+        this.lifeLost_SFX.setMute(this.sfxMute);
         /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
 
@@ -374,14 +380,6 @@ class Level2 extends Phaser.Scene{
         this.mouse.update(this.cursors);
 
         this.uiOverlay.updateMouseLives(this.mouse.lives);
-
-        //Win condition
-        if (this.mouse.currentStory ==this.highestStory)
-        {
-            //TODO: transition to the next level, play any animations
-            this.scene.launch('GameOverScene');
-            this.scene.pause();
-        }
         
         this.moving.children.entries.forEach((d) =>
         {
@@ -416,14 +414,8 @@ class Level2 extends Phaser.Scene{
         this.cats.forEach(function (cat) {
             cat.update();
         });
-        //Lose condition
-        // if (this.mouse.lives <= 0)
-        // {
-        //     this.scene.launch('GameOverScene');
-        //     this.scene.pause();
-        // }
 
-        this.uiOverlay.updateHighScore(this.highScore); //TODO: use a HighScore text class to store and update high score
+        this.uiOverlay.updateHighScore(this.highScore);
     }
 
     addLadderConfiguration(x,y,story=5){

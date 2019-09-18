@@ -134,6 +134,7 @@ class ExampleScene extends Phaser.Scene{
         this.mouseWalk_SFX = this.sound.add('MouseWalk');
         this.mouseJump_SFX = this.sound.add('MouseJump', audioConfig);
         this.pointGain_SFX = this.sound.add('PointGain', audioConfig);
+        this.lifeLost_SFX = this.sound.add('LifeLost', audioConfig);
 
         //Music
         this.levelMus.play(audioConfig);
@@ -153,6 +154,8 @@ class ExampleScene extends Phaser.Scene{
         this.mouseJump_SFX.setLoop(false);
         this.pointGain_SFX.setMute(this.sfxMute);
         this.pointGain_SFX.setLoop(false);
+        this.lifeLost_SFX.setMute(this.sfxMute);
+        this.lifeLost_SFX.setLoop(false);
         /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
 
@@ -285,6 +288,7 @@ class ExampleScene extends Phaser.Scene{
         this.mouseJump_SFX.stop();
         this.pointGain_SFX.stop();
         this.mouseWalk_SFX.stop();
+        this.lifeLost_SFX.stop();
         this.levelMus.stop();
         this.scene.start('Level2');
     }
@@ -307,18 +311,6 @@ class ExampleScene extends Phaser.Scene{
 		}
 
         this.mouse.update(this.cursors);
-		if(this.mouse.isWalking)
-		{
-			this.sfxMute = false;
-			this.sfxMute = this.musicMute;
-			this.mouseWalk_SFX.setMute(this.sfxMute);
-		}
-		else
-		{
-		   this.sfxMute = true;
-		   this.mouseWalk_SFX.setMute(this.sfxMute);
-		}
-
 
         /*-*-*-*-*-*   Audio   *-*-*-*-*-*-*/
         //Mouse walk SFX
@@ -338,6 +330,7 @@ class ExampleScene extends Phaser.Scene{
        this.sfxMute = this.musicMute;
        this.mouseJump_SFX.setMute(this.sfxMute);
        this.pointGain_SFX.setMute(this.sfxMute);
+       this.lifeLost_SFX.setMute(this.sfxMute);
         /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
 
