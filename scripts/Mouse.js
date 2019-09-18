@@ -14,6 +14,9 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		this.JumpVelocityY = 250;
 		this.spriteFattening = 4;
 		this.SwingSpeed = 300;
+		this.CucumberDuration = 10000;
+		this.originalWidth = 21;
+		//End of Static Variables//
 
         this.original_x=config.x;
         this.original_y=config.y;
@@ -22,17 +25,13 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		this.isOnLadder = false;
         this.isClimbing = false;
         this.isWalking = false; 	//Mouse walking SFX
-		this.lastPosition = 0;
 		this.snapTo = null;
 		this.isCeiling = false;
 		this.stickTimer;
+		this.cucumberTimer;
 		this.platform;
-		this.savedYPos;
-        this.savedXPos;
 		this.swingVelocity;
 
-		
-		this.originalWidth = 21;
 		this.body.setSize(this.originalWidth + this.spriteFattening, this.body.height);
 
         this.cursors = this.scene.input.keyboard.createCursorKeys();
@@ -41,21 +40,12 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
         this.lives=3;
 
         this.isHoldingCucumber=false;
-        this.cucumberLoop=1000;
     }
 
     update() {
-        if(this.isHoldingCucumber){
-        	this.cucumberLoop--;
-        	if(this.cucumberLoop<=0){
-        		// alert('over');
-        		this.isHoldingCucumber=false;
-        		this.cucumberLoop=1000;
-			}
-		}
-		
 		if(this.platform != null)
 		{
+			//Update this body's velocity with the velocity of the platform's, to make it look like we're moving with the platform.
 			this.body.velocity.x = this.platform.body.velocity.x;
             this.body.velocity.y = this.platform.body.velocity.y;
 		}
@@ -93,81 +83,21 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		{
 			this.body.allowGravity = false;
 		}
-        if (this.cursors.left.isDown)
+		
+		this.normalLeftRightMovement();
+		
+		if(this.isHoldingCucumber)
 		{
-			//For mouse walking SFX
-			this.isWalking = !!this.body.touching.down;
-
-			this.lastDir = true;
-			if(this.body.velocity.x >= -1 * this.PlayerMovementVelocity || this.body.touching.down)
-			{
-				this.body.velocity.x = -1 * this.PlayerMovementVelocity;
-			}
-			if(this.isHoldingCucumber){
-				this.anims.play('cu_left',true);
-			}
-			else{
-				this.anims.play('left', true);
-			}
-
-		}
-		else if (this.cursors.right.isDown)
-		{
-			//For mouse walking SFX
-			this.isWalking = !!this.body.touching.down;
-
-			this.lastDir = false;
-			if(this.body.velocity.x <= this.PlayerMovementVelocity || this.body.touching.down)
-			{
-				this.body.velocity.x = this.PlayerMovementVelocity;
-			}
-
-			if(this.isHoldingCucumber){
-				this.anims.play('cu_right',true);
-			}
-			else{
-				this.anims.play('right', true);
-			}
-		}
-		else
-		{
-			this.isWalking = false;
-			this.body.velocity.x = 0;
-			this.resetSprite();
+			return;
 		}
 
-		if(this.isOnLadder && this.body.velocity.y == 0)
-		{
-			if(this.cursors.up.isDown)
-			{
-				//Mouse walking SFX
-				this.isWalking = false;
+		
+		this.normalLadderMovement();
 
-				//Offset the player's position, to check if we're at the top of a ladder.
-				this.body.position.y -= 2;
-				if(this.scene.physics.overlap(this.scene.mouse, this.scene.ladders)&&!this.isHoldingCucumber)
-				{
-					this.body.position.x = this.snapTo;
-					this.body.velocity.x = 0;
-					this.isClimbing = true;
-				}
-				this.body.position.y += 2;
-			}
-			else if(this.cursors.down.isDown&&!this.isHoldingCucumber)
-			{
-				//Mouse walking SFX
-				this.isWalking = false;
-
-				this.body.position.x = this.snapTo;
-				this.body.velocity.x = 0;
-				this.isClimbing = true;
-			}    
-		}
 		//Otherwise, we can jump
-		if(this.cursors.space.isDown && this.body.touching.down&&!this.isHoldingCucumber)
+		if(this.cursors.space.isDown && this.body.touching.down)
 		{
 			this.checkPass();
-			this.body.position.y -= 5;
 			//Mouse walking SFX
 			this.isWalking = false;
 
@@ -188,7 +118,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		{
 			this.body.velocity.y = this.LadderClimbingVelocity;
 		}
-		else if(!this.cursors.down.isDown && !this.cursors.up.isDown)
+		else
 		{
 			this.body.velocity.y = 0;
 		}
@@ -230,29 +160,33 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 	}
 
 	///MAIN MOUSE FUNCTIONS///
-    attack(weapon,enemy){
-
-    }
-
     //Takes damage from an enemy
-    hurtBy(enemy) {
-    	if(this.lives-1<0){
+    hurtBy(enemy)
+	{
+    	if(this.lives-1 < 0)
+		{
     		this.die();
-		}else {
-    		this.lives--;
-			this.body.position.x=this.original_x;
-			this.body.position.y=this.original_y-50;
 		}
-    	// this.isHoldingCucumber=false;
+		else
+		{
+    		this.lives--;
+			this.body.position.x = this.original_x;
+			this.body.position.y = this.original_y - 50;
+			this.body.velocity.x = 0;
+			this.body.velocity.y = 0;
+			this.platform = null;
+			this.isCeiling = false;
+			this.isClimbing = false;
+		}
     }
 
     //Probably play a death animation
-    die() {
+    die()
+	{
 		//Lose condition
-
 		this.scene.scene.launch('GameOverScene');
 		this.scene.scene.pause();
-        this.alive=false;
+        this.alive = false;
     }
 	
 	///MOVEMENT HELPER FUNCTIONS///
@@ -264,6 +198,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 	
 	saveLadderPos(object1, object2)
 	{
+		//Things mysteriously work if offset by 2... might be an issue with where the xposition is calculated by phaser.
 		object1.snapTo = object2.body.position.x - 2;
 		object1.isOnLadder = true;
 	}
@@ -275,20 +210,25 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		this.climbOff();
     }
 
-    checkPass(){
-		let cur_story=this.currentStory;
-		let cur_x=this.body.position.x;
-		this.scene.cats.forEach(function (cat) {
-			// alert(cur_story);
-			if(cat.currentStory==cur_story){
-				if(cat.left){
-					if(cat.body.position.x>=cur_x){
-						// alert('pass');
+    checkPass()
+	{
+		let cur_story = this.currentStory;
+		let cur_x = this.body.position.x;
+		this.scene.cats.forEach(function (cat)
+		{
+			if(cat.currentStory == cur_story)
+			{
+				if(cat.left)
+				{
+					if(cat.body.position.x>=cur_x)
+					{
 						cat.initScore=true;
 					}
-				}else {
-					if(cat.body.position.x<=cur_x){
-						// alert('pass');
+				}
+				else 
+				{
+					if(cat.body.position.x<=cur_x)
+					{
 						cat.initScore=true;
 					}
 				}
@@ -298,12 +238,11 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 	
 	hangOut(platform)
 	{
-		if(this.body.touching.up && this.cursors.space.isDown && !this.isCeiling&&!this.isHoldingCucumber)
+		if(this.body.touching.up && this.cursors.space.isDown && !this.isCeiling && !this.isHoldingCucumber)
 		{
 			this.checkPass();
 			this.resetSprite();
 			this.stickTimer = this.scene.time.delayedCall(this.StickToCeilingDuration, () =>{
-				console.log("UNSTICK");
 				if(this.isCeiling)
 				{
 					this.isCeiling = false;
@@ -318,9 +257,12 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
             this.body.velocity.y = 0;
 			this.isCeiling = true;
 			this.body.allowGravity = false;
-			if(this.lastDir){
+			if(this.lastDir)
+			{
 				this.setTexture('climb_left');
-			}else{
+			}
+			else
+			{
 				this.setTexture('climb_right');
 			}
 
@@ -329,12 +271,11 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
     
     ridePlatform(platform)
     {
-        if(this.body.touching.up && this.cursors.space.isDown && !this.isCeiling&&!this.isHoldingCucumber)
+        if(this.body.touching.up && this.cursors.space.isDown && !this.isCeiling && !this.isHoldingCucumber)
 		{
 			this.checkPass();
 			this.resetSprite();
 			this.stickTimer = this.scene.time.delayedCall(this.StickToCeilingDuration, () =>{
-				console.log("UNSTICK");
 				if(this.isCeiling)
 				{
 					this.isCeiling = false;
@@ -350,42 +291,133 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			this.isCeiling = true;
 			this.body.allowGravity = false;
 			this.platform = platform;
-			if(this.lastDir){
+			if(this.lastDir)
+			{
 				this.setTexture('climb_left');
-			}else{
+			}
+			else
+			{
 				this.setTexture('climb_right');
 			}
+		}
+    }
+	
+	normalLeftRightMovement()
+	{
+		if (this.cursors.left.isDown)
+		{
+			//For mouse walking SFX
+			this.isWalking = !this.body.touching.down;
 
+			this.lastDir = true;
+			if(this.body.velocity.x >= -1 * this.PlayerMovementVelocity || (this.body.velocity.y == 0 && this.body.touching.down))
+			{
+				this.body.velocity.x = -1 * this.PlayerMovementVelocity;
+			}
+			if(this.isHoldingCucumber)
+			{
+				this.anims.play('cu_left',true);
+			}
+			else
+			{
+				this.anims.play('left', true);
+			}
 
 		}
-		//If we collide with a new platform
-		// else if(this.isCeiling && this.cursors.space.isDown)
-		// {
-		// 	//Update the platform reference.
-		// 	this.platform = platform;
-		// }
-    }
+		else if (this.cursors.right.isDown)
+		{
+			//For mouse walking SFX
+			this.isWalking = !this.body.touching.down;
+
+			this.lastDir = false;
+			if(this.body.velocity.x <= this.PlayerMovementVelocity || (this.body.velocity.y == 0 && this.body.touching.down))
+			{
+				this.body.velocity.x = this.PlayerMovementVelocity;
+			}
+
+			if(this.isHoldingCucumber)
+			{
+				this.anims.play('cu_right',true);
+			}
+			else
+			{
+				this.anims.play('right', true);
+			}
+		}
+		else
+		{
+			this.isWalking = false;
+			this.body.velocity.x = 0;
+			this.resetSprite();
+		}
+
+	}
+	
+	normalLadderMovement()
+	{
+		if(this.isOnLadder && this.body.velocity.y == 0)
+		{
+			if(this.cursors.up.isDown)
+			{
+				//Mouse walking SFX
+				this.isWalking = false;
+
+				//Offset the player's position, to check if we're at the top of a ladder.
+				this.body.position.y -= 2;
+				if(this.scene.checkOverlap())
+				{
+					this.body.position.x = this.snapTo;
+					this.body.velocity.x = 0;
+					this.isClimbing = true;
+				}
+				this.body.position.y += 2;
+			}
+			else if(this.cursors.down.isDown)
+			{
+				//Mouse walking SFX
+				this.isWalking = false;
+
+				this.body.position.x = this.snapTo;
+				this.body.velocity.x = 0;
+				this.isClimbing = true;
+			}    
+		}
+	}
 		
 	///ETC HELPER FUNCTIONS///
 	resetSprite()
 	{
 		if (this.lastDir == null || this.lastDir === false)
 		{
-			if(this.isHoldingCucumber){
+			if(this.isHoldingCucumber)
+			{
 				this.anims.play('cu_rightStop');
-			}else{
+			}
+			else
+			{
 				this.anims.play('rightStop');
 			}
-
-
 		}
 		else
 		{
-			if(this.isHoldingCucumber){
+			if(this.isHoldingCucumber)
+			{
 				this.anims.play('cu_leftStop');
-			}else{
+			}
+			else
+			{
 				this.anims.play('leftStop');
 			}
 		}
+	}
+	
+	setCucumber()
+	{
+		this.isHoldingCucumber = true;
+		this.cucumberTimer = this.scene.time.delayedCall(this.CucumberDuration, () =>
+		{
+			console.log("Cucumber Down");
+			this.isHoldingCucumber = false;
+		}, null, this);
 	}
 }

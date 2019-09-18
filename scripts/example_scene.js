@@ -269,7 +269,7 @@ class ExampleScene extends Phaser.Scene{
             cucumber.visible=false;
             cucumber.destroy();
             //start ticking
-            mouse.isHoldingCucumber=true;
+			this.mouse.setCucumber();
         });
 
         //cheating
@@ -335,10 +335,6 @@ class ExampleScene extends Phaser.Scene{
 
 
         this.physics.overlap(this.cats,this.ladders,(cat,ladder)=>{
-            // alert(2);
-            // if(ladder.story==0){
-            //     alert(2);
-            // }
             cat.climbOrNot(ladder);
         });
 		this.cats.forEach(function (cat) {

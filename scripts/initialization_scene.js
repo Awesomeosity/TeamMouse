@@ -24,7 +24,7 @@ class InitializationScene extends Phaser.Scene{
 
         //Load sprite textures
         this.load.image('sewer_background', '../images/background.png');
-        this.load.image('ground', '../images/platform_tileable_middle_10px.png');
+        this.load.image('ground', '../images/v2_platform.png');
         this.load.image('ladder', '../images/ladder_v2.png');
         this.load.image('broken_ladder','../images/broken_ladder_v2.png');
 		this.load.image('breaker', '../images/background.jpg');
