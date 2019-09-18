@@ -1,5 +1,6 @@
 class Cat extends Phaser.Physics.Arcade.Sprite{
-    constructor(config) {
+    constructor(config)
+	{
         super(config.scene, config.x, config.y, config.key);
         config.scene.physics.world.enable(this);
         config.scene.add.existing(this);
@@ -8,13 +9,14 @@ class Cat extends Phaser.Physics.Arcade.Sprite{
 
         this.originalWidth = 21;
         this.body.setSize(this.originalWidth + 4, 40);
-        this.currentStory=config.originalStory;
-        this.left=false;
-        this.down=true;
-        this.ladder=null;
-        this.initScore=false;
+        this.currentStory = config.originalStory;
+        this.left = false;
+        this.down = true;
+        this.ladder = null;
+        this.initScore = false;
 
-        this.styleWhiteCenter = {
+        this.styleWhiteCenter =
+		{
             fontFamily: 'ArcadeClassic',
             fill: 'White',
             fontSize: 'x-large',
@@ -22,56 +24,71 @@ class Cat extends Phaser.Physics.Arcade.Sprite{
             fixedWidth: 200,
         };
 
-        this.scoreText=null;
-        this.scoreLoop=0;
+        this.scoreText = null;
+        this.scoreLoop = 0;
     }
 
     update(){
-        // alert('yes');
-        if(this.isClimbing){
+        if(this.isClimbing)
+		{
             this.climb();
-        }else{
+        }
+		else
+		{
             this.move();
-            // this.passBy();
         }
-        if(this.initScore){
+        if(this.initScore)
+		{
             //TODO: identify what kind of enemy it is
-            let x=this.scene.mouse.body.position.x;
-            let y=this.scene.mouse.body.position.y;
-            let height=this.scene.mouse.body.height;
-            if(this.left){
-                if(this.body.position.x<x-this.originalWidth){
+            let x = this.scene.mouse.body.position.x;
+            let y = this.scene.mouse.body.position.y;
+            let height = this.scene.mouse.body.height;
+            if(this.left)
+			{
+                if(this.body.position.x < x - this.originalWidth)
+				{
                     this.scene.pointGain_SFX.play();
-                    this.scene.highScore+=100;
-                    this.initScore=false;
-                    this.scoreText=this.scene.add.text(x-50, y+height/2, "100", this.styleWhiteCenter);
-                }
-            }else {
-                if(this.body.position.x>x+this.originalWidth){
-                    this.scene.pointGain_SFX.play();
-                    this.scene.highScore+=100;
-                    this.initScore=false;
-                    this.scoreText=this.scene.add.text(x-50, y+height/2, "100", this.styleWhiteCenter);
+                    this.scene.highScore += 100;
+                    this.initScore = false;
+                    this.scoreText = this.scene.add.text(x - 50, y + height / 2, "100", this.styleWhiteCenter);
                 }
             }
-            if(!this.scene.mouse.isCeiling){
-                if(this.left){
-                    if(this.body.position.x<x-this.originalWidth){
-                        this.scene.highScore+=100;
-                        this.scoreText=this.scene.add.text(x-50, y+height/2, "100", this.styleWhiteCenter);
-                    }
-                }else {
-                    if(this.body.position.x>x+this.originalWidth){
-                        this.scene.highScore+=100;
-                        this.scoreText=this.scene.add.text(x-50, y+height/2, "100", this.styleWhiteCenter);
+			else
+			{
+                if(this.body.position.x > x + this.originalWidth)
+				{
+                    this.scene.pointGain_SFX.play();
+                    this.scene.highScore += 100;
+                    this.initScore = false;
+                    this.scoreText = this.scene.add.text(x - 50, y + height / 2, "100", this.styleWhiteCenter);
+                }
+            }
+            if(!this.scene.mouse.isCeiling)
+			{
+                if(this.left)
+				{
+                    if(this.body.position.x < x - this.originalWidth)
+					{
+                        this.scene.highScore += 100;
+                        this.scoreText = this.scene.add.text(x - 50, y + height / 2, "100", this.styleWhiteCenter);
                     }
                 }
-                this.initScore=false;
+				else
+				{
+                    if(this.body.position.x > x + this.originalWidth)
+					{
+                        this.scene.highScore += 100;
+                        this.scoreText = this.scene.add.text(x - 50, y + height / 2, "100", this.styleWhiteCenter);
+                    }
+                }
+                this.initScore = false;
             }
         }
-        if(this.scoreText){
-            this.scoreLoop=(this.scoreLoop+1)%50;
-            if(!this.scoreLoop){
+        if(this.scoreText)
+		{
+            this.scoreLoop = (this.scoreLoop + 1) % 50;
+            if(!this.scoreLoop)
+			{
                 this.scoreText.destroy();
                 this.scoreText=null;
             }
@@ -80,11 +97,11 @@ class Cat extends Phaser.Physics.Arcade.Sprite{
 
 
     climbOrNot(ladder){
-        // alert(3);
-        let mouse=this.scene.mouse;
+        let mouse = this.scene.mouse;
         //stupid cat algorithmeow
-        this.ladder=ladder;
-        if(!this.isClimbing){
+        this.ladder = ladder;
+        if(!this.isClimbing)
+		{
             this.catAlgorithm(mouse);
         }
     }
@@ -112,23 +129,4 @@ class Cat extends Phaser.Physics.Arcade.Sprite{
     enterSematary(){
 
     }
-
-    // passBy(){
-    //     if(this.scene.mouse.currentStory==this.currentStory&&this.scene.mouse.isCeiling){
-    //         // alert('hey');
-    //         let x=this.scene.mouse.body.position.x;
-    //         if(this.left){
-    //             if(this.body.position.x>=x){
-    //                 // alert('pass');
-    //                 this.initScore=true;
-    //             }
-    //         }else {
-    //             if(this.body.position.x<=x){
-    //                 // alert('pass');
-    //                 this.initScore=true;
-    //             }
-    //         }
-    //
-    //     }
-    // }
 }

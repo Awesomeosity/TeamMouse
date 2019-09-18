@@ -46,8 +46,16 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		if(this.platform != null)
 		{
 			//Update this body's velocity with the velocity of the platform's, to make it look like we're moving with the platform.
-			this.body.velocity.x = this.platform.body.velocity.x;
-            this.body.velocity.y = this.platform.body.velocity.y;
+			if(this.body.touching.down || this.isCeiling)
+			{
+				this.body.velocity.x = this.platform.body.velocity.x;
+				this.body.velocity.y = this.platform.body.velocity.y;
+			}
+			else
+			{
+				this.platform = null;
+			}
+
 		}
 		
 		if(this.cursors.space.isUp && this.isCeiling)
@@ -78,10 +86,6 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		if(this.platform == null)
 		{
 			this.body.allowGravity = true;
-		}
-		else
-		{
-			this.body.allowGravity = false;
 		}
 		
 		this.normalLeftRightMovement();
@@ -300,6 +304,14 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 				this.setTexture('climb_right');
 			}
 		}
+		
+		else
+		{
+			this.body.velocity.x = platform.body.velocity.x;
+			this.body.velocity.y = platform.body.velocity.y;
+			this.platform = platform;
+		}
+
     }
 	
 	normalLeftRightMovement()
@@ -312,7 +324,14 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			this.lastDir = true;
 			if(this.body.velocity.x >= -1 * this.PlayerMovementVelocity || (this.body.velocity.y == 0 && this.body.touching.down))
 			{
-				this.body.velocity.x = -1 * this.PlayerMovementVelocity;
+				if(this.platform == null)
+				{
+					this.body.velocity.x = -1 * this.PlayerMovementVelocity;
+				}
+				else
+				{
+					this.body.velocity.x += -1 * this.PlayerMovementVelocity;
+				}
 			}
 			if(this.isHoldingCucumber)
 			{
@@ -332,6 +351,15 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			this.lastDir = false;
 			if(this.body.velocity.x <= this.PlayerMovementVelocity || (this.body.velocity.y == 0 && this.body.touching.down))
 			{
+				if(this.platform == null)
+				{
+					this.body.velocity.x = this.PlayerMovementVelocity;
+				}
+				else
+				{
+					this.body.velocity.x += this.PlayerMovementVelocity;
+				}
+
 				this.body.velocity.x = this.PlayerMovementVelocity;
 			}
 
@@ -347,7 +375,15 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		else
 		{
 			this.isWalking = false;
-			this.body.velocity.x = 0;
+			if(this.platform == null)
+			{
+				this.body.velocity.x = 0;
+			}
+			else
+			{
+				this.body.velocity.x += 0;
+			}
+
 			this.resetSprite();
 		}
 

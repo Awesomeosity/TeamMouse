@@ -382,7 +382,7 @@ class ExampleScene extends Phaser.Scene{
     }
 
     addLadderConfiguration(x,y,story=5,position){
-        let ladd=null;
+        let ladd = null;
         if(story%2==1){
             if(story!=1){
                 if(position%2==1){
