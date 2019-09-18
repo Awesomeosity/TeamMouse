@@ -43,7 +43,7 @@ class Level2 extends Phaser.Scene{
             scene:this,
             key:'stupid_cat',
             x: 150,
-            y: 700,
+            y: 680,
             right_border:750,
             left_border:50
         };
@@ -166,8 +166,8 @@ class Level2 extends Phaser.Scene{
         this.mouse=new Mouse({
             scene:this,
             key:'mouse',
-            x:100,
-            y:450
+            x:50,
+            y:400
         });
         this.mouse.body.collideWorldBounds=true;
 
@@ -319,12 +319,8 @@ class Level2 extends Phaser.Scene{
         cur_cat=this.cat_factory.createCat(CatType.SIMPLE,this.simple_cat_configuration);
         this.cats.push(cur_cat);
 
-        for(var i=0;i<this.moving.children.entries.length&&i%2==0;i++){
-            cur_cat=this.cat_factory.createCat(CatType.STATIC,this.static_cat_configuration);
-
-        }
-
         this.physics.add.collider(this.cats,this.platforms);
+        this.physics.add.collider(this.cats,this.moving);
         this.physics.add.overlap(this.cats,this.mouse,(cat,mouse)=>{
             mouse.hurtBy(cat);
         });
@@ -370,13 +366,13 @@ class Level2 extends Phaser.Scene{
             cur_cat.setBounce(1);
             this.cats.push(cur_cat);
         }
-        this.tigger_loop=(this.tigger_loop+1)%350;
+        this.tigger_loop=(this.tigger_loop+1)%450;
 
         let index=0;
         while(index<this.cats.length){
             let cat=this.cats[index];
             if(cat instanceof TiggerCat){
-                if(cat.body.position.x>800){
+                if(cat.tigger_loop>=600){
                     this.cats.splice(index,1);
                     cat.visible=false;
                     cat.destroy();
@@ -390,9 +386,9 @@ class Level2 extends Phaser.Scene{
             }
             index++;
         }
-        this.cats.forEach(function (cat) {
-            cat.update();
-        });
+        // this.cats.forEach(function (cat) {
+        //     cat.update();
+        // });
         //Lose condition
         // if (this.mouse.lives <= 0)
         // {
