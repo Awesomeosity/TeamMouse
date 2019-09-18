@@ -29,6 +29,11 @@ class MenuScene extends Phaser.Scene{
                 delay: 0
             };
         this.insertCoin_SFX = this.sound.add('InsertCoin', audioConfig);
+        this.insertCoin_SFX.setMute(this.game.mute);
+
+        this.input.keyboard.on('keydown-M', ()=> {       //Pressing M mutes / un-mutes
+            this.game.mute = !this.game.mute;
+        });
 
         /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
@@ -146,6 +151,7 @@ class MenuScene extends Phaser.Scene{
 
     update()
     {
+        this.insertCoin_SFX.setMute(this.game.mute);
         this.changeNumCoinsText()
         this.changeCoinText()
     }
