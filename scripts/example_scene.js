@@ -477,7 +477,7 @@ class ExampleScene extends Phaser.Scene{
         this.platforms.add(plat);
     }
 	
-    //Makes a level automatically from the following parameters:
+    //Makes a basic level automatically from the following parameters:
     //floorCount: How many floors are there in this level? One-index.
     //offsetArray: From the left-most platform's left edge, how much space should there be? Should contain one entry per floor.
     //widthArray: A two-dimensional array, first containing arrays that correspond to each floor, which contain each platform's width on that floor.
