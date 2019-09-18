@@ -27,13 +27,12 @@ class Cat extends Phaser.Physics.Arcade.Sprite{
     }
 
     update(){
-        //TODO how do you reset climbing
-        //TODO after resetting, how will it keep moving instead of choosing again
+        // alert('yes');
         if(this.isClimbing){
             this.climb();
         }else{
             this.move();
-            this.passBy();
+            // this.passBy();
         }
         if(this.initScore){
             //TODO: identify what kind of enemy it is
@@ -42,18 +41,31 @@ class Cat extends Phaser.Physics.Arcade.Sprite{
             let height=this.scene.mouse.body.height;
             if(this.left){
                 if(this.body.position.x<x-this.originalWidth){
+                    this.scene.pointGain_SFX.play();
                     this.scene.highScore+=100;
                     this.initScore=false;
                     this.scoreText=this.scene.add.text(x-50, y+height/2, "100", this.styleWhiteCenter);
                 }
             }else {
                 if(this.body.position.x>x+this.originalWidth){
+                    this.scene.pointGain_SFX.play();
                     this.scene.highScore+=100;
                     this.initScore=false;
                     this.scoreText=this.scene.add.text(x-50, y+height/2, "100", this.styleWhiteCenter);
                 }
             }
             if(!this.scene.mouse.isCeiling){
+                if(this.left){
+                    if(this.body.position.x<x-this.originalWidth){
+                        this.scene.highScore+=100;
+                        this.scoreText=this.scene.add.text(x-50, y+height/2, "100", this.styleWhiteCenter);
+                    }
+                }else {
+                    if(this.body.position.x>x+this.originalWidth){
+                        this.scene.highScore+=100;
+                        this.scoreText=this.scene.add.text(x-50, y+height/2, "100", this.styleWhiteCenter);
+                    }
+                }
                 this.initScore=false;
             }
         }
@@ -61,10 +73,11 @@ class Cat extends Phaser.Physics.Arcade.Sprite{
             this.scoreLoop=(this.scoreLoop+1)%50;
             if(!this.scoreLoop){
                 this.scoreText.destroy();
-                this.scoreText=0;
+                this.scoreText=null;
             }
         }
     }
+
 
     climbOrNot(ladder){
         // alert(3);
@@ -100,22 +113,22 @@ class Cat extends Phaser.Physics.Arcade.Sprite{
 
     }
 
-    passBy(){
-        if(this.scene.mouse.currentStory==this.currentStory&&this.scene.mouse.isCeiling){
-            // alert('hey');
-            let x=this.scene.mouse.body.position.x;
-            if(this.left){
-                if(this.body.position.x>=x){
-                    // alert('pass');
-                    this.initScore=true;
-                }
-            }else {
-                if(this.body.position.x<=x){
-                    // alert('pass');
-                    this.initScore=true;
-                }
-            }
-
-        }
-    }
+    // passBy(){
+    //     if(this.scene.mouse.currentStory==this.currentStory&&this.scene.mouse.isCeiling){
+    //         // alert('hey');
+    //         let x=this.scene.mouse.body.position.x;
+    //         if(this.left){
+    //             if(this.body.position.x>=x){
+    //                 // alert('pass');
+    //                 this.initScore=true;
+    //             }
+    //         }else {
+    //             if(this.body.position.x<=x){
+    //                 // alert('pass');
+    //                 this.initScore=true;
+    //             }
+    //         }
+    //
+    //     }
+    // }
 }

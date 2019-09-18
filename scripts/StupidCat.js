@@ -17,7 +17,8 @@ class StupidCat extends Cat{
     }
 
     climb(){
-        //stupid cat can only climb down (because it's stupid)
+        //stupid cat can only climb down (because it's stupid) //hahah
+        //this.anims.play('scclimb',true);          //Temporary climb-down animation
         this.body.position.x=this.ladder.body.position.x;
         this.body.velocity.x=0;
         this.body.setSize(this.originalWidth, this.body.height);

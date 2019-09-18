@@ -4,6 +4,9 @@ var CatFactory=(function () {
     var stupid_total=0;
     var maho_max=5;
     var maho_total=0;
+    var tigger_count=0;
+    var tigger_type_1=200;
+    var tigger_type_2=270;
     function init() {
         return {
             createCat: function (catType,config) {
@@ -30,6 +33,15 @@ var CatFactory=(function () {
                         else{
                             return null;
                         }
+                    case CatType.TIGGER:
+                        tigger_count=(tigger_count+1)%2;
+                        if(tigger_count){
+                            return new TiggerCat(config,tigger_type_1);
+                        }else{
+                            return new TiggerCat(config,tigger_type_2);
+                        }
+                    case CatType.SIMPLE:
+                        return new SimpleHarmonicCat(config);
                     default:
                         return new StupidCat(config);
                 }
