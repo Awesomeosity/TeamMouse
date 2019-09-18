@@ -86,6 +86,9 @@ class MenuScene extends Phaser.Scene{
 
 
 
+        this.firstScore = 0;
+        this.secondScore = 0;
+        this.thirdScore = 0;
 
         //Adds menu text to the screen
         this.add.text(textCenterPos, 0, 'HIGH SCORE', styleRedCenter);
@@ -95,23 +98,22 @@ class MenuScene extends Phaser.Scene{
         if (storageAvailable('localStorage') && localStorage.getItem('HighScore') > 0)
         {
             this.highScoreText.setText(localStorage.getItem('HighScore'));
+            this.firstScore = localStorage.getItem('HighScore');
         }
         else
         {
+            this.firstScore = 0;
             this.highScoreText.setText('0');
         }
 
 
-        this.firstScore = 0;
-        this.secondScore = 0;
-        this.thirdScore = 0;
+
 
         if (storageAvailable('localStorage') &&
             localStorage.getItem('1stScore') &&
             localStorage.getItem('2ndScore') &&
             localStorage.getItem('3rdScore'))
         {
-            this.firstScore = localStorage.getItem('1stScore');
             this.secondScore = localStorage.getItem('2ndScore');
             this.thirdScore = localStorage.getItem('3rdScore');
         }
