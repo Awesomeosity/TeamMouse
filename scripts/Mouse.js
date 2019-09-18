@@ -268,7 +268,10 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
     //Probably play a death animation
     die() {
 		//Lose condition
-
+		this.scene.mouseJump_SFX.stop();
+		this.scene.pointGain_SFX.stop();
+		this.scene.mouseWalk_SFX.stop();
+		this.scene.levelMus.stop();
 		this.scene.scene.launch('GameOverScene', this.scene.highScore);
 		this.scene.scene.pause();
         this.alive=false;

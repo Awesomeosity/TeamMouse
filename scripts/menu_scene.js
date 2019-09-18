@@ -10,10 +10,27 @@ class MenuScene extends Phaser.Scene{
 
     preload() {
         this.load.image('background', '../images/background.jpg');
+        this.load.audio('InsertCoin', '../audio/InsertCoin_sfx.wav');
+
     }
 
 
     create() {
+        /*-*-*-*-*-*   Audio   *-*-*-*-*-*-*/
+        //Base config
+        let audioConfig =
+            {
+                mute: false,
+                volume: 0.5,
+                rate: 1,
+                detune: 0,
+                seek: 0,
+                loop: false,
+                delay: 0
+            };
+        this.insertCoin_SFX = this.sound.add('InsertCoin', audioConfig);
+
+        /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
         //Sets BG to black
         this.cameras.main.setBackgroundColor('#000000');
@@ -118,6 +135,7 @@ class MenuScene extends Phaser.Scene{
         });
 
         this.input.keyboard.on('keydown-C', () => {
+            this.insertCoin_SFX.play();
             this.numCoins += 1;
         });
 
