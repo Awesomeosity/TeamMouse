@@ -389,6 +389,10 @@ class ExampleScene extends Phaser.Scene{
                 var pos = this.cats.indexOf(cat);
                 this.cats.splice(pos,1);
                 cat.visible = false;
+                if(cat.scoreText){
+                    cat.scoreText.destroy();
+                    cat.scoreText=null;
+                }
                 cat.destroy();
             }
         }
