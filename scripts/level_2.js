@@ -47,14 +47,6 @@ class Level2 extends Phaser.Scene{
             right_border:750,
             left_border:50
         };
-        this.static_cat_configuration={
-            scene:this,
-            key:'stupid_cat',
-            x: 150,
-            y: 700,
-            right_border:750,
-            left_border:50
-        };
         this.tigger_cat_configuration={
             scene:this,
             key:'tigger_cat',

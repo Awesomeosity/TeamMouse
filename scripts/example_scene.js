@@ -77,21 +77,20 @@ class ExampleScene extends Phaser.Scene{
 	preload()
 	{
 	    this.physics.world.bounds.width=800;
+
 	    //Start up UI scene and assign to variable
 		this.scene.launch('GameUI');
 		this.uiOverlay = this.scene.get('GameUI');
 
 		//For tracking the player's high score throughout the level
-		this.highScore = 0; //TODO: Add to high score whenever you do something (get past a cat?)
-
-        //Loads level music
-        this.load.audio('LevelMus', '../audio/Level1-Mus.wav'); //TODO: Make music reset when level reloads
-        this.load.audio('MouseWalk', '../audio/Level1-MouseWalk.wav');
+		this.highScore = 0;
 	}
 
     create()
     {
+        //Adds sewer background
         this.add.image(400, 400, 'sewer_background');
+
 
         //add cheese
         let cheese_config={
@@ -117,10 +116,9 @@ class ExampleScene extends Phaser.Scene{
             cu.body.allowGravity = false;
         });
 
-        //Initializes and plays level sounds
-        this.levelMus = this.sound.add('LevelMus');
-        this.mouseWalk_SFX = this.sound.add('MouseWalk');
-        let musConfig =
+        /*-*-*-*-*-*   Audio   *-*-*-*-*-*-*/
+        //Base config
+        let audioConfig =
             {
                 mute: false,
                 volume: 0.5,
@@ -130,8 +128,16 @@ class ExampleScene extends Phaser.Scene{
                 loop: true,
                 delay: 0
             };
+
+        //Initializes level sounds
+        this.levelMus = this.sound.add('LevelMus');
+        this.mouseWalk_SFX = this.sound.add('MouseWalk');
+        this.mouseJump_SFX = this.sound.add('MouseJump', audioConfig);
+        this.pointGain_SFX = this.sound.add('PointGain', audioConfig);
+        this.lifeLost_SFX = this.sound.add('LifeLost', audioConfig);
+
         //Music
-        this.levelMus.play(musConfig);
+        this.levelMus.play(audioConfig);
         this.musicMute = true;                                      //Music mutes by default
         this.levelMus.setMute(this.musicMute);
         this.input.keyboard.on('keydown-M', ()=> {       //Pressing M mutes / un-mutes
@@ -140,9 +146,21 @@ class ExampleScene extends Phaser.Scene{
         });
 
         //SFX
-        this.mouseWalk_SFX.play(musConfig);
-        this.sfxMute = true;
-        this.mouseWalk_SFX.setMute(this.sfxMute);
+        this.walkMute = this.musicMute;                             //SFX mutes with music on initialization
+        this.sfxMute = this.musicMute;
+        this.mouseWalk_SFX.play(audioConfig);
+        this.mouseWalk_SFX.setMute(this.walkMute);
+        this.mouseJump_SFX.setMute(this.sfxMute);
+        this.mouseJump_SFX.setLoop(false);
+        this.pointGain_SFX.setMute(this.sfxMute);
+        this.pointGain_SFX.setLoop(false);
+        this.lifeLost_SFX.setMute(this.sfxMute);
+        this.lifeLost_SFX.setLoop(false);
+        /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+
+
+
 
         this.ladders = this.physics.add.group();
         this.normalLadder=this.physics.add.group();
@@ -161,9 +179,13 @@ class ExampleScene extends Phaser.Scene{
         this.ladderWidth = 21;
 		this.floorHeight = 100;
 
+
+        //Ground floor (storey 0)
         this.addPlatformConfiguration(400, 790, 0, false, true, 800, 10, 1);
 
-        
+
+
+        //Level making arrays
         let offSetArray = [20, 60, 20, 60, 20, 325];
         let widthArray = [];
         widthArray[0] = [200, 400, 10];
@@ -196,6 +218,11 @@ class ExampleScene extends Phaser.Scene{
 
 		this.physics.add.collider(this.mouse,this.platforms, (mouse,platform) =>
 	    {
+			if(mouse.platform != null && mouse.body.touching.up && mouse.body.allowGravity)
+			{
+				mouse.hurtBy("lmao");
+				return;
+			}
 			mouse.hangOut(platform);
 			mouse.climbOff();
             if(!mouse.isCeiling){
@@ -226,6 +253,7 @@ class ExampleScene extends Phaser.Scene{
                 //TODO: if mouse is holding a cucumber
                 this.enter_sematary(cat,true);
                 this.highScore+=150;
+                this.pointGain_SFX.play();
                 let x=mouse.body.position.x;
                 let y=mouse.body.position.y;
                 this.killing_score_text=this.add.text(x-50, y-50, "150", this.styleWhiteCenter);
@@ -251,14 +279,18 @@ class ExampleScene extends Phaser.Scene{
 
         //winning
         this.physics.add.overlap(this.mouse,this.cheese,()=>{
-           this.nextScene();
+           this.nextScene(); //TODO: Launch LevelWin, then have LevelWin take you to next level
         });
 
     }
 
     nextScene(){
+        this.mouseJump_SFX.stop();
+        this.pointGain_SFX.stop();
+        this.mouseWalk_SFX.stop();
+        this.lifeLost_SFX.stop();
+        this.levelMus.stop();
         this.scene.start('Level2');
-        this.scene.stop();
     }
 
     update()
@@ -279,17 +311,27 @@ class ExampleScene extends Phaser.Scene{
 		}
 
         this.mouse.update(this.cursors);
-		if(this.mouse.isWalking)
-		{
-			this.sfxMute = false;
-			this.sfxMute = this.musicMute;
-			this.mouseWalk_SFX.setMute(this.sfxMute);
-		}
-		else
-		{
-		   this.sfxMute = true;
-		   this.mouseWalk_SFX.setMute(this.sfxMute);
-		}
+
+        /*-*-*-*-*-*   Audio   *-*-*-*-*-*-*/
+        //Mouse walk SFX
+       if(this.mouse.isWalking)
+       {
+            this.walkMute = false;
+            this.walkMute = this.musicMute;
+            this.mouseWalk_SFX.setMute(this.walkMute);
+       }
+       else
+       {
+           this.walkMute = true;
+           this.mouseWalk_SFX.setMute(this.walkMute);
+       }
+
+       //Update SFX mute with Music mute
+       this.sfxMute = this.musicMute;
+       this.mouseJump_SFX.setMute(this.sfxMute);
+       this.pointGain_SFX.setMute(this.sfxMute);
+       this.lifeLost_SFX.setMute(this.sfxMute);
+        /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
 
         this.physics.overlap(this.cats,this.ladders,(cat,ladder)=>{
@@ -302,24 +344,10 @@ class ExampleScene extends Phaser.Scene{
 		this.cats.forEach(function (cat) {
             cat.update();
         });
+
+		//Updates the UI with lives and scores
         this.uiOverlay.updateMouseLives(this.mouse.lives);
-
-        //Win condition
-        if (this.mouse.currentStory == this.highestStory)
-        {
-            //TODO: transition to the next level, play any animations
-            this.scene.launch('GameOverScene');
-            this.scene.pause();
-        }
-
-        //Lose condition
-        // if (this.mouse.lives <= 0)
-        // {
-        //     this.scene.launch('GameOverScene');
-        //     this.scene.pause();
-        // }
-
-        this.uiOverlay.updateHighScore(this.highScore); //TODO: use a HighScore text class to store and update high score
+        this.uiOverlay.updateHighScore(this.highScore);
 
         if(this.killing_score_text){
             this.scoreLoop=(this.scoreLoop+1)%50;
@@ -445,4 +473,14 @@ class ExampleScene extends Phaser.Scene{
             }
         }
     }
+	
+	checkOverlap()
+	{
+		if(this.physics.overlap(this.mouse, this.normalLadder))
+		{
+			return true;
+		}
+		
+		return false;
+	}
 }

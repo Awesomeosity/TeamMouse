@@ -53,6 +53,14 @@ function animations(scene) {
     scene.anims.create(config);
 
     config = {
+        key: 'scclimb',
+        frames: scene.anims.generateFrameNumbers('catClimb', {start: 0, end: 1}),
+        frameRate: 6,
+        repeat: -1
+    };
+    scene.anims.create(config);
+
+    config = {
         key: 'cu_left',
         frames: scene.anims.generateFrameNumbers('mouse', {prefix: 'walk/left',start: 8, end: 11}),
         frameRate: 10,
@@ -97,4 +105,6 @@ function animations(scene) {
         repeat: -1
     };
     scene.anims.create(config);
+
+
 }
