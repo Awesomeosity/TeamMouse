@@ -378,15 +378,6 @@ class Level2 extends Phaser.Scene{
             }
             index++;
         }
-        // this.cats.forEach(function (cat) {
-        //     cat.update();
-        // });
-        //Lose condition
-        // if (this.mouse.lives <= 0)
-        // {
-        //     this.scene.launch('GameOverScene');
-        //     this.scene.pause();
-        // }
 
         this.uiOverlay.updateHighScore(this.highScore); //TODO: use a HighScore text class to store and update high score
     }
@@ -433,7 +424,6 @@ class Level2 extends Phaser.Scene{
     //floorCount: How many floors are there in this level? One-index.
     //offsetArray: From the left-most platform's left edge, how much space should there be? Should contain one entry per floor.
     //widthArray: A two-dimensional array, first containing arrays that correspond to each floor, which contain each platform's width on that floor.
-    //TODO: Modify this so that we can tell it which ladders are broken.
     levelMaker(floorCount, offsetArray, widthArray)
     {        
         //Formula: firstPlat.XPos + firstPlat.width / 2 + 21 + secondPlat.width / 2 = secondPlat.XPos
