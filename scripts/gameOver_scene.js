@@ -68,6 +68,8 @@ class GameOverScene extends Phaser.Scene{
 
         //Go back to example scene on ENTER pressed
         this.input.keyboard.on('keydown-ENTER', () => {
+            var level2Scene=this.scene.get('Level2');
+            level2Scene.cats=[];
             var theOtherScene=this.scene.get('ExampleScene');
             theOtherScene.scene.restart();
             theOtherScene.cats=[];

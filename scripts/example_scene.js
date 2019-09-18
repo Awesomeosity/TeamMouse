@@ -110,6 +110,8 @@ class ExampleScene extends Phaser.Scene{
 
         //add cucumbers
         this.cucumbers = this.physics.add.group();
+        this.cucumber_config.x=600;
+        this.cucumber_config.y=535;
         let cucumber = new Cucumber(this.cucumber_config);
         this.cucumbers.add(cucumber);
         this.cucumber_config.x=80;

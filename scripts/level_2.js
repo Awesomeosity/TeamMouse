@@ -296,6 +296,9 @@ class Level2 extends Phaser.Scene{
 
         //add cats
         this.cats=[];
+        this.simple_cat_configuration.x=150;
+        this.simple_cat_configuration.y=680;
+        this.simple_cat_configuration.left_border=50;
         let cur_cat=this.cat_factory.createCat(CatType.SIMPLE,this.simple_cat_configuration);
         this.cats.push(cur_cat);
 

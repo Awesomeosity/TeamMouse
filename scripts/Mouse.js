@@ -101,7 +101,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		//Otherwise, we can jump
 		if(this.cursors.space.isDown && this.body.touching.down)
 		{
-			this.checkPass();
+			// this.checkPass();
 			//Mouse walking SFX
 			this.isWalking = false;
 
@@ -214,37 +214,37 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		this.climbOff();
     }
 
-    checkPass()
-	{
-		let cur_story = this.currentStory;
-		let cur_x = this.body.position.x;
-		this.scene.cats.forEach(function (cat)
-		{
-			if(cat.currentStory == cur_story)
-			{
-				if(cat.left)
-				{
-					if(cat.body.position.x>=cur_x)
-					{
-						cat.initScore=true;
-					}
-				}
-				else 
-				{
-					if(cat.body.position.x<=cur_x)
-					{
-						cat.initScore=true;
-					}
-				}
-			}
-		});
-	}
+    // checkPass()
+	// {
+	// 	let cur_story = this.currentStory;
+	// 	let cur_x = this.body.position.x;
+	// 	this.scene.cats.forEach(function (cat)
+	// 	{
+	// 		if(cat.currentStory == cur_story)
+	// 		{
+	// 			if(cat.left)
+	// 			{
+	// 				if(cat.body.position.x>=cur_x)
+	// 				{
+	// 					cat.initScore=true;
+	// 				}
+	// 			}
+	// 			else
+	// 			{
+	// 				if(cat.body.position.x<=cur_x)
+	// 				{
+	// 					cat.initScore=true;
+	// 				}
+	// 			}
+	// 		}
+	// 	});
+	// }
 	
 	hangOut(platform)
 	{
 		if(this.body.touching.up && this.cursors.space.isDown && !this.isCeiling && !this.isHoldingCucumber)
 		{
-			this.checkPass();
+			// this.checkPass();
 			this.resetSprite();
 			this.stickTimer = this.scene.time.delayedCall(this.StickToCeilingDuration, () =>{
 				if(this.isCeiling)
@@ -277,7 +277,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
     {
         if(this.body.touching.up && this.cursors.space.isDown && !this.isCeiling && !this.isHoldingCucumber)
 		{
-			this.checkPass();
+			// this.checkPass();
 			this.resetSprite();
 			this.stickTimer = this.scene.time.delayedCall(this.StickToCeilingDuration, () =>{
 				if(this.isCeiling)
