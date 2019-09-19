@@ -303,7 +303,11 @@ class ExampleScene extends Phaser.Scene{
         this.mouseWalk_SFX.stop();
         this.lifeLost_SFX.stop();
         this.levelMus.stop();
-        this.scene.start('Level2', {CurrentScore: this.highScore});
+        this.scene.pause();
+        this.scene.launch('LevelWinScene', {SceneIndex: 1});
+        this.events.on('resume', ()=>{
+            this.scene.start('Level2', {CurrentScore: this.highScore});
+        });
     }
 
     update()
