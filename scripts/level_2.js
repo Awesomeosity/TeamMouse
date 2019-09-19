@@ -66,27 +66,12 @@ class Level2 extends Phaser.Scene{
 
 		//For tracking the player's high score throughout the level
 		this.highScore = 0; //TODO: Add to high score whenever you do something (get past a cat?)
-
-        //Loads level music
-        this.load.audio('LevelMus', '../audio/MouseLevel.wav');
 	}
 
     create()
     {
-        this.add.image(400, 400, 'sewer_background');
-        this.add.image(50,470,'cat_sematary');
-        //add cheese
-        let cheese_config={
-            scene:this,
-            key:'delicious_cheese',
-            x: 325,
-            y: 50
-        };
-        this.cheese=new Cheese(cheese_config);
-
-        //Initializes and plays level music
-        this.cameras.main.backgroundColor.setTo(49, 64, 148);
-        this.levelMus = this.sound.add('LevelMus');
+        /*-*-*-*-*-*   Audio   *-*-*-*-*-*-*/
+        //Base config
         let audioConfig =
             {
                 mute: false,
@@ -105,7 +90,6 @@ class Level2 extends Phaser.Scene{
         this.pointGain_SFX = this.sound.add('PointGain', audioConfig);
         this.lifeLost_SFX = this.sound.add('LifeLost', audioConfig);
 
-
         //Music
         this.levelMus.play(audioConfig);
         this.musicMute = this.game.mute;                                    //Music mutes by default
@@ -115,6 +99,33 @@ class Level2 extends Phaser.Scene{
             this.musicMute = this.game.mute;
             this.levelMus.setMute(this.musicMute);
         });
+
+        //SFX
+        this.walkMute = this.musicMute;                             //SFX mutes with music on initialization
+        this.sfxMute = this.musicMute;
+        this.mouseWalk_SFX.play(audioConfig);
+        this.mouseWalk_SFX.setMute(this.walkMute);
+        this.mouseJump_SFX.setMute(this.sfxMute);
+        this.mouseJump_SFX.setLoop(false);
+        this.pointGain_SFX.setMute(this.sfxMute);
+        this.pointGain_SFX.setLoop(false);
+        this.lifeLost_SFX.setMute(this.sfxMute);
+        this.lifeLost_SFX.setLoop(false);
+        /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+
+        this.add.image(400, 400, 'sewer_background');
+        this.add.image(50,470,'cat_sematary');
+        //add cheese
+        let cheese_config={
+            scene:this,
+            key:'delicious_cheese',
+            x: 325,
+            y: 50
+        };
+        this.cheese=new Cheese(cheese_config);
+
+        this.cameras.main.backgroundColor.setTo(49, 64, 148);
 
         this.ladders = this.physics.add.group();
         this.platforms = this.physics.add.staticGroup();
@@ -336,12 +347,37 @@ class Level2 extends Phaser.Scene{
     }
 
     nextScene(){
+        this.mouseJump_SFX.stop();
+        this.pointGain_SFX.stop();
+        this.mouseWalk_SFX.stop();
+        this.lifeLost_SFX.stop();
+        this.levelMus.stop();
         this.scene.start('ExampleScene');
-        this.scene.stop();
     }
 
     update()
     {
+        /*-*-*-*-*-*   Audio   *-*-*-*-*-*-*/
+        //Mouse walk SFX
+        if(this.mouse.isWalking)
+        {
+            this.walkMute = false;
+            this.walkMute = this.musicMute;
+            this.mouseWalk_SFX.setMute(this.walkMute);
+        }
+        else
+        {
+            this.walkMute = true;
+            this.mouseWalk_SFX.setMute(this.walkMute);
+        }
+
+        //Update SFX mute with Music mute
+        this.sfxMute = this.musicMute;
+        this.mouseJump_SFX.setMute(this.sfxMute);
+        this.pointGain_SFX.setMute(this.sfxMute);
+        this.lifeLost_SFX.setMute(this.sfxMute);
+        /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
         // alert(this.cats.length);
 		let that = this;
 		// console.log(this.moving.children.entries[3].body.position.x, this.moving.children.entries[3].body.position.y);
@@ -353,14 +389,6 @@ class Level2 extends Phaser.Scene{
         this.mouse.update(this.cursors);
 
         this.uiOverlay.updateMouseLives(this.mouse.lives);
-
-        //Win condition
-        if (this.mouse.currentStory ==this.highestStory)
-        {
-            //TODO: transition to the next level, play any animations
-            this.scene.launch('GameOverScene');
-            this.scene.pause();
-        }
         
         this.moving.children.entries.forEach((d) =>
         {
@@ -393,7 +421,7 @@ class Level2 extends Phaser.Scene{
             index++;
         }
 
-        this.uiOverlay.updateHighScore(this.highScore); //TODO: use a HighScore text class to store and update high score
+        this.uiOverlay.updateHighScore(this.highScore);
     }
 
     addLadderConfiguration(x,y,story=5){
