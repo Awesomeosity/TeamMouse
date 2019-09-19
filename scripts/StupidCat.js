@@ -1,7 +1,7 @@
 class StupidCat extends Cat{
-    constructor(config)
+    constructor(config,mouse)
 	{
-        super(config);
+        super(config,mouse);
         config.scene.physics.world.enable(this);
         config.scene.add.existing(this);
         this.isMuggle = true;

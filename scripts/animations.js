@@ -91,6 +91,36 @@ function animations(scene) {
     scene.anims.create(config);
 
     config = {
+        key: 'cu_blink_left',
+        frames: scene.anims.generateFrameNumbers('mouse', {prefix: 'walk/left',start: 16, end: 19}),
+        frameRate: 10,
+        repeat: -1
+    };
+    scene.anims.create(config);
+
+    config = {
+        key: 'cu_blink_leftStop',
+        frames: scene.anims.generateFrameNumbers('mouse', {prefix: 'walk/leftStop',start: 16, end: 16}),
+        frameRate: 20
+    };
+    scene.anims.create(config);
+
+    config = {
+        key: 'cu_blink_rightStop',
+        frames: scene.anims.generateFrameNumbers('mouse', {prefix: 'walk/rightStop',start: 20, end: 20}),
+        frameRate: 20
+    };
+    scene.anims.create(config);
+
+    config = {
+        key: 'cu_blink_right',
+        frames: scene.anims.generateFrameNumbers('mouse', {prefix: 'walk/right',start: 17, end: 20}),
+        frameRate: 10,
+        repeat: -1
+    };
+    scene.anims.create(config);
+
+    config = {
         key: 'mcleft',
         frames: scene.anims.generateFrameNumbers('maho_cat', {start: 0, end: 3}),
         frameRate: 10,

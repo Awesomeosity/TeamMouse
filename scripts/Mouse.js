@@ -15,6 +15,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		this.spriteFattening = 4;
 		this.SwingSpeed = 300;
 		this.CucumberDuration = 10000;
+		this.cucumberBlink=false;
 		this.originalWidth = 21;
 		//End of Static Variables//
 
@@ -29,6 +30,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		this.isCeiling = false;
 		this.stickTimer;
 		this.cucumberTimer;
+		this.cucumberBlinkTimer=null;
 		this.platform;
 		this.swingVelocity;
 
@@ -101,7 +103,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		//Otherwise, we can jump
 		if(this.cursors.space.isDown && this.body.touching.down)
 		{
-			this.checkPass();
+			// this.checkPass();
 			//Mouse walking SFX
 			this.isWalking = false;
 
@@ -214,37 +216,37 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		this.climbOff();
     }
 
-    checkPass()
-	{
-		let cur_story = this.currentStory;
-		let cur_x = this.body.position.x;
-		this.scene.cats.forEach(function (cat)
-		{
-			if(cat.currentStory == cur_story)
-			{
-				if(cat.left)
-				{
-					if(cat.body.position.x>=cur_x)
-					{
-						cat.initScore=true;
-					}
-				}
-				else 
-				{
-					if(cat.body.position.x<=cur_x)
-					{
-						cat.initScore=true;
-					}
-				}
-			}
-		});
-	}
+    // checkPass()
+	// {
+	// 	let cur_story = this.currentStory;
+	// 	let cur_x = this.body.position.x;
+	// 	this.scene.cats.forEach(function (cat)
+	// 	{
+	// 		if(cat.currentStory == cur_story)
+	// 		{
+	// 			if(cat.left)
+	// 			{
+	// 				if(cat.body.position.x>=cur_x)
+	// 				{
+	// 					cat.initScore=true;
+	// 				}
+	// 			}
+	// 			else
+	// 			{
+	// 				if(cat.body.position.x<=cur_x)
+	// 				{
+	// 					cat.initScore=true;
+	// 				}
+	// 			}
+	// 		}
+	// 	});
+	// }
 	
 	hangOut(platform)
 	{
 		if(this.body.touching.up && this.cursors.space.isDown && !this.isCeiling && !this.isHoldingCucumber)
 		{
-			this.checkPass();
+			// this.checkPass();
 			this.resetSprite();
 			this.stickTimer = this.scene.time.delayedCall(this.StickToCeilingDuration, () =>{
 				if(this.isCeiling)
@@ -277,7 +279,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
     {
         if(this.body.touching.up && this.cursors.space.isDown && !this.isCeiling && !this.isHoldingCucumber)
 		{
-			this.checkPass();
+			// this.checkPass();
 			this.resetSprite();
 			this.stickTimer = this.scene.time.delayedCall(this.StickToCeilingDuration, () =>{
 				if(this.isCeiling)
@@ -335,11 +337,17 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			}
 			if(this.isHoldingCucumber)
 			{
-				this.anims.play('cu_left',true);
+				if(this.cucumberBlink){
+					this.anims.play('cu_blink_left',true);
+				}
+				else{
+					this.anims.play('cu_left',true);
+				}
+
 			}
 			else
 			{
-				this.anims.play('left', true);
+				this.anims.play('left',true);
 			}
 
 		}
@@ -365,11 +373,17 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 
 			if(this.isHoldingCucumber)
 			{
-				this.anims.play('cu_right',true);
+				if(this.cucumberBlink){
+					this.anims.play('cu_blink_right',true);
+				}
+				else{
+					this.anims.play('cu_right',true);
+				}
+
 			}
 			else
 			{
-				this.anims.play('right', true);
+				this.anims.play('right',true);
 			}
 		}
 		else
@@ -427,7 +441,12 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		{
 			if(this.isHoldingCucumber)
 			{
-				this.anims.play('cu_rightStop');
+				if(this.cucumberBlink){
+					this.anims.play('cu_blink_rightStop');
+				}else{
+					this.anims.play('cu_rightStop');
+				}
+
 			}
 			else
 			{
@@ -438,7 +457,11 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		{
 			if(this.isHoldingCucumber)
 			{
-				this.anims.play('cu_leftStop');
+				if(this.cucumberBlink){
+					this.anims.play('cu_blink_leftStop');
+				}else{
+					this.anims.play('cu_leftStop');
+				}
 			}
 			else
 			{
@@ -454,6 +477,11 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		{
 			console.log("Cucumber Down");
 			this.isHoldingCucumber = false;
+			this.cucumberBlink=false;
+		}, null, this);
+		this.cucumberBlinkTimer = this.scene.time.delayedCall(this.CucumberDuration/2, () =>
+		{
+			this.cucumberBlink=true;
 		}, null, this);
 	}
 }
