@@ -403,8 +403,6 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 				{
 					this.body.velocity.x += this.PlayerMovementVelocity;
 				}
-
-				this.body.velocity.x = this.PlayerMovementVelocity;
 			}
 
 			if(this.isHoldingCucumber)
