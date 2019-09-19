@@ -321,7 +321,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		if (this.cursors.left.isDown)
 		{
 			//For mouse walking SFX
-			this.isWalking = !this.body.touching.down;
+			this.isWalking = this.body.touching.down;
 
 			this.lastDir = true;
 			if(this.body.velocity.x >= -1 * this.PlayerMovementVelocity || (this.body.velocity.y == 0 && this.body.touching.down))
@@ -354,7 +354,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		else if (this.cursors.right.isDown)
 		{
 			//For mouse walking SFX
-			this.isWalking = !this.body.touching.down;
+			this.isWalking = this.body.touching.down;
 
 			this.lastDir = false;
 			if(this.body.velocity.x <= this.PlayerMovementVelocity || (this.body.velocity.y == 0 && this.body.touching.down))

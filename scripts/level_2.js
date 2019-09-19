@@ -87,7 +87,7 @@ class Level2 extends Phaser.Scene{
         //Initializes and plays level music
         this.cameras.main.backgroundColor.setTo(49, 64, 148);
         this.levelMus = this.sound.add('LevelMus');
-        let musConfig =
+        let audioConfig =
             {
                 mute: false,
                 volume: 0.5,

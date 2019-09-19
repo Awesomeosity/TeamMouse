@@ -147,9 +147,9 @@ class ExampleScene extends Phaser.Scene{
         this.levelMus.play(audioConfig);
         this.musicMute = this.game.mute;                                    //Music mutes by default
         this.levelMus.setMute(this.musicMute);
-        this.input.keyboard.on('keydown-M', ()=>
-	    {       //Pressing M mutes / un-mutes
-            this.musicMute = !this.musicMute;
+        this.input.keyboard.on('keydown-M', ()=> {       //Pressing M mutes / un-mutes
+            this.game.mute = !this.game.mute;
+            this.musicMute = this.game.mute;
             this.levelMus.setMute(this.musicMute);
         });
 
