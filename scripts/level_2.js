@@ -90,6 +90,7 @@ class Level2 extends Phaser.Scene{
         this.pointGain_SFX = this.sound.add('PointGain', audioConfig);
         this.lifeLost_SFX = this.sound.add('LifeLost', audioConfig);
 
+
         //Music
         this.levelMus.play(audioConfig);
         this.musicMute = this.game.mute;                                    //Music mutes by default
