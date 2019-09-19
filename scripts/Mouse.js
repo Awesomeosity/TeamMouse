@@ -315,12 +315,18 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 				if(this.isCeiling)
 				{
 					this.isCeiling = false;
+					this.isShaking = false;
 					this.body.allowGravity = true;
 					this.platform = null;
 					this.body.velocity.y = 0;
 					this.body.velocity.x = this.swingVelocity;
 				}
 			}, null, this);
+			
+			this.stickShakeTimer = this.scene.time.delayedCall(this.StickToCeilingDuration - 1000, () =>{
+				this.isShaking = true;
+			}, null, this);
+
 
 			this.body.velocity.x = platform.body.velocity.x;
             this.body.velocity.y = platform.body.velocity.y;
