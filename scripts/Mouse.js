@@ -167,10 +167,9 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 
 	///MAIN MOUSE FUNCTIONS///
     //Takes damage from an enemy
-    hurtBy(enemy)
-	{
-    	if(this.lives-1 < 0)
-		{
+    hurtBy(enemy) {
+    	this.scene.lifeLost_SFX.play();
+    	if(this.lives-1<0){
     		this.die();
 		}
 		else
@@ -190,7 +189,13 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
     die()
 	{
 		//Lose condition
-		this.scene.scene.launch('GameOverScene');
+		//Stop all audio
+		this.scene.mouseJump_SFX.stop();
+		this.scene.pointGain_SFX.stop();
+		this.scene.mouseWalk_SFX.stop();
+		this.scene.lifeLost_SFX.stop();
+		this.scene.levelMus.stop();
+		this.scene.scene.launch('GameOverScene', this.scene.highScore);
 		this.scene.scene.pause();
         this.alive = false;
     }
