@@ -117,6 +117,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 	climbingMovement()
 	{
 		this.body.allowGravity = false;
+		this.anims.play('mouseClimb');
 		this.body.setSize(this.originalWidth, this.body.height);
 		if(this.cursors.up.isDown)
 		{
@@ -132,7 +133,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		}
 
 		this.isWalking = false;
-		this.resetSprite();
+		// this.resetSprite();
 	}
 	
 	swingMovement()

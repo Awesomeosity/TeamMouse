@@ -37,6 +37,14 @@ function animations(scene) {
     scene.anims.create(config);
 
     config = {
+        key: 'mouseClimb',
+        frames: scene.anims.generateFrameNumbers('mouseClimb', {start: 0, end: 1}),
+        frameRate: 6,
+        repeat: -1
+    };
+    scene.anims.create(config);
+
+    config = {
         key: 'scleft',
         frames: scene.anims.generateFrameNumbers('stupid_cat', {start: 0, end: 3}),
         frameRate: 10,
