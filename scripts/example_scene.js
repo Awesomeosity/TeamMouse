@@ -303,8 +303,9 @@ class ExampleScene extends Phaser.Scene{
         this.mouseWalk_SFX.stop();
         this.lifeLost_SFX.stop();
         this.levelMus.stop();
+        this.scene.launch('LevelWinScene', {SceneIndex: 1, LaunchScene: this});
+        this.mouse.disableBody(true, true);
         this.scene.pause();
-        this.scene.launch('LevelWinScene', {SceneIndex: 1});
         this.events.on('resume', ()=>{
             this.scene.start('Level2', {CurrentScore: this.highScore});
         });
@@ -323,7 +324,7 @@ class ExampleScene extends Phaser.Scene{
             }
         }
 		this.stupid_loop_count = (this.stupid_loop_count + 1) % 150;
-		
+
 		if(!this.physics.overlap(this.mouse, this.normalLadder, this.mouse.saveLadderPos))
 		{
 			this.mouse.checkLadderStatus();
@@ -358,7 +359,7 @@ class ExampleScene extends Phaser.Scene{
             cat.climbOrNot(ladder);
         });
 		this.cats.forEach(function (cat) {
-            cat.update();
+		    cat.update();
         });
 
 		//Updates the UI with lives and scores

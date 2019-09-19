@@ -34,6 +34,8 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		this.platform;
 		this.swingVelocity;
 
+		this.doCheer = false;
+
 		this.body.setSize(this.originalWidth + this.spriteFattening, this.body.height);
 
         this.cursors = this.scene.input.keyboard.createCursorKeys();
@@ -47,6 +49,13 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
     }
 
     update() {
+
+		if (this.doCheer)
+		{
+			this.anims.play('cheer', true);
+			return;
+		}
+
 		if(this.platform != null)
 		{
 			//Update this body's velocity with the velocity of the platform's, to make it look like we're moving with the platform.
@@ -82,6 +91,9 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		{
 			this.climbingMovement();
 		}
+
+
+
     }
 	
 	///MOVEMENT CODE///

@@ -15,6 +15,16 @@ class LevelWinScene extends Phaser.Scene{
     //////////////////////////////////////////////////////////////////////////
     create(data) {
 
+        this.mouse = new Mouse(
+            {
+                scene : this,
+                key : 'mouse',
+                x : data.LaunchScene.mouse.x,
+                y : data.LaunchScene.mouse.y
+            });
+
+        this.mouse.doCheer = true;
+        this.mouse.disableBody();
 
         var gameOverX = 800 / 2  - 200;
         var gameOverY = 800 / 2 - 100;
@@ -49,5 +59,10 @@ class LevelWinScene extends Phaser.Scene{
 
 
         });
+    }
+
+    update()
+    {
+        this.mouse.update();
     }
 }

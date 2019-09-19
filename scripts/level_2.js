@@ -354,8 +354,9 @@ class Level2 extends Phaser.Scene{
         this.mouseWalk_SFX.stop();
         this.lifeLost_SFX.stop();
         this.levelMus.stop();
+        this.scene.launch('LevelWinScene', {SceneIndex: 2, LaunchScene: this});
+        this.mouse.disableBody(true, true);
         this.scene.pause();
-        this.scene.launch('LevelWinScene', {SceneIndex: 2});
         this.events.on('resume', ()=>{
             this.scene.start('ExampleScene', {CurrentScore: this.highScore});
         });
