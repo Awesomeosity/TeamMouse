@@ -111,6 +111,8 @@ class MenuScene extends Phaser.Scene{
 
         //Adds menu text to the screen
         this.add.text(textCenterPos, 40, 'HIGH SCORE', styleRedCenter);
+        this.add.text(longTextCenterPos, 350, 'PRESS C TO INSERT COIN', styleBlueCenter);
+
 
         this.highScoreText = this.add.text(textCenterPos, 80, '0', styleWhiteCenter);
 
