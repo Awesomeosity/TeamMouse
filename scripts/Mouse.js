@@ -452,7 +452,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 	///ETC HELPER FUNCTIONS///
 	resetSprite()
 	{
-		if (this.lastDir == null || this.lastDir === false)
+		if (!this.left)
 		{
 			if(this.isHoldingCucumber)
 			{
