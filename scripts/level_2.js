@@ -70,12 +70,26 @@ class Level2 extends Phaser.Scene{
     {
         this.highScore = data.CurrentScore;
 
+        //Volume control
+        this.volume = data.Volume;
+        this.input.keyboard.on('keydown-NINE', () => {
+            this.volume -= 0.1;
+            if (this.volume < 0)
+                this.volume = 0;
+        });
+
+        this.input.keyboard.on('keydown-ZERO', () => {
+            this.volume += 0.1;
+            if (this.volume > 1)
+                this.volume = 1;
+        });
+
         /*-*-*-*-*-*   Audio   *-*-*-*-*-*-*/
         //Base config
         let audioConfig =
             {
                 mute: false,
-                volume: 0.5,
+                volume: this.volume,
                 rate: 1,
                 detune: 0,
                 seek: 0,
@@ -354,15 +368,18 @@ class Level2 extends Phaser.Scene{
         this.mouseWalk_SFX.stop();
         this.lifeLost_SFX.stop();
         this.levelMus.stop();
+        this.scene.launch('LevelWinScene', {SceneIndex: 2, LaunchScene: this});
+        this.mouse.disableBody(true, true);
         this.scene.pause();
-        this.scene.launch('LevelWinScene', {SceneIndex: 2});
         this.events.on('resume', ()=>{
-            this.scene.start('ExampleScene', {CurrentScore: this.highScore});
+            this.scene.start('ExampleScene', {CurrentScore: this.highScore, Volume: this.volume});
         });
     }
 
     update()
     {
+        this.uiOverlay.updateLevelNum(2);
+
         /*-*-*-*-*-*   Audio   *-*-*-*-*-*-*/
         //Mouse walk SFX
         if(this.mouse.isWalking)
@@ -382,6 +399,14 @@ class Level2 extends Phaser.Scene{
         this.mouseJump_SFX.setMute(this.sfxMute);
         this.pointGain_SFX.setMute(this.sfxMute);
         this.lifeLost_SFX.setMute(this.sfxMute);
+
+        //Volume updates
+        this.mouseWalk_SFX.setVolume(this.volume);
+        this.mouseJump_SFX.setVolume(this.volume);
+        this.pointGain_SFX.setVolume(this.volume);
+        this.lifeLost_SFX.setVolume(this.volume);
+        this.levelMus.setVolume(this.volume);
+
         /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
         // alert(this.cats.length);

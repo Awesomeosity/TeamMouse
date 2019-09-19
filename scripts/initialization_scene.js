@@ -7,6 +7,12 @@ class InitializationScene extends Phaser.Scene{
 
     }
 
+    init(data)
+    {
+        this.volume = data.Volume;
+    }
+
+
     preload() {
         const progress = this.add.graphics();
 
@@ -21,7 +27,7 @@ class InitializationScene extends Phaser.Scene{
         this.load.on('complete', () => {
             animations(this);
             progress.destroy();
-            this.scene.start('ExampleScene', {CurrentScore: 0});
+            this.scene.start('ExampleScene', {CurrentScore: 0, Volume: this.volume});
         });
 
         //Load sprite textures
@@ -60,6 +66,7 @@ class InitializationScene extends Phaser.Scene{
         this.load.spritesheet('catClimb', '../images/catclimb w37h54.png', { frameWidth: 37, frameHeight: 54});
         this.load.spritesheet('mcCatClimb', '../images/smallcatclimb_w39h54.png', {frameWidth: 39, frameHeight: 54});
         this.load.spritesheet('mouseClimb','../images/mouseclimb.png',{frameWidth: 36, frameHeight: 54});
+        this.load.spritesheet('mouse_cheer', '../images/cheering_mouse_v1.png', {frameWidth: 40, frameHeight: 54});
 
         //Loads audio
         this.load.audio('LevelMus', '../audio/Level1-Mus.wav');
@@ -67,6 +74,7 @@ class InitializationScene extends Phaser.Scene{
         this.load.audio('MouseJump', '../audio/MouseJump_sfx.wav');
         this.load.audio('PointGain', '../audio/PointGain_sfx.wav');
         this.load.audio('LifeLost', '../audio/LifeLost_sfx.wav');
+        this.load.audio('Victory', '../audio/Victory_sfx.wav');
     }
 
 }

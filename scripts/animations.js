@@ -46,6 +46,14 @@ function animations(scene) {
     scene.anims.create(config);
 
     config = {
+        key: 'cheer',
+        frames: scene.anims.generateFrameNumbers('mouse_cheer', {prefix: 'mouse/cheer', start: 0, end: 1}),
+        frameRate: 6,
+        repeat: -1
+    };
+    scene.anims.create(config);
+
+    config = {
         key: 'scleft',
         frames: scene.anims.generateFrameNumbers('stupid_cat', {start: 0, end: 3}),
         frameRate: 10,

@@ -15,14 +15,27 @@ class MenuScene extends Phaser.Scene{
     }
 
 
-    create()
+    create(data)
 	{
+	    this.volume = data.Volume;
         /*-*-*-*-*-*   Audio   *-*-*-*-*-*-*/
+        this.input.keyboard.on('keydown-NINE', () => {
+            this.volume -= 0.1;
+            if (this.volume < 0)
+                this.volume = 0;
+        });
+
+        this.input.keyboard.on('keydown-ZERO', () => {
+            this.volume += 0.1;
+            if (this.volume > 1)
+                this.volume = 1;
+        });
+
         //Base config
         let audioConfig =
             {
                 mute: false,
-                volume: 0.5,
+                volume: this.volume,
                 rate: 1,
                 detune: 0,
                 seek: 0,
@@ -51,7 +64,7 @@ class MenuScene extends Phaser.Scene{
         //Style for red centered text on screen
         var styleRedCenter = {
             fontFamily: 'ArcadeClassic',
-            fill: 'Red',
+            fill: '#ff7a02',
             fontSize: 'xx-large',
             align: 'center',
             fixedWidth: textObjWidth,
@@ -86,7 +99,7 @@ class MenuScene extends Phaser.Scene{
 
         var styleRedLeft = {
             fontFamily: 'ArcadeClassic',
-            fill: 'Red',
+            fill: '#ff7a02',
             fontSize: 'xx-large',
         }
 
@@ -139,7 +152,7 @@ class MenuScene extends Phaser.Scene{
 
         this.input.keyboard.on('keydown-ENTER', () => {
             if (this.numCoins >= 1)
-                this.scene.start('InitializationScene');
+                this.scene.start('InitializationScene', {Volume: this.volume});
         });
 
         this.input.keyboard.on('keydown-C', () => {
@@ -153,6 +166,7 @@ class MenuScene extends Phaser.Scene{
     update()
     {
         this.insertCoin_SFX.setMute(this.game.mute);
+        this.insertCoin_SFX.setVolume(this.volume);
         this.changeNumCoinsText()
         this.changeCoinText()
     }
