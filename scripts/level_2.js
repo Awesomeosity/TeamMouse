@@ -131,6 +131,10 @@ class Level2 extends Phaser.Scene{
 
         this.add.image(400, 400, 'sewer_background');
         this.add.image(50,470,'cat_sematary');
+		let scaled = this.add.image(310, 425, 'plat_path');
+		
+		scaled.scale = 2;
+		
         //add cheese
         let cheese_config={
             scene:this,
@@ -178,7 +182,7 @@ class Level2 extends Phaser.Scene{
 		this.addLadderConfiguration( 86, 715, 5);
 		this.addLadderConfiguration( 12, 575, 5);
 		this.addLadderConfiguration(400, 294, 5);
-		this.addLadderConfiguration(637, 210, 5);
+		this.addLadderConfiguration(637, 205, 5);
 		
 		this.addMovingConfiguration(100, 150, false, true, 300);
         this.addMovingConfiguration(275, 660, false, true, 300);
@@ -196,7 +200,7 @@ class Level2 extends Phaser.Scene{
             scene:this,
             key:'mouse',
             x:50,
-            y:400
+            y:450
         });
         this.mouse.body.collideWorldBounds=true;
 

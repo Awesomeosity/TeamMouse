@@ -57,6 +57,8 @@ class InitializationScene extends Phaser.Scene{
 		this.load.image('shake_right', '../images/shiver_w45h49_04.png');
 
         this.load.image('tigger_cat','../images/bouncing_cat_v1.png');
+		
+		this.load.image('plat_path','../images/moving_platform_path_v2.png');
 
 
         //Load spritesheets
