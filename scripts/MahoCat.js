@@ -23,6 +23,7 @@ class MahoCat extends Cat{
     }
 
     climb(){
+        this.anims.play('mcclimb', true);
         this.body.allowGravity = false;
         this.body.position.x = this.ladder.body.position.x;
         this.body.velocity.x = 0;

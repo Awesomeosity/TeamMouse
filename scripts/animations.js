@@ -117,15 +117,19 @@ function animations(scene) {
 
     config = {
         key: 'cu_blink_leftStop',
-        frames: scene.anims.generateFrameNumbers('mouse', {prefix: 'walk/leftStop',start: 16, end: 16}),
-        frameRate: 20
+        frames: scene.anims.generateFrameNumbers('mouse', {prefix: 'walk/leftStop',start: 24, end: 27}),
+        frameRate: 10,
+        duration:20,
+        repeat: 1
     };
     scene.anims.create(config);
 
     config = {
         key: 'cu_blink_rightStop',
-        frames: scene.anims.generateFrameNumbers('mouse', {prefix: 'walk/rightStop',start: 23, end: 23}),
-        frameRate: 20
+        frames: scene.anims.generateFrameNumbers('mouse', {prefix: 'walk/rightStop',start: 28, end: 31}),
+        frameRate: 20,
+        duration:20,
+        repeat: 1
     };
     scene.anims.create(config);
 
@@ -149,6 +153,14 @@ function animations(scene) {
         key: 'mcright',
         frames: scene.anims.generateFrameNumbers('maho_cat', {start: 5, end: 8}),
         frameRate: 10,
+        repeat: -1
+    };
+    scene.anims.create(config);
+
+    config = {
+        key: 'mcclimb',
+        frames: scene.anims.generateFrameNumbers('mcCatClimb', {start: 0, end: 1}),
+        frameRate: 6,
         repeat: -1
     };
     scene.anims.create(config);

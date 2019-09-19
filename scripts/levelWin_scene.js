@@ -36,14 +36,14 @@ class LevelWinScene extends Phaser.Scene{
 
 
         this.input.keyboard.on('keydown-ENTER', () => {
-            if (data === 1)
+            if (data.SceneIndex === 1)
             {
-                this.scene.run('ExampleScene');              //TODO: have it run the second level
+                this.scene.resume('ExampleScene');              //TODO: have it run the second level
                 this.scene.stop();
             }
-            else if (data === 2)
+            else if (data.SceneIndex === 2)
             {
-                this.scene.run('Level2');              //TODO: have it run the second level
+                this.scene.resume('Level2');              //TODO: have it run the second level
                 this.scene.stop();
             }
 

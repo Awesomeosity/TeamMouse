@@ -3,6 +3,8 @@ class InitializationScene extends Phaser.Scene{
         super({
             key: 'InitializationScene'
         });
+        this.currentGameScore = 0;
+
     }
 
     preload() {
@@ -19,7 +21,7 @@ class InitializationScene extends Phaser.Scene{
         this.load.on('complete', () => {
             animations(this);
             progress.destroy();
-            this.scene.start('ExampleScene');
+            this.scene.start('ExampleScene', {CurrentScore: 0});
         });
 
         //Load sprite textures
@@ -35,6 +37,10 @@ class InitializationScene extends Phaser.Scene{
         this.load.image('MarioSprite', '../images/MarioSprite.png');
 		this.load.image('climb_left', '../images/mouse_hang_w45h49.png');
         this.load.image('climb_right', '../images/mouse_hang_right_w45h49.png');
+        this.load.image('mouse_left_cu','../images/mouse_left_cu.gif');
+        this.load.image('mouse_left_none','../images/mouse_left_none.gif');
+        this.load.image('mouse_right_cu','../images/mouse_right_cu.gif');
+        this.load.image('mouse_right_none','../images/mouse_right_none.gif');
 		
 		//Temp Life Icon
 		this.load.image('LifeUI-Temp', '../images/MouseHeadUITemp.png');
@@ -51,6 +57,7 @@ class InitializationScene extends Phaser.Scene{
         this.load.spritesheet('maho_cat','../images/maho_cat.png',{ frameWidth: 47, frameHeight: 56 });
         this.load.spritesheet('catClimb', '../images/catclimb w37h54.png', { frameWidth: 37, frameHeight: 54});
 		this.load.spritesheet('mouse_shake', '../images/shiver_w45h49.png', {frameWidth: 45, frameHeight: 49});
+        this.load.spritesheet('mcCatClimb', '../images/smallcatclimb_w39h54.png', {frameWidth: 39, frameHeight: 54});
 
         //Loads audio
         this.load.audio('LevelMus', '../audio/Level1-Mus.wav');

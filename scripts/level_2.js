@@ -64,12 +64,12 @@ class Level2 extends Phaser.Scene{
 		this.scene.launch('GameUI');
 		this.uiOverlay = this.scene.get('GameUI');
 
-		//For tracking the player's high score throughout the level
-		this.highScore = 0; //TODO: Add to high score whenever you do something (get past a cat?)
 	}
 
-    create()
+    create(data)
     {
+        this.highScore = data.CurrentScore;
+
         /*-*-*-*-*-*   Audio   *-*-*-*-*-*-*/
         //Base config
         let audioConfig =
@@ -354,7 +354,11 @@ class Level2 extends Phaser.Scene{
         this.mouseWalk_SFX.stop();
         this.lifeLost_SFX.stop();
         this.levelMus.stop();
-        this.scene.start('ExampleScene');
+        this.scene.pause();
+        this.scene.launch('LevelWinScene', {SceneIndex: 2});
+        this.events.on('resume', ()=>{
+            this.scene.start('ExampleScene', {CurrentScore: this.highScore});
+        });
     }
 
     update()
