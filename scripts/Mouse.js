@@ -311,6 +311,8 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		{
 			// this.checkPass();
 			this.resetSprite();
+			this.isShaking = false;
+
 			this.stickTimer = this.scene.time.delayedCall(this.StickToCeilingDuration, () =>{
 				if(this.isCeiling)
 				{
