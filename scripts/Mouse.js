@@ -342,6 +342,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			}
 			if(this.isHoldingCucumber)
 			{
+
 				if(this.cucumberBlink){
 					this.anims.play('cu_blink_left',true);
 				}
@@ -487,9 +488,11 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 	
 	setCucumber()
 	{
+		this.scene.levelMus.setRate(2);
 		this.isHoldingCucumber = true;
 		this.cucumberTimer = this.scene.time.delayedCall(this.CucumberDuration, () =>
 		{
+			this.scene.levelMus.setRate(1);
 			console.log("Cucumber Down");
 			this.isHoldingCucumber = false;
 			this.cucumberBlink=false;

@@ -90,11 +90,12 @@ class ExampleScene extends Phaser.Scene{
 		this.uiOverlay = this.scene.get('GameUI');
 
 		//For tracking the player's high score throughout the level
-		this.highScore = 0;
 	}
 
-    create()
+    create(data)
     {
+        this.highScore = data.CurrentScore;
+
         //Adds sewer background
         this.add.image(400, 400, 'sewer_background');
 
@@ -302,7 +303,7 @@ class ExampleScene extends Phaser.Scene{
         this.mouseWalk_SFX.stop();
         this.lifeLost_SFX.stop();
         this.levelMus.stop();
-        this.scene.start('Level2');
+        this.scene.start('Level2', {CurrentScore: this.highScore});
     }
 
     update()

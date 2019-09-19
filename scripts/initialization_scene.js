@@ -3,6 +3,8 @@ class InitializationScene extends Phaser.Scene{
         super({
             key: 'InitializationScene'
         });
+        this.currentGameScore = 0;
+
     }
 
     preload() {
@@ -19,7 +21,7 @@ class InitializationScene extends Phaser.Scene{
         this.load.on('complete', () => {
             animations(this);
             progress.destroy();
-            this.scene.start('ExampleScene');
+            this.scene.start('ExampleScene', {CurrentScore: 0});
         });
 
         //Load sprite textures
@@ -51,6 +53,7 @@ class InitializationScene extends Phaser.Scene{
         this.load.spritesheet('stupid_cat','../images/stupid_cat.png',{ frameWidth: 37, frameHeight: 54 });
         this.load.spritesheet('maho_cat','../images/maho_cat.png',{ frameWidth: 47, frameHeight: 56 });
         this.load.spritesheet('catClimb', '../images/catclimb w37h54.png', { frameWidth: 37, frameHeight: 54});
+        this.load.spritesheet('mcCatClimb', '../images/smallcatclimb_w39h54.png', {frameWidth: 39, frameHeight: 54});
 
         //Loads audio
         this.load.audio('LevelMus', '../audio/Level1-Mus.wav');

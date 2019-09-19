@@ -140,5 +140,13 @@ function animations(scene) {
     };
     scene.anims.create(config);
 
+    config = {
+        key: 'mcclimb',
+        frames: scene.anims.generateFrameNumbers('mcCatClimb', {start: 0, end: 1}),
+        frameRate: 6,
+        repeat: -1
+    };
+    scene.anims.create(config);
+
 
 }

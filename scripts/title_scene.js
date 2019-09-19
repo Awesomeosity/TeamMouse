@@ -9,6 +9,7 @@ class TitleScene extends Phaser.Scene{
 
     preload() {
         this.load.image('title_image', '../images/title_screen_v1.png');                                    //Title Screen
+        this.load.audio('TitleMus', '../audio/Title_mus.wav');
     }
 
 
@@ -24,9 +25,12 @@ class TitleScene extends Phaser.Scene{
                 rate: 1,
                 detune: 0,
                 seek: 0,
-                loop: false,
+                loop: true,
                 delay: 0
             };
+
+        this.music = this.sound.add('TitleMus', audioConfig);
+        this.music.play();
 
         this.input.keyboard.on('keydown-M', ()=> {       //Pressing M mutes / un-mutes
             this.game.mute = !this.game.mute;
@@ -34,6 +38,8 @@ class TitleScene extends Phaser.Scene{
         /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
         this.input.keyboard.on('keydown-ENTER', () => {
+
+            this.music.stop();
             this.scene.start('MenuScene');
         });
 
@@ -42,6 +48,7 @@ class TitleScene extends Phaser.Scene{
 
     update()
     {
+        this.music.setMute(this.game.mute);
     }
 
 
