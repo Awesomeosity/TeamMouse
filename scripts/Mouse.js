@@ -29,10 +29,12 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		this.snapTo = null;
 		this.isCeiling = false;
 		this.stickTimer;
+		this.stickShakeTimer;
 		this.cucumberTimer;
 		this.cucumberBlinkTimer = null;
 		this.platform;
 		this.swingVelocity;
+		this.shaker = false;
 
 		this.body.setSize(this.originalWidth + this.spriteFattening, this.body.height);
 
@@ -153,6 +155,8 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		{
 			this.swingVelocity = 0;
 		}
+		
+		this.resetSprite();
 	}
 	
 	unstick()
@@ -161,6 +165,11 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		{
 			this.stickTimer.remove();
 		}
+		if(this.stickShakeTimer != null)
+		{
+			this.stickTimer.remove();
+		}
+		this.isShaking = false;
 		this.body.allowGravity = true;
 		this.isCeiling = false;
 		this.platform = null;
@@ -223,32 +232,6 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		this.snapTo = null;
 		this.climbOff();
     }
-
-    // checkPass()
-	// {
-	// 	let cur_story = this.currentStory;
-	// 	let cur_x = this.body.position.x;
-	// 	this.scene.cats.forEach(function (cat)
-	// 	{
-	// 		if(cat.currentStory == cur_story)
-	// 		{
-	// 			if(cat.left)
-	// 			{
-	// 				if(cat.body.position.x>=cur_x)
-	// 				{
-	// 					cat.initScore=true;
-	// 				}
-	// 			}
-	// 			else
-	// 			{
-	// 				if(cat.body.position.x<=cur_x)
-	// 				{
-	// 					cat.initScore=true;
-	// 				}
-	// 			}
-	// 		}
-	// 	});
-	// }
 	
 	hangOut(platform)
 	{
@@ -256,6 +239,8 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		{
 			// this.checkPass();
 			this.resetSprite();
+			this.isShaking = false;
+
 			this.stickTimer = this.scene.time.delayedCall(this.StickToCeilingDuration, () =>{
 				if(this.isCeiling)
 				{
@@ -263,9 +248,14 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 					this.body.allowGravity = true;
 					this.body.velocity.y = 0;
 					this.body.velocity.x = this.swingVelocity;
-
+					this.isShaking = false;
 				}
 			}, null, this);
+			
+			this.stickShakeTimer = this.scene.time.delayedCall(this.StickToCeilingDuration - 1000, () =>{
+				this.isShaking = true;
+			}, null, this);
+
 
 			this.body.velocity.x = 0;
             this.body.velocity.y = 0;
@@ -475,6 +465,26 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 				}
 
 			}
+			else if(this.isCeiling)
+			{
+				if(this.isShaking)
+				{
+					if(this.shaker)
+					{
+						this.setTexture('shake_right');
+						this.shaker = false;
+					}
+					else
+					{
+						this.setTexture('climb_right');
+						this.shaker = true;
+					}
+				}
+				else
+				{
+					this.setTexture('climb_right');
+				}
+			}
 			else
 			{
 				this.anims.play('rightStop');
@@ -497,6 +507,28 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 					this.anims.play('cu_leftStop');
 				}
 			}
+			else if(this.isCeiling)
+			{
+				if(this.isShaking)
+				{
+					if(this.shaker)
+					{
+						this.setTexture('shake_left');
+						this.shaker = false;
+					}
+					else
+					{
+						this.setTexture('climb_left');
+						this.shaker = true;
+					}
+				}
+				else
+				{
+					this.setTexture('climb_left');
+				}
+
+			}
+
 			else
 			{
 				this.anims.play('leftStop');

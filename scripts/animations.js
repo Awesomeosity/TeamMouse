@@ -28,6 +28,7 @@ function animations(scene) {
         repeat: -1
     };
     scene.anims.create(config);
+	
 
     config = {
         key: 'stand',
