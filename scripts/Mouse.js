@@ -34,6 +34,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		this.cucumberBlinkTimer = null;
 		this.platform;
 		this.swingVelocity;
+		this.shaker = false;
 
 		this.body.setSize(this.originalWidth + this.spriteFattening, this.body.height);
 
@@ -467,7 +468,16 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			{
 				if(this.isShaking)
 				{
-					this.anims.play('rightShake')
+					if(this.shaker)
+					{
+						this.setTexture('shake_right');
+						this.shaker = false;
+					}
+					else
+					{
+						this.setTexture('climb_right');
+						this.shaker = true;
+					}
 				}
 				else
 				{
@@ -500,7 +510,16 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			{
 				if(this.isShaking)
 				{
-					this.anims.play('leftShake');
+					if(this.shaker)
+					{
+						this.setTexture('shake_left');
+						this.shaker = false;
+					}
+					else
+					{
+						this.setTexture('climb_left');
+						this.shaker = true;
+					}
 				}
 				else
 				{

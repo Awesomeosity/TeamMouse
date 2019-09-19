@@ -29,22 +29,6 @@ function animations(scene) {
     };
     scene.anims.create(config);
 	
-	config = {
-		key: 'rightShake',
-        frames: scene.anims.generateFrameNumbers('mouse_shake', {start: 3, end: 5}),
-        frameRate: 10,
-        repeat: -1
-	};
-	scene.anims.create(config);
-
-	config = {
-		key: 'leftShake',
-        frames: scene.anims.generateFrameNumbers('mouse_shake', {start: 0, end: 2}),
-        frameRate: 10,
-        repeat: -1
-	};
-	scene.anims.create(config);
-
 
     config = {
         key: 'stand',

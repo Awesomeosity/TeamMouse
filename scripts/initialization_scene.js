@@ -47,6 +47,8 @@ class InitializationScene extends Phaser.Scene{
 		
 		this.load.image('swing_left', '../images/swing_left_w45h56.png');
 		this.load.image('swing_right', '../images/swing_right_w45h56.png');
+		this.load.image('shake_left', '../images/shiver_w45h49_03.png');
+		this.load.image('shake_right', '../images/shiver_w45h49_04.png');
 
         this.load.image('tigger_cat','../images/bouncing_cat_v1.png');
 
@@ -56,7 +58,6 @@ class InitializationScene extends Phaser.Scene{
         this.load.spritesheet('stupid_cat','../images/stupid_cat.png',{ frameWidth: 37, frameHeight: 54 });
         this.load.spritesheet('maho_cat','../images/maho_cat.png',{ frameWidth: 47, frameHeight: 56 });
         this.load.spritesheet('catClimb', '../images/catclimb w37h54.png', { frameWidth: 37, frameHeight: 54});
-		this.load.spritesheet('mouse_shake', '../images/shiver_w45h49.png', {frameWidth: 45, frameHeight: 49});
         this.load.spritesheet('mcCatClimb', '../images/smallcatclimb_w39h54.png', {frameWidth: 39, frameHeight: 54});
 
         //Loads audio
