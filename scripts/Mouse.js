@@ -48,6 +48,8 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
         this.isHoldingCucumber=false;
         this.displayCucumber=false;
         this.displayCucumberTimer=0;
+
+        this.climbingAnimTimer = 0;
     }
 
     update() {
@@ -57,6 +59,8 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			this.anims.play('cheer', true);
 			return;
 		}
+
+
 
 		if(this.platform != null)
 		{
@@ -77,22 +81,27 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		{
 			this.unstick();
 		}
+
+
 		
 		if(this.isCeiling)
 		{
 			this.swingMovement();
 			return;
 		}
+
                 
 		if(!this.isClimbing)
 		{
 			this.normalMovement();
 		}
-		
+
 		if(this.isClimbing)
 		{
 			this.climbingMovement();
 		}
+		
+
 
 
 
@@ -131,7 +140,18 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 	climbingMovement()
 	{
 		this.body.allowGravity = false;
-		this.anims.play('mouseClimb');
+		
+		this.climbingAnimTimer += 0.1;
+
+		if (this.climbingAnimTimer % 2 >= 0 && this.climbingAnimTimer % 2 < 1)
+		{
+			this.anims.play('mouseClimb-2');
+		}
+		else if (this.climbingAnimTimer % 2 >= 1 && this.climbingAnimTimer % 2 < 2)
+		{
+			this.anims.play('mouseClimb');
+		}
+
 		this.body.setSize(this.originalWidth, this.body.height);
 		if(this.cursors.up.isDown)
 		{

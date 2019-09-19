@@ -39,7 +39,15 @@ function animations(scene) {
 
     config = {
         key: 'mouseClimb',
-        frames: scene.anims.generateFrameNumbers('mouseClimb', {start: 0, end: 1}),
+        frames: scene.anims.generateFrameNumbers('mouseClimb', {start: 0, end: 0}),
+        frameRate: 6,
+        repeat: -1
+    };
+    scene.anims.create(config);
+
+    config = {
+        key: 'mouseClimb-2',
+        frames: scene.anims.generateFrameNumbers('mouseClimb', {start: 1, end: 1}),
         frameRate: 6,
         repeat: -1
     };
