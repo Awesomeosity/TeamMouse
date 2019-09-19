@@ -208,7 +208,12 @@ class Level2 extends Phaser.Scene{
 	    {
 			if(mouse.platform != null && mouse.body.touching.up && mouse.body.allowGravity)
 			{
+			    //?
 				mouse.hurtBy("lmao");
+                if(!mouse.isCeiling)
+                {
+                    mouse.currentStory = platform.story;
+                }
 				return;
 			}
 
