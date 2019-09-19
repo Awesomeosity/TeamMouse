@@ -12,9 +12,8 @@ function load()
 				gravity: {y:400},
 			}
 		},
-		scene:[MenuScene, InitializationScene, Level2, ExampleScene, GameUI, GameOverScene, LevelWinScene],
-
-
+		scene:[MenuScene,InitializationScene, Level2, ExampleScene, GameUI, GameOverScene, LevelWinScene],
+		mute: false //Sound: True = mutes by default, false = plays by default
 	};
 	var game = new Phaser.Game(config);
 

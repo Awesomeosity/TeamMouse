@@ -97,11 +97,22 @@ class Level2 extends Phaser.Scene{
                 loop: true,
                 delay: 0
             };
-        this.levelMus.play(musConfig);
-        this.musicMute = true;                                      //Music mutes by default
+
+        //Initializes level sounds
+        this.levelMus = this.sound.add('LevelMus');
+        this.mouseWalk_SFX = this.sound.add('MouseWalk');
+        this.mouseJump_SFX = this.sound.add('MouseJump', audioConfig);
+        this.pointGain_SFX = this.sound.add('PointGain', audioConfig);
+        this.lifeLost_SFX = this.sound.add('LifeLost', audioConfig);
+
+
+        //Music
+        this.levelMus.play(audioConfig);
+        this.musicMute = this.game.mute;                                    //Music mutes by default
         this.levelMus.setMute(this.musicMute);
         this.input.keyboard.on('keydown-M', ()=> {       //Pressing M mutes / un-mutes
-            this.musicMute = !this.musicMute;
+            this.game.mute = !this.game.mute;
+            this.musicMute = this.game.mute;
             this.levelMus.setMute(this.musicMute);
         });
 
