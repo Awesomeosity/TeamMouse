@@ -14,14 +14,28 @@ class TitleScene extends Phaser.Scene{
 
 
     create() {
+        this.volume = 0.5;
+
         this.title = this.add.sprite(500, 400, 'title_image');
+
+        this.input.keyboard.on('keydown-NINE', () => {
+            this.volume -= 0.1;
+            if (this.volume < 0)
+                this.volume = 0;
+        });
+
+        this.input.keyboard.on('keydown-ZERO', () => {
+            this.volume += 0.1;
+            if (this.volume > 1)
+                this.volume = 1;
+        });
 
         /*-*-*-*-*-*   Audio   *-*-*-*-*-*-*/
         //Base config
         let audioConfig =
             {
                 mute: false,
-                volume: 0.5,
+                volume: this.volume,
                 rate: 1,
                 detune: 0,
                 seek: 0,
@@ -40,7 +54,7 @@ class TitleScene extends Phaser.Scene{
         this.input.keyboard.on('keydown-ENTER', () => {
 
             this.music.stop();
-            this.scene.start('MenuScene');
+            this.scene.start('MenuScene', {Volume: this.volume});
         });
 
     }
@@ -49,6 +63,7 @@ class TitleScene extends Phaser.Scene{
     update()
     {
         this.music.setMute(this.game.mute);
+        this.music.setVolume(this.volume);
     }
 
 

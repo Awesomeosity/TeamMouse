@@ -7,6 +7,12 @@ class InitializationScene extends Phaser.Scene{
 
     }
 
+    init(data)
+    {
+        this.volume = data.Volume;
+    }
+
+
     preload() {
         const progress = this.add.graphics();
 
@@ -21,7 +27,7 @@ class InitializationScene extends Phaser.Scene{
         this.load.on('complete', () => {
             animations(this);
             progress.destroy();
-            this.scene.start('ExampleScene', {CurrentScore: 0});
+            this.scene.start('ExampleScene', {CurrentScore: 0, Volume: this.volume});
         });
 
         //Load sprite textures

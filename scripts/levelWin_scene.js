@@ -15,10 +15,24 @@ class LevelWinScene extends Phaser.Scene{
     //  When using this scene, use scene number (data) as second parameter  //
     //////////////////////////////////////////////////////////////////////////
     create(data) {
+
+        this.volume = data.LaunchScene.volume;
+        this.input.keyboard.on('keydown-NINE', () => {
+            this.volume -= 0.1;
+            if (this.volume < 0)
+                this.volume = 0;
+        });
+
+        this.input.keyboard.on('keydown-ZERO', () => {
+            this.volume += 0.1;
+            if (this.volume > 1)
+                this.volume = 1;
+        });
+
         let audioConfig =
             {
                 mute: this.game.mute,
-                volume: 0.5,
+                volume: this.volume,
                 rate: 1,
                 detune: 0,
                 seek: 0,
@@ -65,6 +79,7 @@ class LevelWinScene extends Phaser.Scene{
 
 
         this.input.keyboard.on('keydown-ENTER', () => {
+            this.Victory_SFX.stop();
             if (data.SceneIndex === 1)
             {
                 this.scene.resume('ExampleScene');              //TODO: have it run the second level
@@ -84,5 +99,6 @@ class LevelWinScene extends Phaser.Scene{
     {
         this.mouse.update();
         this.Victory_SFX.setMute(this.game.mute);
+        this.Victory_SFX.setVolume(this.volume);
     }
 }

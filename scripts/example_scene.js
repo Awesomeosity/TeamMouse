@@ -96,6 +96,20 @@ class ExampleScene extends Phaser.Scene{
     {
         this.highScore = data.CurrentScore;
 
+        //Volume control
+        this.volume = data.Volume;
+        this.input.keyboard.on('keydown-NINE', () => {
+            this.volume -= 0.1;
+            if (this.volume < 0)
+                this.volume = 0;
+        });
+
+        this.input.keyboard.on('keydown-ZERO', () => {
+            this.volume += 0.1;
+            if (this.volume > 1)
+                this.volume = 1;
+        });
+
         //Adds sewer background
         this.add.image(400, 400, 'sewer_background');
 
@@ -129,7 +143,7 @@ class ExampleScene extends Phaser.Scene{
         let audioConfig =
 		{
 			mute: false,
-			volume: 0.5,
+			volume: this.volume,
 			rate: 1,
 			detune: 0,
 			seek: 0,
@@ -307,7 +321,7 @@ class ExampleScene extends Phaser.Scene{
         this.mouse.disableBody(true, true);
         this.scene.pause();
         this.events.on('resume', ()=>{
-            this.scene.start('Level2', {CurrentScore: this.highScore});
+            this.scene.start('Level2', {CurrentScore: this.highScore, Volume: this.volume});
         });
     }
 
@@ -351,6 +365,14 @@ class ExampleScene extends Phaser.Scene{
        this.mouseJump_SFX.setMute(this.sfxMute);
        this.pointGain_SFX.setMute(this.sfxMute);
        this.lifeLost_SFX.setMute(this.sfxMute);
+
+       //Volume updates
+       this.mouseWalk_SFX.setVolume(this.volume);
+       this.mouseJump_SFX.setVolume(this.volume);
+       this.pointGain_SFX.setVolume(this.volume);
+       this.lifeLost_SFX.setVolume(this.volume);
+       this.levelMus.setVolume(this.volume);
+
         /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
 
