@@ -30,7 +30,7 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 		this.isCeiling = false;
 		this.stickTimer;
 		this.cucumberTimer;
-		this.cucumberBlinkTimer=null;
+		this.cucumberBlinkTimer = null;
 		this.platform;
 		this.swingVelocity;
 
@@ -352,6 +352,11 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			}
 			else
 			{
+				if(this.body.velocity.x == -this.SwingSpeed)
+				{
+					this.setTexture('swing_left');
+				}
+				
 				this.anims.play('left',true);
 			}
 
@@ -388,6 +393,11 @@ class Mouse extends Phaser.Physics.Arcade.Sprite {
 			}
 			else
 			{
+				if(this.body.velocity.x == this.SwingSpeed)
+				{
+					this.setTexture('swing_right');
+				}
+
 				this.anims.play('right',true);
 			}
 		}

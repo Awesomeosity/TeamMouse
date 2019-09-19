@@ -35,7 +35,13 @@ class InitializationScene extends Phaser.Scene{
         this.load.image('MarioSprite', '../images/MarioSprite.png');
 		this.load.image('climb_left', '../images/mouse_climb_ceiling_left_v2.png');
         this.load.image('climb_right', '../images/mouse_climb_ceiling_right_v2.png');
-		this.load.image('LifeUI-Temp', '../images/MouseHeadUITemp.png');                                    //Temp Life Icon
+		
+		//Temp Life Icon
+		this.load.image('LifeUI-Temp', '../images/MouseHeadUITemp.png');
+		
+		this.load.image('swing_left', '../images/mouse_swing_left_v2.png');
+		this.load.image('swing_right', '../images/mouse_swing_right_v2.png');
+
         this.load.image('tigger_cat','../images/bouncing_cat_v1.png');
 
 
