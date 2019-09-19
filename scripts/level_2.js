@@ -192,17 +192,18 @@ class Level2 extends Phaser.Scene{
 
 		this.physics.add.collider(this.mouse,this.platforms, (mouse,platform) =>
 	    {
+			if(mouse.platform != null && mouse.body.touching.up && mouse.body.allowGravity)
+			{
+				mouse.hurtBy("lmao");
+				return;
+			}
+
 			mouse.hangOut(platform);
 			mouse.climbOff();
             if(!mouse.isCeiling){
                 mouse.currentStory=platform.story;
             }
 		});
-
-		// this.physics.add.collider(this.mouse,this.catSematary);
-		// this.physics.add.collider(this.cats,this.catSematary,(cat,catSematary)=>{
-		//     this.enter_sematary(cat);
-        // });
 
         //TODO: kill mouse
         this.physics.add.overlap(this.mouse,this.cats,(mouse,cat)=>{

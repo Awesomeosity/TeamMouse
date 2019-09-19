@@ -29,7 +29,8 @@ class Cat extends Phaser.Physics.Arcade.Sprite{
         this.scoreLoop = 0;
     }
 
-    update(){
+    update()
+	{
         if(this.isClimbing)
 		{
             this.climb();
@@ -39,53 +40,6 @@ class Cat extends Phaser.Physics.Arcade.Sprite{
             this.checkScore();
             this.move();
         }
-        // if(this.initScore)
-		// {
-        //     //TODO: identify what kind of enemy it is
-        //     let x = this.scene.mouse.body.position.x;
-        //     let y = this.scene.mouse.body.position.y;
-        //     let height = this.scene.mouse.body.height;
-        //     if(this.left)
-		// 	{
-        //         if(this.body.position.x < x - this.originalWidth)
-		// 		{
-        //             this.scene.pointGain_SFX.play();
-        //             this.scene.highScore += 100;
-        //             this.initScore = false;
-        //             this.scoreText = this.scene.add.text(x - 50, y + height / 2, "100", this.styleWhiteCenter);
-        //         }
-        //     }
-		// 	else
-		// 	{
-        //         if(this.body.position.x > x + this.originalWidth)
-		// 		{
-        //             this.scene.pointGain_SFX.play();
-        //             this.scene.highScore += 100;
-        //             this.initScore = false;
-        //             this.scoreText = this.scene.add.text(x - 50, y + height / 2, "100", this.styleWhiteCenter);
-        //         }
-        //     }
-        //     if(!this.scene.mouse.isCeiling)
-		// 	{
-        //         if(this.left)
-		// 		{
-        //             if(this.body.position.x < x - this.originalWidth)
-		// 			{
-        //                 this.scene.highScore += 100;
-        //                 this.scoreText = this.scene.add.text(x - 50, y + height / 2, "100", this.styleWhiteCenter);
-        //             }
-        //         }
-		// 		else
-		// 		{
-        //             if(this.body.position.x > x + this.originalWidth)
-		// 			{
-        //                 this.scene.highScore += 100;
-        //                 this.scoreText = this.scene.add.text(x - 50, y + height / 2, "100", this.styleWhiteCenter);
-        //             }
-        //         }
-        //         this.initScore = false;
-        //     }
-        // }
         if(this.scoreText)
 		{
             this.scoreLoop = (this.scoreLoop + 1) % 50;
@@ -144,7 +98,7 @@ class Cat extends Phaser.Physics.Arcade.Sprite{
     {
         this.isClimbing = false;
         this.body.setSize(this.originalWidth + 4, this.body.height);
-        this.body.allowGravity=true;
+        this.body.allowGravity = true;
     }
 
     enterSematary(){
