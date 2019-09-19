@@ -68,6 +68,7 @@ class InitializationScene extends Phaser.Scene{
         this.load.audio('MouseJump', '../audio/MouseJump_sfx.wav');
         this.load.audio('PointGain', '../audio/PointGain_sfx.wav');
         this.load.audio('LifeLost', '../audio/LifeLost_sfx.wav');
+        this.load.audio('Victory', '../audio/Victory_sfx.wav');
     }
 
 }

@@ -7,6 +7,7 @@ class LevelWinScene extends Phaser.Scene{
     }
 
     preload() {
+
     }
 
 
@@ -14,6 +15,23 @@ class LevelWinScene extends Phaser.Scene{
     //  When using this scene, use scene number (data) as second parameter  //
     //////////////////////////////////////////////////////////////////////////
     create(data) {
+        let audioConfig =
+            {
+                mute: this.game.mute,
+                volume: 0.5,
+                rate: 1,
+                detune: 0,
+                seek: 0,
+                loop: false,
+                delay: 0
+            };
+        this.Victory_SFX = this.sound.add('Victory', audioConfig);
+
+        this.input.keyboard.on('keydown-M', ()=> {       //Pressing M mutes / un-mutes
+            this.game.mute = !this.game.mute;
+        });
+
+
 
         this.mouse = new Mouse(
             {
@@ -43,6 +61,7 @@ class LevelWinScene extends Phaser.Scene{
         }
 
         this.add.text(gameOverX, gameOverY, 'THE CHEESE IS YOURS', styleBlueCenter);
+        this.Victory_SFX.play();
 
 
         this.input.keyboard.on('keydown-ENTER', () => {
@@ -64,5 +83,6 @@ class LevelWinScene extends Phaser.Scene{
     update()
     {
         this.mouse.update();
+        this.Victory_SFX.setMute(this.game.mute);
     }
 }
