@@ -41,7 +41,6 @@ class TitleScene extends Phaser.Scene{
 
             this.music.stop();
             this.scene.start('MenuScene');
-
         });
 
     }
