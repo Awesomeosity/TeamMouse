@@ -28,11 +28,20 @@ function animations(scene) {
         repeat: -1
     };
     scene.anims.create(config);
+	
 
     config = {
         key: 'stand',
         frames: [{key: 'mouse', frame: 3}],
         frameRate: 0
+    };
+    scene.anims.create(config);
+
+    config = {
+        key: 'mouseClimb',
+        frames: scene.anims.generateFrameNumbers('mouseClimb', {start: 0, end: 1}),
+        frameRate: 6,
+        repeat: -1
     };
     scene.anims.create(config);
 

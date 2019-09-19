@@ -35,8 +35,8 @@ class InitializationScene extends Phaser.Scene{
 		this.load.image('cucumber','../images/cucumber.png');
 		this.load.image('delicious_cheese','../images/v2_win_state_cheese.png');
         this.load.image('MarioSprite', '../images/MarioSprite.png');
-		this.load.image('climb_left', '../images/mouse_climb_ceiling_left_v2.png');
-        this.load.image('climb_right', '../images/mouse_climb_ceiling_right_v2.png');
+		this.load.image('climb_left', '../images/mouse_hang_w45h49.png');
+        this.load.image('climb_right', '../images/mouse_hang_right_w45h49.png');
         this.load.image('mouse_left_cu','../images/mouse_left_cu.gif');
         this.load.image('mouse_left_none','../images/mouse_left_none.gif');
         this.load.image('mouse_right_cu','../images/mouse_right_cu.gif');
@@ -45,8 +45,10 @@ class InitializationScene extends Phaser.Scene{
 		//Temp Life Icon
 		this.load.image('LifeUI-Temp', '../images/MouseHeadUITemp.png');
 		
-		this.load.image('swing_left', '../images/mouse_swing_left_v2.png');
-		this.load.image('swing_right', '../images/mouse_swing_right_v2.png');
+		this.load.image('swing_left', '../images/swing_left_w45h56.png');
+		this.load.image('swing_right', '../images/swing_right_w45h56.png');
+		this.load.image('shake_left', '../images/shiver_w45h49_03.png');
+		this.load.image('shake_right', '../images/shiver_w45h49_04.png');
 
         this.load.image('tigger_cat','../images/bouncing_cat_v1.png');
 
@@ -57,6 +59,7 @@ class InitializationScene extends Phaser.Scene{
         this.load.spritesheet('maho_cat','../images/maho_cat.png',{ frameWidth: 47, frameHeight: 56 });
         this.load.spritesheet('catClimb', '../images/catclimb w37h54.png', { frameWidth: 37, frameHeight: 54});
         this.load.spritesheet('mcCatClimb', '../images/smallcatclimb_w39h54.png', {frameWidth: 39, frameHeight: 54});
+        this.load.spritesheet('mouseClimb','../images/mouseclimb.png',{frameWidth: 36, frameHeight: 54});
         this.load.spritesheet('mouse_cheer', '../images/cheering_mouse_v1.png', {frameWidth: 40, frameHeight: 54});
 
         //Loads audio
