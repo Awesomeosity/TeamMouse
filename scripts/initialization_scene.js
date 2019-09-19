@@ -3,6 +3,8 @@ class InitializationScene extends Phaser.Scene{
         super({
             key: 'InitializationScene'
         });
+        this.currentGameScore = 0;
+
     }
 
     preload() {
@@ -19,7 +21,7 @@ class InitializationScene extends Phaser.Scene{
         this.load.on('complete', () => {
             animations(this);
             progress.destroy();
-            this.scene.start('ExampleScene');
+            this.scene.start('ExampleScene', {CurrentScore: 0});
         });
 
         //Load sprite textures

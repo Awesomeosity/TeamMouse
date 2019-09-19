@@ -20,7 +20,7 @@ class GameUI extends Phaser.Scene{
 
         var graphics = this.add.graphics();
         var uiRect = new Phaser.Geom.Rectangle(800, 0, 200, 800);
-        graphics.fillStyle(0x000000, 1);
+        graphics.fillStyle(0x28272c, 1);
         graphics.fillRectShape(uiRect);
 
         var uiWidth = 200;
@@ -30,7 +30,7 @@ class GameUI extends Phaser.Scene{
         var centerXText = startXUI + uiWidth / 2 - textObjWidth / 2;
         var centerXLives = startXUI + uiWidth / 2;
 
-        var headerY1 = 0;
+        var headerY1 = 40;
         var headerY2 = 200;
         var headerY3 = 400;
         var subY = 30;

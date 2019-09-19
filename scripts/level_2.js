@@ -64,12 +64,12 @@ class Level2 extends Phaser.Scene{
 		this.scene.launch('GameUI');
 		this.uiOverlay = this.scene.get('GameUI');
 
-		//For tracking the player's high score throughout the level
-		this.highScore = 0; //TODO: Add to high score whenever you do something (get past a cat?)
 	}
 
-    create()
+    create(data)
     {
+        this.highScore = data.CurrentScore;
+
         /*-*-*-*-*-*   Audio   *-*-*-*-*-*-*/
         //Base config
         let audioConfig =
