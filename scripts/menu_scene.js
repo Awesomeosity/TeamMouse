@@ -64,7 +64,7 @@ class MenuScene extends Phaser.Scene{
         //Style for red centered text on screen
         var styleRedCenter = {
             fontFamily: 'ArcadeClassic',
-            fill: 'Red',
+            fill: '#ff7a02',
             fontSize: 'xx-large',
             align: 'center',
             fixedWidth: textObjWidth,
@@ -99,7 +99,7 @@ class MenuScene extends Phaser.Scene{
 
         var styleRedLeft = {
             fontFamily: 'ArcadeClassic',
-            fill: 'Red',
+            fill: '#ff7a02',
             fontSize: 'xx-large',
         }
 

@@ -378,6 +378,8 @@ class Level2 extends Phaser.Scene{
 
     update()
     {
+        this.uiOverlay.updateLevelNum(2);
+
         /*-*-*-*-*-*   Audio   *-*-*-*-*-*-*/
         //Mouse walk SFX
         if(this.mouse.isWalking)

@@ -96,6 +96,8 @@ class ExampleScene extends Phaser.Scene{
     {
         this.highScore = data.CurrentScore;
 
+
+
         //Volume control
         this.volume = data.Volume;
         this.input.keyboard.on('keydown-NINE', () => {
@@ -327,6 +329,7 @@ class ExampleScene extends Phaser.Scene{
 
     update()
     {
+        this.uiOverlay.updateLevelNum(1);
 		let that = this;
         if(!this.stupid_loop_count)
 		{

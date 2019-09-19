@@ -42,7 +42,7 @@ class GameUI extends Phaser.Scene{
 
         var styleRedCenter = {
             fontFamily: 'ArcadeClassic',
-            fill: 'Red',
+            fill: '#ff7a02',
             fontSize: 'xx-large',
             align: 'center',
             fixedWidth: textObjWidth,
@@ -58,7 +58,7 @@ class GameUI extends Phaser.Scene{
 
         this.add.text(centerXText, headerY2, 'SCORE', styleRedCenter);
         this.add.text(centerXText, headerY1, 'HIGH SCORE', styleRedCenter);
-        this.add.text(centerXText, headerY3, 'LEVEL = ' + this.levelNum, styleRedCenter);
+        this.levelText = this.add.text(centerXText, headerY3, 'LEVEL = ' + this.levelNum, styleRedCenter);
         this.currentScore = this.add.text(centerXText, headerY2 + subY, ''+ 0, styleWhiteCenter);
         this.highScoreText = this.add.text(centerXText, headerY1 + subY, "", styleWhiteCenter);
 
@@ -128,6 +128,11 @@ class GameUI extends Phaser.Scene{
             this.highScoreText.setText(score);
         }
 
+    }
+
+    updateLevelNum(levelIndex)
+    {
+        this.levelText.setText('LEVEL = ' + levelIndex);
     }
 
 
