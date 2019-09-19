@@ -308,7 +308,7 @@ class ExampleScene extends Phaser.Scene{
 		let that = this;
         if(!this.stupid_loop_count)
 		{
-            let cur_cat = this.cat_factory.createCat(CatType.STUPID, this.stupid_config);
+            let cur_cat = this.cat_factory.createCat(CatType.STUPID, this.stupid_config,this.mouse);
             if(cur_cat)
 			{
                 cur_cat.body.collideWorldBounds = true;
@@ -377,7 +377,7 @@ class ExampleScene extends Phaser.Scene{
 			{
                 if(!cat.isMuggle)
 				{
-                    let newCat = CatFactory.getInstance().createCat(CatType.MAHO,this.maho_config);
+                    let newCat = this.cat_factory.createCat(CatType.MAHO,this.maho_config,this.mouse);
                     if(newCat)
 					{
                         newCat.body.collideWorldBounds = true;

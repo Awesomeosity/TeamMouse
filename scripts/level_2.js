@@ -299,19 +299,19 @@ class Level2 extends Phaser.Scene{
         this.simple_cat_configuration.x=150;
         this.simple_cat_configuration.y=680;
         this.simple_cat_configuration.left_border=50;
-        let cur_cat=this.cat_factory.createCat(CatType.SIMPLE,this.simple_cat_configuration);
+        let cur_cat=this.cat_factory.createCat(CatType.SIMPLE,this.simple_cat_configuration,this.mouse);
         this.cats.push(cur_cat);
 
         this.simple_cat_configuration.x=650;
         this.simple_cat_configuration.y=600;
         this.simple_cat_configuration.left_border=600;
-        cur_cat=this.cat_factory.createCat(CatType.SIMPLE,this.simple_cat_configuration);
+        cur_cat=this.cat_factory.createCat(CatType.SIMPLE,this.simple_cat_configuration,this.mouse);
         this.cats.push(cur_cat);
 
         this.simple_cat_configuration.x=650;
         this.simple_cat_configuration.y=450;
         this.simple_cat_configuration.left_border=600;
-        cur_cat=this.cat_factory.createCat(CatType.SIMPLE,this.simple_cat_configuration);
+        cur_cat=this.cat_factory.createCat(CatType.SIMPLE,this.simple_cat_configuration,this.mouse);
         this.cats.push(cur_cat);
 
         this.physics.add.collider(this.cats,this.platforms);
@@ -357,7 +357,7 @@ class Level2 extends Phaser.Scene{
         });
 
         if(this.tigger_loop==0){
-            let cur_cat=this.cat_factory.createCat(CatType.TIGGER,this.tigger_cat_configuration);
+            let cur_cat=this.cat_factory.createCat(CatType.TIGGER,this.tigger_cat_configuration,this.mouse);
             cur_cat.setBounce(1);
             this.cats.push(cur_cat);
         }

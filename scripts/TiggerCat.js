@@ -1,7 +1,7 @@
 class TiggerCat extends Cat{
-    constructor(config,type)
+    constructor(config,mouse,type)
 	{
-        super(config);
+        super(config,mouse);
         this.body.velocity.x = type;
         this.body.collideWorldBounds = true;
         this.tigger_loop = 0;

@@ -1,5 +1,5 @@
 class Cat extends Phaser.Physics.Arcade.Sprite{
-    constructor(config)
+    constructor(config,mouse)
 	{
         super(config.scene, config.x, config.y, config.key);
         config.scene.physics.world.enable(this);
@@ -24,6 +24,7 @@ class Cat extends Phaser.Physics.Arcade.Sprite{
             fixedWidth: 200,
         };
 
+        this.mouse=mouse;
         this.scoreText = null;
         this.scoreLoop = 0;
     }
@@ -98,12 +99,12 @@ class Cat extends Phaser.Physics.Arcade.Sprite{
 
     checkScore(){
         if(!this.scoreText){
-            let x = this.scene.mouse.body.position.x;
-            let y = this.scene.mouse.body.position.y;
-            let mouse_story=this.scene.mouse.currentStory;
+            let x = this.mouse.body.position.x;
+            let y = this.mouse.body.position.y;
+            let mouse_story=this.mouse.currentStory;
             if(mouse_story==this.currentStory&&y<this.body.position.y-this.body.height/2){
                 if(x>=this.body.position.x-this.body.width/2&&x<=this.body.position.x+this.body.width/2){
-                    let height=this.scene.mouse.body.height;
+                    let height=this.mouse.body.height;
                     this.addScoreText(x,y,height);
                 }
             }

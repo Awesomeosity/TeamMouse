@@ -1,7 +1,7 @@
 class SimpleHarmonicCat extends Cat{
-    constructor(config)
+    constructor(config,mouse)
 	{
-        super(config);
+        super(config,mouse);
         this.right_border = config.right_border;
         this.left_border = config.left_border;
     }

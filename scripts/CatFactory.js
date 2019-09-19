@@ -10,14 +10,14 @@ var CatFactory=(function () {
     function init() 
 	{
         return {
-            createCat: function (catType,config)
+            createCat: function (catType,config,mouse)
 			{
                 switch (catType)
 				{
                     case CatType.STUPID:
                         if(stupid_total + 1 <= stupid_max)
 						{
-                            let newCat = new StupidCat(config);
+                            let newCat = new StupidCat(config,mouse);
                             if(stupid_total % 2 == 0)
 							{
                                 newCat.isMuggle = false;
@@ -37,7 +37,7 @@ var CatFactory=(function () {
                         if(maho_total + 1 <= maho_max)
 						{
                             maho_total++;
-                            return new MahoCat(config);
+                            return new MahoCat(config,mouse);
                         }
                         else
 						{
@@ -47,16 +47,16 @@ var CatFactory=(function () {
                         tigger_count = (tigger_count + 1) % 2;
                         if(tigger_count)
 						{
-                            return new TiggerCat(config,tigger_type_1);
+                            return new TiggerCat(config,mouse,tigger_type_1);
                         }
 						else
 						{
-                            return new TiggerCat(config,tigger_type_2);
+                            return new TiggerCat(config,mouse,tigger_type_2);
                         }
                     case CatType.SIMPLE:
-                        return new SimpleHarmonicCat(config);
+                        return new SimpleHarmonicCat(config,mouse);
                     default:
-                        return new StupidCat(config);
+                        return new StupidCat(config,mouse);
                 }
             },
             killCat: function (cat) {

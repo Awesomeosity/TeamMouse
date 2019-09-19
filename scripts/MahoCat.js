@@ -1,6 +1,6 @@
 class MahoCat extends Cat{
-    constructor(config){
-        super(config);
+    constructor(config,mouse){
+        super(config,mouse);
         config.scene.physics.world.enable(this);
         config.scene.add.existing(this);
     }
