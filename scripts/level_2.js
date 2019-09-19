@@ -43,7 +43,7 @@ class Level2 extends Phaser.Scene{
             scene:this,
             key:'stupid_cat',
             x: 150,
-            y: 700,
+            y: 680,
             right_border:750,
             left_border:50
         };
@@ -60,20 +60,34 @@ class Level2 extends Phaser.Scene{
 	preload()
 	{
         this.physics.world.bounds.width=800;
-
 	    //Start up UI scene and assign to variable
 		this.scene.launch('GameUI');
 		this.uiOverlay = this.scene.get('GameUI');
 
 		//For tracking the player's high score throughout the level
-		this.highScore = 0;
+		this.highScore = 0; //TODO: Add to high score whenever you do something (get past a cat?)
+
+        //Loads level music
+        this.load.audio('LevelMus', '../audio/MouseLevel.wav');
 	}
 
     create()
     {
-        /*-*-*-*-*-*   Audio   *-*-*-*-*-*-*/
-        //Base config
-        let audioConfig =
+        this.add.image(400, 400, 'sewer_background');
+        this.add.image(50,470,'cat_sematary');
+        //add cheese
+        let cheese_config={
+            scene:this,
+            key:'delicious_cheese',
+            x: 325,
+            y: 50
+        };
+        this.cheese=new Cheese(cheese_config);
+
+        //Initializes and plays level music
+        this.cameras.main.backgroundColor.setTo(49, 64, 148);
+        this.levelMus = this.sound.add('LevelMus');
+        let musConfig =
             {
                 mute: false,
                 volume: 0.5,
@@ -102,36 +116,18 @@ class Level2 extends Phaser.Scene{
             this.levelMus.setMute(this.musicMute);
         });
 
-        //SFX
-        this.walkMute = this.musicMute;                             //SFX mutes with music on initialization
-        this.sfxMute = this.musicMute;
-        this.mouseWalk_SFX.play(audioConfig);
-        this.mouseWalk_SFX.setMute(this.walkMute);
-        this.mouseJump_SFX.setMute(this.sfxMute);
-        this.mouseJump_SFX.setLoop(false);
-        this.pointGain_SFX.setMute(this.sfxMute);
-        this.pointGain_SFX.setLoop(false);
-        this.lifeLost_SFX.setMute(this.sfxMute);
-        this.lifeLost_SFX.setLoop(false);
-        /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-
-
-        this.add.image(400, 400, 'sewer_background');
-        this.add.image(50,470,'cat_sematary');
-        //add cheese
-        let cheese_config={
-            scene:this,
-            key:'delicious_cheese',
-            x: 325,
-            y: 50
-        };
-        this.cheese=new Cheese(cheese_config);
-
-        this.cameras.main.backgroundColor.setTo(49, 64, 148);
-
         this.ladders = this.physics.add.group();
         this.platforms = this.physics.add.staticGroup();
 		this.moving = this.physics.add.group();
+
+        // let sematary_config={
+        //     scene:this,
+        //     key:'cat_sematary',
+        //     x:30,
+        //     y:720
+        // };
+        
+        //this.catSematary=new CatSematary(sematary_config);
         
         this.PlatformOffset = 2;
         this.ladderWidth = 21;
@@ -156,7 +152,7 @@ class Level2 extends Phaser.Scene{
 		this.addLadderConfiguration( 86, 715, 5);
 		this.addLadderConfiguration( 12, 575, 5);
 		this.addLadderConfiguration(400, 294, 5);
-		this.addLadderConfiguration(637, 205, 5);
+		this.addLadderConfiguration(637, 210, 5);
 		
 		this.addMovingConfiguration(100, 150, false, true, 300);
         this.addMovingConfiguration(275, 660, false, true, 300);
@@ -173,8 +169,8 @@ class Level2 extends Phaser.Scene{
         this.mouse=new Mouse({
             scene:this,
             key:'mouse',
-            x:100,
-            y:450
+            x:50,
+            y:400
         });
         this.mouse.body.collideWorldBounds=true;
 
@@ -184,12 +180,6 @@ class Level2 extends Phaser.Scene{
 
 		this.physics.add.collider(this.mouse,this.platforms, (mouse,platform) =>
 	    {
-			if(mouse.platform != null && mouse.body.touching.up && mouse.body.allowGravity)
-			{
-				mouse.hurtBy("lmao");
-				return;
-			}
-
 			mouse.hangOut(platform);
 			mouse.climbOff();
             if(!mouse.isCeiling){
@@ -197,6 +187,10 @@ class Level2 extends Phaser.Scene{
             }
 		});
 
+		// this.physics.add.collider(this.mouse,this.catSematary);
+		// this.physics.add.collider(this.cats,this.catSematary,(cat,catSematary)=>{
+		//     this.enter_sematary(cat);
+        // });
 
         //TODO: kill mouse
         this.physics.add.overlap(this.mouse,this.cats,(mouse,cat)=>{
@@ -313,22 +307,26 @@ class Level2 extends Phaser.Scene{
 
         //add cats
         this.cats=[];
-        let cur_cat=this.cat_factory.createCat(CatType.SIMPLE,this.simple_cat_configuration);
+        this.simple_cat_configuration.x=150;
+        this.simple_cat_configuration.y=680;
+        this.simple_cat_configuration.left_border=50;
+        let cur_cat=this.cat_factory.createCat(CatType.SIMPLE,this.simple_cat_configuration,this.mouse);
         this.cats.push(cur_cat);
 
         this.simple_cat_configuration.x=650;
         this.simple_cat_configuration.y=600;
         this.simple_cat_configuration.left_border=600;
-        cur_cat=this.cat_factory.createCat(CatType.SIMPLE,this.simple_cat_configuration);
+        cur_cat=this.cat_factory.createCat(CatType.SIMPLE,this.simple_cat_configuration,this.mouse);
         this.cats.push(cur_cat);
 
         this.simple_cat_configuration.x=650;
         this.simple_cat_configuration.y=450;
         this.simple_cat_configuration.left_border=600;
-        cur_cat=this.cat_factory.createCat(CatType.SIMPLE,this.simple_cat_configuration);
+        cur_cat=this.cat_factory.createCat(CatType.SIMPLE,this.simple_cat_configuration,this.mouse);
         this.cats.push(cur_cat);
 
         this.physics.add.collider(this.cats,this.platforms);
+        this.physics.add.collider(this.cats,this.moving);
         this.physics.add.overlap(this.cats,this.mouse,(cat,mouse)=>{
             mouse.hurtBy(cat);
         });
@@ -338,38 +336,12 @@ class Level2 extends Phaser.Scene{
     }
 
     nextScene(){
-        this.mouseJump_SFX.stop();
-        this.pointGain_SFX.stop();
-        this.mouseWalk_SFX.stop();
-        this.lifeLost_SFX.stop();
-        this.levelMus.stop();
         this.scene.start('ExampleScene');
+        this.scene.stop();
     }
 
     update()
     {
-        /*-*-*-*-*-*   Audio   *-*-*-*-*-*-*/
-        //Mouse walk SFX
-        if(this.mouse.isWalking)
-        {
-            this.walkMute = false;
-            this.walkMute = this.musicMute;
-            this.mouseWalk_SFX.setMute(this.walkMute);
-        }
-        else
-        {
-            this.walkMute = true;
-            this.mouseWalk_SFX.setMute(this.walkMute);
-        }
-
-        //Update SFX mute with Music mute
-        this.sfxMute = this.musicMute;
-        this.mouseJump_SFX.setMute(this.sfxMute);
-        this.pointGain_SFX.setMute(this.sfxMute);
-        this.lifeLost_SFX.setMute(this.sfxMute);
-        /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-
-
         // alert(this.cats.length);
 		let that = this;
 		// console.log(this.moving.children.entries[3].body.position.x, this.moving.children.entries[3].body.position.y);
@@ -381,6 +353,14 @@ class Level2 extends Phaser.Scene{
         this.mouse.update(this.cursors);
 
         this.uiOverlay.updateMouseLives(this.mouse.lives);
+
+        //Win condition
+        if (this.mouse.currentStory ==this.highestStory)
+        {
+            //TODO: transition to the next level, play any animations
+            this.scene.launch('GameOverScene');
+            this.scene.pause();
+        }
         
         this.moving.children.entries.forEach((d) =>
         {
@@ -388,17 +368,17 @@ class Level2 extends Phaser.Scene{
         });
 
         if(this.tigger_loop==0){
-            let cur_cat=this.cat_factory.createCat(CatType.TIGGER,this.tigger_cat_configuration);
+            let cur_cat=this.cat_factory.createCat(CatType.TIGGER,this.tigger_cat_configuration,this.mouse);
             cur_cat.setBounce(1);
             this.cats.push(cur_cat);
         }
-        this.tigger_loop=(this.tigger_loop+1)%200;
+        this.tigger_loop=(this.tigger_loop+1)%450;
 
         let index=0;
         while(index<this.cats.length){
             let cat=this.cats[index];
             if(cat instanceof TiggerCat){
-                if(cat.body.position.x>800){
+                if(cat.tigger_loop>=600){
                     this.cats.splice(index,1);
                     cat.visible=false;
                     cat.destroy();
@@ -412,11 +392,8 @@ class Level2 extends Phaser.Scene{
             }
             index++;
         }
-        this.cats.forEach(function (cat) {
-            cat.update();
-        });
 
-        this.uiOverlay.updateHighScore(this.highScore);
+        this.uiOverlay.updateHighScore(this.highScore); //TODO: use a HighScore text class to store and update high score
     }
 
     addLadderConfiguration(x,y,story=5){
@@ -461,7 +438,6 @@ class Level2 extends Phaser.Scene{
     //floorCount: How many floors are there in this level? One-index.
     //offsetArray: From the left-most platform's left edge, how much space should there be? Should contain one entry per floor.
     //widthArray: A two-dimensional array, first containing arrays that correspond to each floor, which contain each platform's width on that floor.
-    //TODO: Modify this so that we can tell it which ladders are broken.
     levelMaker(floorCount, offsetArray, widthArray)
     {        
         //Formula: firstPlat.XPos + firstPlat.width / 2 + 21 + secondPlat.width / 2 = secondPlat.XPos

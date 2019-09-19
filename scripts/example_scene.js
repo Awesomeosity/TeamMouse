@@ -3,80 +3,87 @@ class ExampleScene extends Phaser.Scene{
         super({
             key: 'ExampleScene'
         });
-        this.stupid_loop_count=0;
-        this.stupid_config={
-            scene:this,
-            key:'stupid_cat',
-            x:100,
-            y:10,
-            originalStory:5,
-            isMuggle:true
+        this.stupid_loop_count = 0;
+        this.stupid_config =
+		{
+            scene : this,
+            key : 'stupid_cat',
+            x : 100,
+            y : 10,
+            originalStory : 5,
+            isMuggle : true
         };
-        this.maho_config={
-            scene:this,
-            key:'maho_cat',
-            x:100,
-            y:670,
-            originalStory:0
+        this.maho_config =
+		{
+            scene : this,
+            key : 'maho_cat',
+            x : 100,
+            y : 670,
+            originalStory : 0
         };
-        this.cat_factory=CatFactory.getInstance();
-        this.ladder_configuration={
-            scene:this,
-            key: 'ladder',
-            x:400,
-            y:445,
-            setScale:false,
-            setSize:true,
-            scale:1,
-            width:32,
-            height:182,
-            story:0
+        this.cat_factory = CatFactory.getInstance();
+        this.ladder_configuration =
+		{
+            scene : this,
+            key : 'ladder',
+            x : 400,
+            y : 445,
+            setScale : false,
+            setSize : true,
+            scale : 1,
+            width : 32,
+            height : 182,
+            story : 0
         };
-        this.broken_configuration={
-            scene:this,
-            key: 'broken_ladder',
-            x:400,
-            y:445,
-            setScale:false,
-            setSize:true,
-            scale:1,
-            width:32,
-            height:182,
-            story:0
+        this.broken_configuration =
+		{
+            scene : this,
+            key : 'broken_ladder',
+            x : 400,
+            y : 445,
+            setScale : false,
+            setSize : true,
+            scale : 1,
+            width : 32,
+            height : 182,
+            story : 0
         };
-        this.platform_configuration={
-            scene:this,
-            key: 'ground',
-            x:398,
-            y:568,
-            setScale:false,
-            setSize:false,
-            width:200,
-            height:10,
-            scale:1,
-            story:0
+        this.platform_configuration =
+		{
+            scene : this,
+            key : 'ground',
+            x : 398,
+            y : 568,
+            setScale : false,
+            setSize : false,
+            width : 200,
+            height : 10,
+            scale : 1, 
+            story : 0
         };
-        this.cucumber_config={
-            scene:this,
-            key:'cucumber',
-            x:600,
-            y:550
+        this.cucumber_config =
+		{
+            scene : this,
+            key : 'cucumber',
+            x : 600,
+            y : 535
         };
-        this.styleWhiteCenter = {
-            fontFamily: 'ArcadeClassic',
-            fill: 'White',
-            fontSize: 'x-large',
-            align: 'center',
-            fixedWidth: 200,
+        this.styleWhiteCenter = 
+		{
+            fontFamily : 'ArcadeClassic',
+            fill : 'White',
+            fontSize : 'x-large',
+            align : 'center',
+            fixedWidth : 200,
         };
-        this.highestStory=6;
-        this.killing_score_text=null;
-        this.scoreLoop=0;
+        this.highestStory = 6;
+        this.killing_score_text = [];
+        this.scoreLoop = [];
     }
 
 	preload()
 	{
-	    this.physics.world.bounds.width=800;
+	    this.physics.world.bounds.width = 800;
 
 	    //Start up UI scene and assign to variable
 		this.scene.launch('GameUI');
@@ -91,25 +98,25 @@ class ExampleScene extends Phaser.Scene{
         //Adds sewer background
         this.add.image(400, 400, 'sewer_background');
 
-
         //add cheese
-        let cheese_config={
-            scene:this,
-            key:'delicious_cheese',
-            x: 325,
-            y: 50
+        let cheese_config =
+		{
+            scene : this,
+            key : 'delicious_cheese',
+            x : 325,
+            y : 50
         };
-        this.cheese=new Cheese(cheese_config);
+        this.cheese = new Cheese(cheese_config);
 
         //add cucumbers
-        this.cucumbers=this.physics.add.group();
-        let cucumber=new Cucumber(this.cucumber_config);
-        // cucumber.body.allowGravity=false;
+        this.cucumbers = this.physics.add.group();
+        this.cucumber_config.x=600;
+        this.cucumber_config.y=535;
+        let cucumber = new Cucumber(this.cucumber_config);
         this.cucumbers.add(cucumber);
         this.cucumber_config.x=80;
-        this.cucumber_config.y=130;
+        this.cucumber_config.y=115;
         cucumber=new Cucumber(this.cucumber_config);
-        // cucumber.body.allowGravity=false;
         this.cucumbers.add(cucumber);
 
         Phaser.Actions.Call(this.cucumbers.getChildren(), function (cu) {
@@ -119,15 +126,15 @@ class ExampleScene extends Phaser.Scene{
         /*-*-*-*-*-*   Audio   *-*-*-*-*-*-*/
         //Base config
         let audioConfig =
-            {
-                mute: false,
-                volume: 0.5,
-                rate: 1,
-                detune: 0,
-                seek: 0,
-                loop: true,
-                delay: 0
-            };
+		{
+			mute: false,
+			volume: 0.5,
+			rate: 1,
+			detune: 0,
+			seek: 0,
+			loop: true,
+			delay: 0
+		};
 
         //Initializes level sounds
         this.levelMus = this.sound.add('LevelMus');
@@ -159,32 +166,26 @@ class ExampleScene extends Phaser.Scene{
         this.lifeLost_SFX.setLoop(false);
         /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
-
-
-
-
         this.ladders = this.physics.add.group();
-        this.normalLadder=this.physics.add.group();
+        this.normalLadder = this.physics.add.group();
         this.platforms = this.physics.add.staticGroup();
 
-        let sematary_config={
-            scene:this,
-            key:'cat_sematary',
-            x:30,
-            y:760
+        let sematary_config =
+		{
+            scene : this,
+            key : 'cat_sematary',
+            x : 30,
+            y : 760
         };
         
-        this.catSematary=new CatSematary(sematary_config);
+        this.catSematary = new CatSematary(sematary_config);
         
         this.PlatformOffset = 2;
         this.ladderWidth = 21;
 		this.floorHeight = 100;
 
-
         //Ground floor (storey 0)
         this.addPlatformConfiguration(400, 790, 0, false, true, 800, 10, 1);
-
-
 
         //Level making arrays
         let offSetArray = [20, 60, 20, 60, 20, 325];
@@ -197,27 +198,26 @@ class ExampleScene extends Phaser.Scene{
         widthArray[5] = [150];
         this.levelMaker(5, offSetArray, widthArray);
 
-        this.physics.add.collider(this.ladders,this.platforms);
+        this.physics.add.collider(this.ladders, this.platforms);
 
 
         //Mouse initialization
-        this.mouse=new Mouse({
-            scene:this,
-            key:'mouse',
-            x:100,
-            y:730
-            // x:360,
-            // y:50
+        this.mouse = new Mouse(
+		{
+            scene : this,
+            key : 'mouse',
+            x : 100,
+            y : 730
         });
-        this.mouse.body.collideWorldBounds=true;
+        this.mouse.body.collideWorldBounds = true;
 
-        this.cats=[];
+        this.cats = [];
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
 		let that = this;
 
-		this.physics.add.collider(this.mouse,this.platforms, (mouse,platform) =>
+		this.physics.add.collider(this.mouse, this.platforms, (mouse,platform) =>
 	    {
 			if(mouse.platform != null && mouse.body.touching.up && mouse.body.allowGravity)
 			{
@@ -226,51 +226,62 @@ class ExampleScene extends Phaser.Scene{
 			}
 			mouse.hangOut(platform);
 			mouse.climbOff();
-            if(!mouse.isCeiling){
-                mouse.currentStory=platform.story;
+            if(!mouse.isCeiling)
+			{
+                mouse.currentStory = platform.story;
             }
 		});
 
-		this.physics.add.collider(this.mouse,this.catSematary);
-		this.physics.add.collider(this.cats,this.catSematary,(cat,catSematary)=>{
+		this.physics.add.collider(this.mouse, this.catSematary);
+		this.physics.add.collider(this.cats, this.catSematary, (cat,catSematary) =>
+	    {
 		    this.enter_sematary(cat);
         });
-        this.physics.add.collider(this.cats,this.platforms,(cat,platform)=>{
-            if(cat.currentStory!=platform.story){
-                cat.left=cat.left? false: true;
-                cat.currentStory=platform.story;
-                if(cat.isClimbing){
+		
+        this.physics.add.collider(this.cats, this.platforms, (cat,platform) =>
+	    {
+            if(cat.currentStory != platform.story)
+			{
+                cat.left = cat.left ? false : true;
+                cat.currentStory = platform.story;
+                if(cat.isClimbing)
+				{
                     cat.climbOff();
                 }
             }
-            cat.currentStory=platform.story;
-            cat.body.velocity.x=0;
+            cat.currentStory = platform.story;
+            cat.body.velocity.x = 0;
         });
 
         //TODO: kill mouse
 
-        this.physics.add.overlap(this.mouse,this.cats,(mouse,cat)=>{
-            if(mouse.isHoldingCucumber){
-                //TODO: if mouse is holding a cucumber
+        this.physics.add.overlap(this.mouse, this.cats, (mouse,cat) =>
+		{
+            if(mouse.isHoldingCucumber)
+			{
                 this.enter_sematary(cat,true);
-                this.highScore+=150;
+                this.highScore += 150;
                 this.pointGain_SFX.play();
-                let x=mouse.body.position.x;
-                let y=mouse.body.position.y;
-                this.killing_score_text=this.add.text(x-50, y-50, "150", this.styleWhiteCenter);
-            }else{
+                let x = mouse.body.position.x;
+                let y = mouse.body.position.y;
+                let cur_score_text = this.add.text(x-50, y-50, "150", this.styleWhiteCenter);
+                this.killing_score_text.push(cur_score_text);
+                this.scoreLoop.push(0);
+            }
+			else
+			{
                 mouse.hurtBy(cat);
             }
         });
 
-        this.physics.add.overlap(this.mouse,this.cucumbers,(mouse,cucumber)=>{
-            // alert('overlap');
+        this.physics.add.overlap(this.mouse, this.cucumbers, (mouse,cucumber)=>
+		{
             //cucumber disappears
             this.cucumbers.remove(cucumber);
-            cucumber.visible=false;
+            cucumber.visible = false;
             cucumber.destroy();
             //start ticking
-            mouse.isHoldingCucumber=true;
+			this.mouse.setCucumber();
         });
 
         //cheating
@@ -297,16 +308,18 @@ class ExampleScene extends Phaser.Scene{
     update()
     {
 		let that = this;
-        if(!this.stupid_loop_count){
-            let cur_cat=this.cat_factory.createCat(CatType.STUPID,this.stupid_config);
-            if(cur_cat){
-                cur_cat.body.collideWorldBounds=true;
+        if(!this.stupid_loop_count)
+		{
+            let cur_cat = this.cat_factory.createCat(CatType.STUPID, this.stupid_config,this.mouse);
+            if(cur_cat)
+			{
+                cur_cat.body.collideWorldBounds = true;
                 this.cats.push(cur_cat);
             }
         }
-		this.stupid_loop_count=(this.stupid_loop_count+1)%150;
+		this.stupid_loop_count = (this.stupid_loop_count + 1) % 150;
 		
-		if(!this.physics.overlap(this.mouse,this.normalLadder, this.mouse.saveLadderPos))
+		if(!this.physics.overlap(this.mouse, this.normalLadder, this.mouse.saveLadderPos))
 		{
 			this.mouse.checkLadderStatus();
 		}
@@ -315,7 +328,7 @@ class ExampleScene extends Phaser.Scene{
 
         /*-*-*-*-*-*   Audio   *-*-*-*-*-*-*/
         //Mouse walk SFX
-       if(this.mouse.isWalking)
+	   if(this.mouse.isWalking)
        {
             this.walkMute = false;
             this.walkMute = this.musicMute;
@@ -335,11 +348,8 @@ class ExampleScene extends Phaser.Scene{
         /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
 
-        this.physics.overlap(this.cats,this.ladders,(cat,ladder)=>{
-            // alert(2);
-            // if(ladder.story==0){
-            //     alert(2);
-            // }
+        this.physics.overlap(this.cats, this.ladders, (cat,ladder) =>
+	    {
             cat.climbOrNot(ladder);
         });
 		this.cats.forEach(function (cat) {
@@ -350,22 +360,38 @@ class ExampleScene extends Phaser.Scene{
         this.uiOverlay.updateMouseLives(this.mouse.lives);
         this.uiOverlay.updateHighScore(this.highScore);
 
-        if(this.killing_score_text){
-            this.scoreLoop=(this.scoreLoop+1)%50;
-            if(!this.scoreLoop){
-                this.killing_score_text.destroy();
-                this.killing_score_text=null;
+        if(this.killing_score_text.length!=0)
+		{
+		    for(var i=0;i<this.scoreLoop.length;i++){
+		        this.scoreLoop[i]=(this.scoreLoop[i]+1)%50;
+            }
+		    let index=0;
+		    while(index<this.scoreLoop.length){
+		        if(!this.scoreLoop[index]){
+		            let cur_text=this.killing_score_text[index];
+		            cur_text.destroy();
+		            cur_text=null;
+		            this.killing_score_text.splice(index,1);
+		            this.scoreLoop.splice(index,1);
+		            continue;
+                }
+		        index++;
             }
         }
     }
 
-    enter_sematary(cat,cucumber=false){
-        if(!cucumber){
-            if(cat instanceof StupidCat){
-                if(!cat.isMuggle){
-                    let newCat=CatFactory.getInstance().createCat(CatType.MAHO,this.maho_config);
-                    if(newCat){
-                        newCat.body.collideWorldBounds=true;
+    enter_sematary(cat, cucumber = false)
+	{
+        if(!cucumber)
+		{
+            if(cat instanceof StupidCat)
+			{
+                if(!cat.isMuggle)
+				{
+                    let newCat = this.cat_factory.createCat(CatType.MAHO,this.maho_config,this.mouse);
+                    if(newCat)
+					{
+                        newCat.body.collideWorldBounds = true;
                         this.cats.push(newCat);
                     }
                 }
@@ -373,84 +399,105 @@ class ExampleScene extends Phaser.Scene{
                 CatFactory.getInstance().killCat(cat);
                 var pos = this.cats.indexOf(cat);
                 this.cats.splice(pos,1);
-                cat.visible=false;
+                cat.visible = false;
+                if(cat.scoreText){
+                    cat.scoreText.destroy();
+                    cat.scoreText=null;
+                }
                 cat.destroy();
             }
-        }else{
+        }
+		else
+		{
             CatFactory.getInstance().killCat(cat);
             var pos = this.cats.indexOf(cat);
             this.cats.splice(pos,1);
-            cat.visible=false;
+            cat.visible = false;
             cat.destroy();
         }
 
     }
 
-    addLadderConfiguration(x,y,story=5,position){
-        let ladd=null;
-        if(story%2==1){
-            if(story!=1){
-                if(position%2==1){
-                    this.setNormalLadder(x,y,story,position);
-                    ladd=new Ladder(this.ladder_configuration);
+    addLadderConfiguration(x, y, story = 5, position)
+	{
+        let ladd = null;
+        if(story % 2 == 1)
+		{
+            if(story != 1)
+			{
+                if(position % 2 == 1)
+				{
+                    this.setNormalLadder(x, y, story, position);
+                    ladd = new Ladder(this.ladder_configuration);
                     this.normalLadder.add(ladd);
-                }else{
-                    this.setBrokenLadder(x,y,story,position);
-                    ladd=new BrokenLadder(this.broken_configuration);
                 }
-            }else{
-                this.setNormalLadder(x,y,story,position);
-                ladd=new Ladder(this.ladder_configuration);
+				else
+				{
+                    this.setBrokenLadder(x, y, story, position);
+                    ladd = new BrokenLadder(this.broken_configuration);
+                }
+            }
+			else 
+			{
+                this.setNormalLadder(x, y, story, position);
+                ladd = new Ladder(this.ladder_configuration);
                 this.normalLadder.add(ladd);
             }
-        }else{
-            if(position%2==1){
-                this.setBrokenLadder(x,y,story,position);
-                ladd=new BrokenLadder(this.broken_configuration);
-            }else{
-                this.setNormalLadder(x,y,story,position);
-                ladd=new Ladder(this.ladder_configuration);
+        }
+		else
+		{
+            if(position % 2 == 1)
+			{
+                this.setBrokenLadder(x, y, story, position);
+                ladd = new BrokenLadder(this.broken_configuration);
+            }
+			else
+			{
+                this.setNormalLadder(x, y, story, position);
+                ladd = new Ladder(this.ladder_configuration);
                 this.normalLadder.add(ladd);
             }
         }
         this.ladders.add(ladd);
-		ladd.body.allowGravity=false;
+		ladd.body.allowGravity = false;
     }
 
-    setNormalLadder(x,y,story=5,position){
-        this.ladder_configuration.x=x;
-        this.ladder_configuration.y=y;
-        this.ladder_configuration.story=story;
-        this.ladder_configuration.width=this.ladderWidth;
-        this.ladder_configuration.height=141.4;
+    setNormalLadder(x, y, story = 5, position)
+	{
+        this.ladder_configuration.x = x;
+        this.ladder_configuration.y = y;
+        this.ladder_configuration.story = story;
+        this.ladder_configuration.width = this.ladderWidth;
+        this.ladder_configuration.height = 141.4;
     }
 
-    setBrokenLadder(x,y,story=5,position){
-        this.broken_configuration.x=x;
-        this.broken_configuration.y=y;
-        this.broken_configuration.story=story;
-        this.broken_configuration.width=this.ladderWidth;
-        this.broken_configuration.height=141.4;
+    setBrokenLadder(x, y, story = 5, position)
+	{
+        this.broken_configuration.x = x;
+        this.broken_configuration.y = y;
+        this.broken_configuration.story = story;
+        this.broken_configuration.width = this.ladderWidth;
+        this.broken_configuration.height = 141.4;
     }
 
-    addPlatformConfiguration(x,y,story,setScale,setSize,width=250,height=10,scale=1){
-        this.platform_configuration.x=x;
-        this.platform_configuration.y=y;
-        this.platform_configuration.story=story;
-        this.platform_configuration.setScale=setScale;
-        this.platform_configuration.setSize=setSize;
-        this.platform_configuration.width=width;
-        this.platform_configuration.height=height;
-        this.platform_configuration.scale=scale;
-        let plat=new Platform(this.platform_configuration);
+    addPlatformConfiguration(x, y, story, setScale, setSize, width=250, height=10, scale=1)
+	{
+        this.platform_configuration.x = x;
+        this.platform_configuration.y = y; 
+        this.platform_configuration.story = story;
+        this.platform_configuration.setScale = setScale;
+        this.platform_configuration.setSize = setSize;
+        this.platform_configuration.width = width;
+        this.platform_configuration.height = height;
+        this.platform_configuration.scale = scale;
+        let plat = new Platform(this.platform_configuration);
         this.platforms.add(plat);
     }
 	
-    //Makes a level automatically from the following parameters:
+    //Makes a basic level automatically from the following parameters:
     //floorCount: How many floors are there in this level? One-index.
     //offsetArray: From the left-most platform's left edge, how much space should there be? Should contain one entry per floor.
     //widthArray: A two-dimensional array, first containing arrays that correspond to each floor, which contain each platform's width on that floor.
-    //TODO: Modify this so that we can tell it which ladders are broken.
     levelMaker(floorCount, offsetArray, widthArray)
     {        
         //Formula: firstPlat.XPos + firstPlat.width / 2 + 21 + secondPlat.width / 2 = secondPlat.XPos

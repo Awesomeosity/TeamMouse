@@ -8,14 +8,15 @@ class MenuScene extends Phaser.Scene{
         this.numCoins = 0;
     }
 
-    preload() {
+    preload()
+	{
         this.load.image('background', '../images/background.jpg');
         this.load.audio('InsertCoin', '../audio/InsertCoin_sfx.wav');
-
     }
 
 
-    create() {
+    create()
+	{
         /*-*-*-*-*-*   Audio   *-*-*-*-*-*-*/
         //Base config
         let audioConfig =
@@ -174,7 +175,8 @@ class MenuScene extends Phaser.Scene{
 
 function storageAvailable(type) {
     var storage;
-    try {
+    try
+	{
         storage = window[type];
         var x = '__storage_test__';
         storage.setItem(x, x);

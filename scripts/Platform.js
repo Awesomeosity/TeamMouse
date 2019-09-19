@@ -4,9 +4,12 @@ class Platform extends Phaser.Physics.Arcade.Sprite{
         config.scene.physics.world.enable(this,1);
         config.scene.add.existing(this,1);
 
-        if(config.setScale){
+        if(config.setScale)
+		{
             this.setScale(config.scale);
-        }else if(config.setSize){
+        }
+		else if(config.setSize)
+		{
 
         }
 
@@ -14,12 +17,8 @@ class Platform extends Phaser.Physics.Arcade.Sprite{
         this.newOrigin = config.width / this.frame.realWidth / 2
         this.setOrigin(this.newOrigin, .5);
         this.setSizeToFrame(this.frame);
-        this.setCrop(0,0,config.width, config.height);
+        this.setCrop(0, 0, config.width, config.height);
         this.body.setSize(config.width, config.height);
-
-
-
-        //this.body.updateFromGameObject();
 
         this.story=config.story;
     }

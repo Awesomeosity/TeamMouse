@@ -4,6 +4,6 @@ class Cheese extends Phaser.Physics.Arcade.Sprite{
         config.scene.physics.world.enable(this);
         config.scene.add.existing(this);
 
-        this.body.allowGravity=false;
+        this.body.allowGravity = false;
     }
 }
