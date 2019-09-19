@@ -77,8 +77,8 @@ class ExampleScene extends Phaser.Scene{
             fixedWidth : 200,
         };
         this.highestStory = 6;
-        this.killing_score_text = null;
-        this.scoreLoop = 0;
+        this.killing_score_text = [];
+        this.scoreLoop = [];
     }
 
 	preload()
@@ -264,7 +264,9 @@ class ExampleScene extends Phaser.Scene{
                 this.pointGain_SFX.play();
                 let x = mouse.body.position.x;
                 let y = mouse.body.position.y;
-                this.killing_score_text = this.add.text(x-50, y-50, "150", this.styleWhiteCenter);
+                let cur_score_text = this.add.text(x-50, y-50, "150", this.styleWhiteCenter);
+                this.killing_score_text.push(cur_score_text);
+                this.scoreLoop.push(0);
             }
 			else
 			{
@@ -358,13 +360,22 @@ class ExampleScene extends Phaser.Scene{
         this.uiOverlay.updateMouseLives(this.mouse.lives);
         this.uiOverlay.updateHighScore(this.highScore);
 
-        if(this.killing_score_text)
+        if(this.killing_score_text.length!=0)
 		{
-            this.scoreLoop = (this.scoreLoop + 1) % 50;
-            if(!this.scoreLoop)
-			{
-                this.killing_score_text.destroy();
-                this.killing_score_text = null;
+		    for(var i=0;i<this.scoreLoop.length;i++){
+		        this.scoreLoop[i]=(this.scoreLoop[i]+1)%50;
+            }
+		    let index=0;
+		    while(index<this.scoreLoop.length){
+		        if(!this.scoreLoop[index]){
+		            let cur_text=this.killing_score_text[index];
+		            cur_text.destroy();
+		            cur_text=null;
+		            this.killing_score_text.splice(index,1);
+		            this.scoreLoop.splice(index,1);
+		            continue;
+                }
+		        index++;
             }
         }
     }
