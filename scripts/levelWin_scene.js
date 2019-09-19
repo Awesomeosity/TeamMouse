@@ -17,6 +17,8 @@ class LevelWinScene extends Phaser.Scene{
     create(data) {
 
         this.volume = data.LaunchScene.volume;
+        data.LaunchScene.highScore += 1000 * data.LaunchScene.mouse.lives;
+
         this.input.keyboard.on('keydown-NINE', () => {
             this.volume -= 0.1;
             if (this.volume < 0)
