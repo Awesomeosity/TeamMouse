@@ -39,7 +39,7 @@ class MenuScene extends Phaser.Scene{
         /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
         //Sets BG to black
-        this.cameras.main.setBackgroundColor('#000000');
+        this.cameras.main.setBackgroundColor('#28272c');
 
         var screenWidth = 1000;
         var screenHeight = 800;
@@ -97,9 +97,9 @@ class MenuScene extends Phaser.Scene{
         this.thirdScore = 0;
 
         //Adds menu text to the screen
-        this.add.text(textCenterPos, 0, 'HIGH SCORE', styleRedCenter);
+        this.add.text(textCenterPos, 40, 'HIGH SCORE', styleRedCenter);
 
-        this.highScoreText = this.add.text(textCenterPos, 40, '0', styleWhiteCenter);
+        this.highScoreText = this.add.text(textCenterPos, 80, '0', styleWhiteCenter);
 
         if (storageAvailable('localStorage') && localStorage.getItem('HighScore') > 0)
         {
@@ -125,7 +125,7 @@ class MenuScene extends Phaser.Scene{
         }
 
 
-        this.coinText = this.add.text(longTextCenterPos, 115, 'INSERT  COIN', styleBlueCenter);
+        this.coinText = this.add.text(longTextCenterPos, 155, 'INSERT  COIN', styleBlueCenter);
         this.add.text(longTextCenterPos, 225, 'PLAYER     COIN', styleBlueCenter);
         this.add.text(400, 450, 'RANK   SCORE', styleBlueLeft);
         this.add.text(400, 500, '1st\t\t\t\t\t\t' + this.firstScore, styleRedLeft);
