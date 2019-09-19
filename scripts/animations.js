@@ -107,14 +107,14 @@ function animations(scene) {
 
     config = {
         key: 'cu_blink_rightStop',
-        frames: scene.anims.generateFrameNumbers('mouse', {prefix: 'walk/rightStop',start: 20, end: 20}),
+        frames: scene.anims.generateFrameNumbers('mouse', {prefix: 'walk/rightStop',start: 23, end: 23}),
         frameRate: 20
     };
     scene.anims.create(config);
 
     config = {
         key: 'cu_blink_right',
-        frames: scene.anims.generateFrameNumbers('mouse', {prefix: 'walk/right',start: 17, end: 20}),
+        frames: scene.anims.generateFrameNumbers('mouse', {prefix: 'walk/right',start: 20, end: 23}),
         frameRate: 10,
         repeat: -1
     };
